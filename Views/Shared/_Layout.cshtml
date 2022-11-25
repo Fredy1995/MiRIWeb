@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.bundle.js"></script>
+    <link href="~/Content/css/Style.css" rel="stylesheet" />
+</head>
+<body>
+   <h1>
+       AQUI VA EL MENU Y EL ENCABEZADO
+   </h1>
+    <div>
+        <div class="container body-content">
+            @RenderBody()
+            <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
+            <hr />
+        </div>
+     
+       
+        <footer>
+            <h1>AQUI DEBE IR EL PIE DE TODA LA PAGINA WEB</h1>
+        </footer>
+    </div>
+                                               
+</body>
+</html>
