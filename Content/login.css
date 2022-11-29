@@ -1,0 +1,62 @@
+﻿body {
+}
+#logoIRCEP {
+    width: 96px;
+    height: 100px;
+    margin-top: 30px;
+    position: absolute;
+}
+#logoGobierno {
+    width: 170px;
+    height: 100px;
+    margin-top: 30px;
+    display: block;
+    margin-left: auto;
+}
+#logoMIRI {
+    border-radius: 25px;
+    width: 180px;
+    height: 180px;
+    margin-top: 60px;
+    position: absolute;
+}
+.card {
+    height: 110%;
+    border-radius: 15px;
+    background-image: linear-gradient(#034250 42%, white 0%);
+    margin-top: 156px;
+    box-shadow: 5px 5px 10px #000;
+}
+.card-header {
+    height: 40%;
+    display: flex;
+    justify-content: center;
+    background-color: #034250;
+}
+.card-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#formLogin {
+    margin-top: auto;
+    width: -webkit-fill-available;
+}
+.inputLogin {
+    border: 2px solid #034250;
+    border-radius: 15px;
+    font-size: 20px;
+    width: -webkit-fill-available;
+}
+#formBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#btnIngresar {
+    background-color: #034250;
+    color: white;
+    border-radius: 10px;
+    font-size: 24px;
+    width: 300px;
+}
