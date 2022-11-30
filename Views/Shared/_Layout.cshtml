@@ -5,26 +5,66 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
-    <link href="~/Content/bootstrap.css" rel="stylesheet" />
-    <script src="~/Scripts/bootstrap.bundle.js"></script>
-    <link href="~/Content/css/Style.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/25c469d056.js" crossorigin="anonymous"></script>
+    <link href="~/Content/StyleLayout.css" rel="stylesheet" />
 </head>
-<body>
-   <h1>
-       BARRA DE NAVEGACIÓN
-   </h1>
+<body style=" background: #D8D6D6;">
+    <div class="topnav">
+        <button class="openbtn" onclick="openNav()">☰</button>
+        <div class="topnav-right headerNav">
+            <a><img src="~/Images/Usericon.png" alt="Avatar" class="avatarNav"> </a>
+            <a>FREDY GARATE MARÍN</a>
+            <a href="#about"><i class='fas fa-power-off' style='font-size:18px'></i></a>
+
+        </div>
+        <div class="topnav-right topnavNav">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><img src="~/Images/Usericon.png" alt="Avatar" class="avatarNav">-a</a>
+            <ul class="dropdown-menu">
+                <li><p class="text-center text-dark">Fredy Garate Marín</p></li>
+                <li><hr></li>
+                <li><a class="dropdown-item" style="color:grey; font-size:14px;" href="#">SALIR</a></li>
+            </ul>
+        </div>
+       
+    </div>
+    <div id="mySidepanel" class="sidepanel">
+        <div class="UserBox">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+            <img src="~/Images/Usericon.png" alt="Avatar" class="avatar">
+            <p class="nusuario">JOSE MARIA DE JESUS</p>
+            <p class="estado"><i class='fas fa-circle' style='font-size:18px;'></i> En linea</p>
+        </div>
+        <br><br><br>
+        <a href="#" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-house-user"></i> INICIO <span class="label danger">Principal</span></a>
+        <a href="#" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-book-bookmark"></i> MI REPOSITORIO</a>
+        <a href="#" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-users"></i> COMPARTIDOS</a>
+        <a href="#" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-users-gear"></i> USUARIOS</a>
+        <a href="#" style="color: white;" class="btnm btnMenu"><i class="fas fa-question-circle"></i> AYUDA</a>
+        
+    </div>
     <div>
         <div class="container body-content">
             @RenderBody()
             <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
             <hr />
         </div>
-     
-       
-        <footer>
-            <h1>AQUI DEBE IR EL PIE DE TODA LA PAGINA WEB</h1>
+
+
+        <footer class="fixed-bottom bg-white" style="z-index:-1; font-size:20px; font-weight: bold;">
+            <span class="float-start">&nbsp;&nbsp;&nbsp;Perfil</span>
+            <span class="float-end">Versión 1.0.0 | 2023</span>
         </footer>
     </div>
-                                               
+    <script>
+        function openNav() {
+            document.getElementById("mySidepanel").style.width = "280px";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidepanel").style.width = "0";
+        }
+    </script>
 </body>
 </html>
