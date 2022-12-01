@@ -7,39 +7,30 @@
 <script src="~/Scripts/bootstrap.bundle.js"></script>
 <link href="~/Content/login.css" rel="stylesheet" />
 <link href="~/Content/css/Style.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 <div>
 
-    <img id="logoIRCEP" src="\Images\IRCEP.svg" alt="logoIRCEP">
-    <img id="logoGobierno" src="\Images\logoGobierno.png" alt="logoGobierno">
+    <img class="img-fluid" id="logoIRCEP" src="\Images\IRCEP.svg" alt="logoIRCEP">
+    <img class="img-fluid" id="logoGobierno" src="\Images\logoGobierno.png" alt="logoGobierno">
 </div>
 <div class="container">
 
     <div class="row justify-content-md-center">
-        @*<div class="col-md-4">
-            <img id="logoIRCEP" src="\Images\logoIRCEP.png" alt="logoIRCEP">
-        </div>*@
+     
         <div class="col-md-4">
-            <br />
-            <div class="card borderlogin  shadow p-4 mb-4">
+           
+            <div class="card borderlogin  shadow p-4 mb-4  animate__animated animate__bounceIn">
                 <div class="card-header text-center">
                     <img id="logoMIRI" src="\Images\logoMIRI.png" alt="logoMIRI" />
                 </div>
                 <div class="card-body">
                     <form id="formLogin" action="form1" method="post">
-                        @Html.AntiForgeryToken()
                         <div class="form-group">
-
-                            @*<label for="correo" class="form-label">Correo:</label>*@
                             <input class="inputLogin" type="text" name="user" placeholder="  Usuario" />
-                            @*@Html.TextBoxFor(m => m.correo, "", new { @class = "form-control", @placeholder = "Ingresa tu correo" })*@
-
                         </div>
                         <br />
                         <div class="form-group">
-
-                            @*<label for="contraseña" class="form-label">Contraseña:</label>*@
                             <input class="inputLogin" type="password" name="pass" placeholder="  Contraseña" />
-                            @*@Html.PasswordFor(m => m.contraseña, new { @class = "form-control", @placeholder = "Ingresa tu contraseña" })*@
                         </div>
                         <br />
                         <div class="form-group" id="formBtn">
@@ -49,8 +40,6 @@
                 </div>
             </div>
         </div>
-        @*<div class="col-md-4 align-items-end">
-            <img id="logoGobierno" src="\Images\logoGobierno.png" alt="logoGobierno">
-        </div>*@
+     
     </div>
 </div>
