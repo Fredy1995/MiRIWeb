@@ -1,6 +1,8 @@
 ﻿body {
 }
 #cajaExterna {
+    position:relative;
+    left:-12px;
     background-color: white;
     width: 260px;
     height: 100px;
@@ -21,18 +23,30 @@
 }
 .cssLabelTitle {
     position: relative;
-    font-weight:bold;
     left: 110px;
     top: -95px;
 }
 
 /**Responsividad para el dropdown de nav**/
-@media screen and (max-width: 1024px) {
+
+@media screen and (max-width: 1280px) {
     #cajaExterna {
-        width: 225px;
+        width: 220px;
         height: 100px;
     }
-    .cssLabelTitle{
-      font-size:12px;
+    .cssLabelTitle {
+        font-size: 12px;
+        left: 105px;
     }
+}
+
+
+/**Estilo de la bienvenida en el index**/
+.note {
+    margin-bottom: 15px;
+    padding: 5px 12px ;
+    background-color: white;
+    border-left: 10px solid #034250;
+    color: #034250;
+    font-size:24px;
 }

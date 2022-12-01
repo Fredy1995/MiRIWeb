@@ -14,28 +14,34 @@
 </head>
 <body style=" background: #D8D6D6;">
 
-    <div class="topnav fixed-top">
-        <button class="openbtn" onclick="openNav()">☰</button>
-        <div class="topnav-right headerNav">
-            <a><img src="~/Images/Usericon.png" alt="Avatar" class="avatarNav"> </a>
-            <a>FREDY GARATE MARÍN</a>
-            <a href="#about"><i class='fas fa-power-off' style='font-size:18px'></i></a>
 
+    <nav class="navbar fixed-top navbar-expand-sm " style="background-color:#034250;">
+        <div class="container-fluid">
+            <div class="navbar-brand" href="#">
+                <button class="openbtn" onclick="openNav()">☰ Menu</button>
+            </div>
+            <ul class="navbar-nav navbar-toggler" data-bs-toggle="collapse">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" style="color:white;"><img src="~/Images/Usericon.png" alt="Avatar" class="avatarNav"></a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item">Fredy Garate Marín</a></li>
+                        <li><a class="dropdown-item" href="#">SALIR</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto">
+                </ul>
+                <form class="d-flex">
+                    <a><img src="~/Images/Usericon.png" alt="Avatar" class="avatarNav"> </a>&nbsp;&nbsp;
+                    <a style="color:white;">FREDY GARATE MARÍN </a>&nbsp;&nbsp;
+                    <a href="#Salir"><i class='fas fa-power-off' style='font-size:18px; color:white;'></i></a>
+                </form>
+            </div>
         </div>
-
-    </div>
- <br />
-    <div class="topnav-right topnavNav">
-        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><img src="~/Images/Usericon.png" alt="Avatar" class="avatarNav">-a</a>
-        <ul class="dropdown-menu">
-            <li><p class="text-center text-dark">Fredy Garate Marín</p></li>
-            <li><hr></li>
-            <li><a class="dropdown-item" style="color:grey; font-size:14px;" href="#">SALIR</a></li>
-        </ul>
-    </div>
-
-
-    <div id="mySidepanel" class="sidepanel">
+    </nav>
+    <div id="mySidepanel" class="sidepanel" >
         <div class="UserBox">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
             <img src="~/Images/Usericon.png" alt="Avatar" class="avatar">
@@ -51,10 +57,10 @@
 
     </div>
     <div>
-        <br />
-        <div class="container body-content">
+        <br /><br />
+        <div class="container">
             @RenderBody()
-            <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
+            @*<p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>*@
             <hr />
         </div>
 
