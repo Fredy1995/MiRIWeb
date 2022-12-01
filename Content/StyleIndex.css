@@ -1,0 +1,38 @@
+﻿body {
+}
+#cajaExterna {
+    background-color: white;
+    width: 260px;
+    height: 100px;
+    margin: 0px;
+}
+
+#cajaInterna {
+    background-color: #505E62;
+    width: 100px;
+    height: 100px;
+    font-size: 50px;
+    color: white;
+}
+.cssfolder {
+    position:relative;
+    left:25px;
+    top:15px;
+}
+.cssLabelTitle {
+    position: relative;
+    font-weight:bold;
+    left: 110px;
+    top: -95px;
+}
+
+/**Responsividad para el dropdown de nav**/
+@media screen and (max-width: 1024px) {
+    #cajaExterna {
+        width: 225px;
+        height: 100px;
+    }
+    .cssLabelTitle{
+      font-size:12px;
+    }
+}

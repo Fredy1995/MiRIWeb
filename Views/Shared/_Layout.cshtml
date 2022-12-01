@@ -9,9 +9,12 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/25c469d056.js" crossorigin="anonymous"></script>
     <link href="~/Content/StyleLayout.css" rel="stylesheet" />
+    <link href="~/Content/StyleIndex.css" rel="stylesheet" />
+   
 </head>
 <body style=" background: #D8D6D6;">
-    <div class="topnav">
+
+    <div class="topnav fixed-top">
         <button class="openbtn" onclick="openNav()">☰</button>
         <div class="topnav-right headerNav">
             <a><img src="~/Images/Usericon.png" alt="Avatar" class="avatarNav"> </a>
@@ -19,16 +22,19 @@
             <a href="#about"><i class='fas fa-power-off' style='font-size:18px'></i></a>
 
         </div>
-        <div class="topnav-right topnavNav">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><img src="~/Images/Usericon.png" alt="Avatar" class="avatarNav">-a</a>
-            <ul class="dropdown-menu">
-                <li><p class="text-center text-dark">Fredy Garate Marín</p></li>
-                <li><hr></li>
-                <li><a class="dropdown-item" style="color:grey; font-size:14px;" href="#">SALIR</a></li>
-            </ul>
-        </div>
-       
+
     </div>
+ <br />
+    <div class="topnav-right topnavNav">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><img src="~/Images/Usericon.png" alt="Avatar" class="avatarNav">-a</a>
+        <ul class="dropdown-menu">
+            <li><p class="text-center text-dark">Fredy Garate Marín</p></li>
+            <li><hr></li>
+            <li><a class="dropdown-item" style="color:grey; font-size:14px;" href="#">SALIR</a></li>
+        </ul>
+    </div>
+
+
     <div id="mySidepanel" class="sidepanel">
         <div class="UserBox">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
@@ -42,9 +48,10 @@
         <a href="#" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-users"></i> COMPARTIDOS</a>
         <a href="#" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-users-gear"></i> USUARIOS</a>
         <a href="#" style="color: white;" class="btnm btnMenu"><i class="fas fa-question-circle"></i> AYUDA</a>
-        
+
     </div>
     <div>
+        <br />
         <div class="container body-content">
             @RenderBody()
             <p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>
@@ -54,7 +61,7 @@
 
         <footer class="fixed-bottom bg-white" style="z-index:-1; font-size:20px; font-weight: bold;">
             <span class="float-start">&nbsp;&nbsp;&nbsp;Perfil</span>
-            <span class="float-end">Versión 1.0.0 | 2023</span>
+            <span class="float-end">Versión 1.0.0 | @DateTime.Now.Year</span>
         </footer>
     </div>
     <script>

@@ -7,6 +7,7 @@
 .topnav {
     overflow: hidden;
     background-color: #034250;
+    z-index: -1;
 }
 
     .topnav a {
@@ -146,7 +147,9 @@
 /**Responsividad para el dropdown de nav**/
 @media screen and (max-width: 600px) {
     .topnavNav {
+        position: relative;
         display: block;
+       
     }
 
     .headerNav {
