@@ -7,7 +7,8 @@
 <script src="~/Scripts/bootstrap.bundle.js"></script>
 <link href="~/Content/login.css" rel="stylesheet" />
 <link href="~/Content/css/Style.css" rel="stylesheet" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
 <div>
 
     <img class="img-fluid" id="logoIRCEP" src="\Images\IRCEP.svg" alt="logoIRCEP">
@@ -16,15 +17,15 @@
 <div class="container">
 
     <div class="row justify-content-md-center">
-     
+
         <div class="col-md-4">
-           
+
             <div class="card borderlogin  shadow p-4 mb-4  animate__animated animate__bounceIn">
                 <div class="card-header text-center">
                     <img id="logoMIRI" src="\Images\logoMIRI.png" alt="logoMIRI" />
                 </div>
                 <div class="card-body">
-                    <form id="formLogin" action="form1" method="post">
+                    <form id="formLogin" onsubmit="return control()" action="/Home/Login" method="post">
                         <div class="form-group">
                             <input class="inputLogin" type="text" name="user" placeholder="  Usuario" />
                         </div>
@@ -40,6 +41,22 @@
                 </div>
             </div>
         </div>
-     
+
     </div>
 </div>
+<script type="text/javascript">
+    function control() {
+        if (document.getElementById('user').value == null
+            || document.getElementById('user').value == "") {
+            alert("El campo no puede estar vacío.");
+            document.getElementById('user').focus();
+            return false;
+        }
+        else if (document.getElementById('pass').value == null || document.getElementById('pass').value == "") {
+            alert("El campo no puede estar vacío.");
+            document.getElementById('pass').focus();
+            return false;
+        }
+        return true;
+    }
+</script>
