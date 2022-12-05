@@ -25,13 +25,13 @@
                     <img id="logoMIRI" src="\Images\logoMIRI.png" alt="logoMIRI" />
                 </div>
                 <div class="card-body">
-                    <form id="formLogin" onsubmit="return control()" action="/Home/Login" method="post">
+                    <form id="formLogin" action="/Home/Login" method="post">
                         <div class="form-group">
-                            <input class="inputLogin" type="text" name="user" placeholder="  Usuario" />
+                            <input class="inputLogin" type="text" name="user" placeholder="  Usuario" required />
                         </div>
                         <br />
                         <div class="form-group">
-                            <input class="inputLogin" type="password" name="pass" placeholder="  Contraseña" />
+                            <input class="inputLogin" type="password" name="pass" placeholder="  Contraseña" required/>
                         </div>
                         <br />
                         <div class="form-group" id="formBtn">

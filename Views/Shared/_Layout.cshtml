@@ -49,7 +49,7 @@
             <p class="estado"><i class='fas fa-circle' style='font-size:18px;'></i> En linea</p>
         </div>
         <br><br><br>
-        <a href="#" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-house-user"></i> INICIO <span class="label danger">Principal</span></a>
+        <a href="@Url.Action("Index","Home")" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-house-user"></i> INICIO <span class="label danger">Principal</span></a>
         <a href="#" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-book-bookmark"></i> MI REPOSITORIO</a>
         <a href="#" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-users"></i> COMPARTIDOS</a>
         <a href="#" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-users-gear"></i> USUARIOS</a>
@@ -61,7 +61,7 @@
         <div class="container">
             @RenderBody()
             @*<p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>*@
-            <hr />
+           
         </div>
 
 
@@ -72,7 +72,13 @@
     </div>
     <script>
         function openNav() {
-            document.getElementById("mySidepanel").style.width = "280px";
+            tamanioIni = document.getElementById("mySidepanel").style;
+            if (tamanioIni.width > "0px") {
+                document.getElementById("mySidepanel").style.width = "0";
+            } else {
+                document.getElementById("mySidepanel").style.width = "280px";
+            }
+         
         }
 
         function closeNav() {
