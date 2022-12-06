@@ -10,6 +10,7 @@
     <script src="https://kit.fontawesome.com/25c469d056.js" crossorigin="anonymous"></script>
     <link href="~/Content/StyleLayout.css" rel="stylesheet" />
     <link href="~/Content/StyleIndex.css" rel="stylesheet" />
+    <link href="~/Content/StyleTema.css" rel="stylesheet" />
     <script type="text/javascript">javascript: window.history.forward(1);</script> <!--Script para el boton back del navegador-->
 </head>
 <body style=" background: #D8D6D6;">
@@ -50,7 +51,7 @@
         </div>
         <br><br><br>
         <a href="@Url.Action("Index","Home")" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-house-user"></i> INICIO <span class="label danger">Principal</span></a>
-        <a href="#" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-book-bookmark"></i> MI REPOSITORIO</a>
+        <a href="@Url.Action("Tema","Repositorio")" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-book-bookmark"></i> MI REPOSITORIO</a>
         <a href="#" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-users"></i> COMPARTIDOS</a>
         <a href="#" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-users-gear"></i> USUARIOS</a>
         <a href="#" style="color: white;" class="btnm btnMenu"><i class="fas fa-question-circle"></i> AYUDA</a>

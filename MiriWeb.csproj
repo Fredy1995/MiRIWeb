@@ -111,6 +111,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RepositorioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -136,6 +137,7 @@
     <Content Include="Content\login.css" />
     <Content Include="Content\StyleIndex.css" />
     <Content Include="Content\StyleLayout.css" />
+    <Content Include="Content\StyleTema.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -199,6 +201,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Repositorio\Tema.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
