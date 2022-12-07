@@ -1,5 +1,6 @@
 ﻿body {
 }
+/**Estilos para los links de navegación**/
 ul.breadcrumb {
     padding: 10px 16px;
     list-style: none;
@@ -26,3 +27,56 @@ ul.breadcrumb {
                 color: #01447e;
                 text-decoration: underline;
             }
+
+/**Estilos para los directorios: Tema, Clasificación, Grupo**/
+.btnDirectory {
+    border: 1px solid white;
+    background-color: white;
+    padding: 30px 20px 30px 25px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 230px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 22px;
+}
+
+
+/* Gray */
+.defaultDirectory {
+    border-color: #e7e7e7;
+    color: #034250;
+}
+
+    .defaultDirectory:hover {
+        background: #e7e7e7;
+    }
+/**scrooll para contener los directorios**/
+.scroollDirectory {
+    height: 500px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+/**Estilo para el scroll**/
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #D8D6D6;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #B6B6B6;
+    border-radius: 10px;
+}
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
