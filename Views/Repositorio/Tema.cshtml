@@ -50,16 +50,48 @@
             </div>
             <!-- Modal body -->
             <div class="modal-body">
+                <form>
                     <div class="row">
-                        <div class="col-sm-12 text-start"> <input type="text" class="form-control" placeholder="Escribe aquí el nombre del tema"></div>
+                        <div class="col-sm-12 text-start"> <input type="text" id="namedirectory" class="form-control" value="Directorio sin título" oninput="validarInput()"></div>
                     </div><br>
                     <div class="row">
-                        <div class="col-sm-6"><div class="d-grid"><a  class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</a></div></div>
-                        <div class="col-sm-6"><div class="d-grid"><a href="#"  class="btn btn-success" style="background-color:#034250; color:white;">Crear</a></div></div>
+                        <div class="col-sm-6"><div class="d-grid"><a class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</a></div></div>
+                        <div class="col-sm-6"><div class="d-grid"><button id="btnCrear" class="btn btn-success" style="background-color:#034250; color:white;">Crear</button></div>
+                        </div>
                     </div>
-                
+               </form>
             </div>
         </div>
     </div>
 </div>
+<script type="text/javascript">
 
+    function validarInput() {
+        document.getElementById("btnCrear").disabled = !document.getElementById("namedirectory").value.length;
+    }
+
+    $.fn.once = function (events, callback) {
+        return this.each(function () {
+            var myCallback = function (e) {
+                callback.call(this, e);
+                $(this).off(events, myCallback);
+            };
+            $(this).on(events, myCallback);
+        });
+    };
+
+    $("#namedirectory").focus(function () {
+        $(this).once("click keyup", function (e) {
+            $(this).select();
+        });
+    });
+
+    // event logger
+    $("#namedirectory").on("mousedown focus mouseup click blur " +
+        "keydown keypress keyup change",
+        function (e) {
+            console.log(e.type);
+        });
+
+    
+</script>

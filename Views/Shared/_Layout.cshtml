@@ -11,6 +11,9 @@
     <link href="~/Content/StyleLayout.css" rel="stylesheet" />
     <link href="~/Content/StyleIndex.css" rel="stylesheet" />
     <link href="~/Content/StyleTema.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.6.1.js"></script>
+    <script src="~/Scripts/menujs.js"></script>
+   
     <script type="text/javascript">javascript: window.history.forward(1);</script> <!--Script para el boton back del navegador-->
 </head>
 <body style=" background: #D8D6D6;">
@@ -71,20 +74,6 @@
             <span class="float-end">Versión 1.0.0 | @DateTime.Now.Year</span>
         </footer>
     </div>
-    <script>
-        function openNav() {
-            tamanioIni = document.getElementById("mySidepanel").style;
-            if (tamanioIni.width > "0px") {
-                document.getElementById("mySidepanel").style.width = "0";
-            } else {
-                document.getElementById("mySidepanel").style.width = "280px";
-            }
-         
-        }
-
-        function closeNav() {
-            document.getElementById("mySidepanel").style.width = "0";
-        }
-    </script>
+   
 </body>
 </html>
