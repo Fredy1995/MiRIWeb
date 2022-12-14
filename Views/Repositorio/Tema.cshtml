@@ -1,0 +1,97 @@
+﻿
+@{
+    ViewBag.Title = "Tema";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<div class="row">
+    <ul class="breadcrumb" style="background-color: #E7E8E6;">
+        <li><a href="#">Temas</a></li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-xxl-5 col-md-4 col-sm-6 col-4"><button class="btn btn-secondary btn-block" data-bs-toggle="modal" data-bs-target="#myModalCrearNuevo"><i class="fa-solid fa-plus"></i> Agregar tema</button></div>
+    <div class="col-xxl-2 col-md-4 col-sm-1 col-1"></div>
+    <div class="col-xxl-5 col-md-4 col-sm-5 col-7">
+        <form>
+            <div class="input-group mb-3">
+                <button class="btn btn btn-light" style="background-color:white;" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <input type="text" class="form-control" placeholder="Buscar en el repositorio">
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row">
+    <h2>TEMAS</h2>
+    <hr />
+</div>
+<div class="row scroollDirectory" style=" background-color: #D8D6D6;">
+    <form>
+        @{
+            for (int i = 0; i < 28; i++)
+            {
+                <button class="btnDirectory defaultDirectory"><i class='fas fas fa-folder'></i> Tema @i</button>
+            }
+        }
+
+    </form>
+</div>
+
+<!-- The Modal para crear nuevo tema -->
+<div class="modal fade" id="myModalCrearNuevo">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Crear nuevo</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="col-sm-12 text-start"> <input type="text" id="namedirectory" class="form-control" value="Directorio sin título" oninput="validarInput()"></div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-sm-6"><div class="d-grid"><a class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</a></div></div>
+                        <div class="col-sm-6"><div class="d-grid"><button id="btnCrear" class="btn btn-success" style="background-color:#034250; color:white;">Crear</button></div>
+                        </div>
+                    </div>
+               </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    function validarInput() {
+        document.getElementById("btnCrear").disabled = !document.getElementById("namedirectory").value.length;
+    }
+
+    $.fn.once = function (events, callback) {
+        return this.each(function () {
+            var myCallback = function (e) {
+                callback.call(this, e);
+                $(this).off(events, myCallback);
+            };
+            $(this).on(events, myCallback);
+        });
+    };
+
+    $("#namedirectory").focus(function () {
+        $(this).once("click keyup", function (e) {
+            $(this).select();
+        });
+    });
+
+    // event logger
+    $("#namedirectory").on("mousedown focus mouseup click blur " +
+        "keydown keypress keyup change",
+        function (e) {
+            console.log(e.type);
+        });
+
+    
+</script>

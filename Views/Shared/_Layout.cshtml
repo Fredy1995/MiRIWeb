@@ -10,6 +10,10 @@
     <script src="https://kit.fontawesome.com/25c469d056.js" crossorigin="anonymous"></script>
     <link href="~/Content/StyleLayout.css" rel="stylesheet" />
     <link href="~/Content/StyleIndex.css" rel="stylesheet" />
+    <link href="~/Content/StyleTema.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.6.1.js"></script>
+    <script src="~/Scripts/menujs.js"></script>
+   
     <script type="text/javascript">javascript: window.history.forward(1);</script> <!--Script para el boton back del navegador-->
 </head>
 <body style=" background: #D8D6D6;">
@@ -50,7 +54,7 @@
         </div>
         <br><br><br>
         <a href="@Url.Action("Index","Home")" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-house-user"></i> INICIO <span class="label danger">Principal</span></a>
-        <a href="#" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-book-bookmark"></i> MI REPOSITORIO</a>
+        <a href="@Url.Action("Tema","Repositorio")" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-book-bookmark"></i> MI REPOSITORIO</a>
         <a href="#" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-users"></i> COMPARTIDOS</a>
         <a href="#" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-users-gear"></i> USUARIOS</a>
         <a href="#" style="color: white;" class="btnm btnMenu"><i class="fas fa-question-circle"></i> AYUDA</a>
@@ -61,7 +65,7 @@
         <div class="container">
             @RenderBody()
             @*<p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>*@
-           
+            <div style="position:absolute; z-index:-1; right:0px; top:740px;"><img src="~/Images/gestordocumental.png" class="img-fluid" width="250" height="250" /></div>
         </div>
 
 
@@ -70,20 +74,6 @@
             <span class="float-end">Versión 1.0.0 | @DateTime.Now.Year</span>
         </footer>
     </div>
-    <script>
-        function openNav() {
-            tamanioIni = document.getElementById("mySidepanel").style;
-            if (tamanioIni.width > "0px") {
-                document.getElementById("mySidepanel").style.width = "0";
-            } else {
-                document.getElementById("mySidepanel").style.width = "280px";
-            }
-         
-        }
-
-        function closeNav() {
-            document.getElementById("mySidepanel").style.width = "0";
-        }
-    </script>
+   
 </body>
 </html>
