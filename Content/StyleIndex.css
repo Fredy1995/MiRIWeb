@@ -25,6 +25,7 @@
     position: relative;
     left: 110px;
     top: -95px;
+    word-wrap:break-word;
 }
 
 /**Responsividad para el dropdown de nav**/
@@ -41,6 +42,7 @@
 }
 
 
+
 /**Estilo de la bienvenida en el index**/
 .note {
     margin-bottom: 15px;
@@ -49,4 +51,50 @@
     border-left: 10px solid #034250;
     color: #034250;
     font-size:24px;
+    z-index:-1;
+}
+.logoMiri{
+    height:350px;
+    width:350px;
+}
+
+.titleIndex {
+    font-size:2vw; 
+    font-weight:bold;
+}
+@media screen and (max-width: 600px) {
+   .titleIndex{
+       font-size:18px;
+   }
+    .note {
+        position:relative;
+        left:8px;
+        font-size: 18px;
+    }
+    .logoMiri{
+        height:120px;
+        width:120px;
+    }
+    .cssLabelTitle {
+        position: relative;
+        left: 60px;
+        top: -45px;
+        font-size: 10px;
+    }
+    #cajaExterna {
+        position: relative;
+        left: 10px;
+        width: 150px;
+        height: 50px;
+    }
+    #cajaInterna {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+    }
+    .cssfolder {
+        position: relative;
+        left: 12px;
+        top: 12px;
+    }
 }
