@@ -28,10 +28,17 @@
 </div>
 <div class="row scroollDirectory" style=" background-color: #D8D6D6;">
     <form>
+        <div id="menu_derecho">
+            <ul>
+                <li><a href="#" class="nom_menu">Copiar</a></li>
+                <li><a href="#" class="nom_menu">Compartir</a></li>
+                <li><a href="#" class="nom_menu">Descargar</a></li>
+            </ul>
+        </div>
         @{
             for (int i = 0; i < 28; i++)
             {
-                <button class="btnDirectory defaultDirectory"><i class='fas fas fa-folder'></i> Tema @i</button>
+                <button id="@i" class="btnDirectory defaultDirectory"><i class='fas fas fa-folder'></i> Tema @i</button>
             }
         }
 
