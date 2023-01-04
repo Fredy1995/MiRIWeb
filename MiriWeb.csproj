@@ -134,6 +134,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\clicderecho.css" />
     <Content Include="Content\login.css" />
     <Content Include="Content\StyleIndex.css" />
     <Content Include="Content\StyleLayout.css" />
@@ -177,6 +178,7 @@
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
     <None Include="Scripts\jquery-3.6.1.intellisense.js" />
+    <Content Include="Scripts\clicderecho.js" />
     <Content Include="Scripts\jquery-3.6.1.js" />
     <Content Include="Scripts\jquery-3.6.1.min.js" />
     <Content Include="Scripts\jquery-3.6.1.slim.js" />

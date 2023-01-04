@@ -26,22 +26,23 @@
     <h2>TEMAS</h2>
     <hr />
 </div>
-<div class="row scroollDirectory" style=" background-color: #D8D6D6;">
+<div class="row  scroollDirectory" style=" background-color: #D8D6D6;">
     <form>
-        <div id="menu_derecho">
+        <div id="menu_derecho" class="shadow bg-white">
             <ul>
-                <li><a href="#" class="nom_menu">Copiar</a></li>
-                <li><a href="#" class="nom_menu">Compartir</a></li>
-                <li><a href="#" class="nom_menu">Descargar</a></li>
+                <li><a href="#" class="nom_menu"><i class='fas fa-user-plus'></i> Compartir</a></li>
+                <li><a href="#" class="nom_menu"><i class='far fa-edit'></i> Cambiar nombre</a></li>
+                <li><a href="#" class="nom_menu"><i class='fas fa-info-circle'></i> Ver detalles</a></li>
             </ul>
         </div>
-        @{
-            for (int i = 0; i < 28; i++)
-            {
-                <button id="@i" class="btnDirectory defaultDirectory"><i class='fas fas fa-folder'></i> Tema @i</button>
+        <div id="cuerpo">
+            @{
+                for (int i = 0; i < 28; i++)
+                {
+                    <button id="@i" class="nom_fic btnDirectory defaultDirectory" title="Tema @i"><i class='fas fas fa-folder'></i>Tema @i</button>
+                }
             }
-        }
-
+        </div>
     </form>
 </div>
 
@@ -71,8 +72,10 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
 
+<script type="text/javascript">
+   
+    //Codigo script para poner el foco seleccionado en el nombre del Tema al momento de crearlo
     function validarInput() {
         document.getElementById("btnCrear").disabled = !document.getElementById("namedirectory").value.length;
     }
