@@ -1,10 +1,25 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Tema";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <br />
+@{ if (ViewBag.AlertWarning != null)
+    {
+        <div class="alert alert-warning alert-dismissible fixed-top">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>¡Warning!</strong> @ViewBag.AlertWarning
+        </div>
+    }
+    else if (ViewBag.AlertDanger != null)
+    {
+        <div class="alert alert-danger alert-dismissible fixed-top">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>¡Error!</strong> @ViewBag.AlertDanger
+        </div>
+    }
+
+}
 <div class="row">
     <ul class="breadcrumb" style="background-color: #E7E8E6;">
         <li><a href="#">Temas</a></li>
@@ -16,7 +31,7 @@
     <div class="col-xxl-5 col-md-4 col-sm-5 col-7">
         <form>
             <div class="input-group mb-3">
-                <button class="btn btn btn-light" style="background-color:white;" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <button class="btn btn btn-light" style="background-color:white; z-index:-1;" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                 <input type="text" class="form-control" placeholder="Buscar en el repositorio">
             </div>
         </form>
@@ -50,7 +65,6 @@
 <div class="modal fade" id="myModalCrearNuevo">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-
             <!-- Modal Header -->
             <div class="modal-header">
                 <h4 class="modal-title">Crear nuevo</h4>
@@ -64,17 +78,18 @@
                     </div><br>
                     <div class="row">
                         <div class="col-sm-6"><div class="d-grid"><a class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</a></div></div>
-                        <div class="col-sm-6"><div class="d-grid"><button id="btnCrear" class="btn btn-success" style="background-color:#034250; color:white;">Crear</button></div>
+                        <div class="col-sm-6">
+                            <div class="d-grid"><button id="btnCrear" class="btn btn-success" style="background-color:#034250; color:white;">Crear</button></div>
                         </div>
                     </div>
-               </form>
+                </form>
             </div>
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
-   
+
     //Codigo script para poner el foco seleccionado en el nombre del Tema al momento de crearlo
     function validarInput() {
         document.getElementById("btnCrear").disabled = !document.getElementById("namedirectory").value.length;
@@ -103,5 +118,5 @@
             console.log(e.type);
         });
 
-    
+
 </script>

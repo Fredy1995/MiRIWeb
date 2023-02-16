@@ -15,6 +15,23 @@
     <img class="img-fluid" id="logoGobierno" src="\Images\logoGobierno.png" alt="logoGobierno">
 </div>
 <div class="container">
+    @{ if (ViewBag.AlertWarning != null)
+        {
+            <div class="alert alert-warning alert-dismissible fixed-top">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong>¡Warning!</strong> @ViewBag.AlertWarning
+            </div>
+        }
+        else if (ViewBag.AlertDanger != null)
+        {
+            <div class="alert alert-danger alert-dismissible fixed-top">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <strong>¡Error!</strong> @ViewBag.AlertDanger
+            </div>
+        }
+
+    }
+
 
     <div class="row justify-content-md-center">
 
@@ -31,7 +48,7 @@
                         </div>
                         <br />
                         <div class="form-group">
-                            <input class="inputLogin" type="password" name="pass" placeholder="  Contraseña" required/>
+                            <input class="inputLogin" type="password" name="pass" placeholder="  Contraseña" required />
                         </div>
                         <br />
                         <div class="form-group" id="formBtn">

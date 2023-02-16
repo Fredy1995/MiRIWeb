@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Configuration;
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -17,8 +18,15 @@
     <script type="text/javascript">javascript: window.history.forward(1);</script> <!--Script para el boton back del navegador-->
     <script src="~/Scripts/clicderecho.js"></script>
     <link href="~/Content/clicderecho.css" rel="stylesheet" />
+  <script>
+      function deshabilitaRetroceso() {
+          window.location.hash = "no-back-button";
+          window.location.hash = "Again-No-back-button" //chrome
+          window.onhashchange = function () { window.location.hash = ""; }
+      }
+  </script>
 </head>
-<body style=" background: #D8D6D6;">
+<body style=" background: #D8D6D6;" onload="deshabilitaRetroceso()">
     
 
     <nav class="navbar fixed-top navbar-expand-sm " style="background-color:#034250;">
@@ -30,8 +38,8 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" style="color:white;"><img src="~/Images/Usericon.png" alt="Avatar" class="avatarNav"></a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item">Fredy Garate Marín</a></li>
-                        <li><a class="dropdown-item" href="@Url.Action("Logout","Home")">SALIR</a></li>
+                        <li><a class="dropdown-item">@Session["nameComplete"].ToString()</a></li>
+                        <li><a class="dropdown-item" href="@Url.Action("Logout", "Home")">SALIR</a></li>
                     </ul>
                 </li>
             </ul>
@@ -41,8 +49,8 @@
                 </ul>
                 <form class="d-flex">
                     <a><img src="~/Images/Usericon.png" alt="Avatar" class="avatarNav"> </a>&nbsp;&nbsp;
-                    <a style="color:white;">FREDY GARATE MARÍN </a>&nbsp;&nbsp;
-                    <a href="@Url.Action("Logout","Home")"><i class='fas fa-power-off' style='font-size:18px; color:white;'></i></a>
+                    <a style="color:white;">@Session["nameComplete"].ToString() </a>&nbsp;&nbsp;
+                    <a href="@Url.Action("Logout", "Home")"><i class='fas fa-power-off' style='font-size:18px; color:white;'></i></a>
                 </form>
             </div>
         </div>
@@ -51,16 +59,22 @@
         <div class="UserBox">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
             <img src="~/Images/Usericon.png" alt="Avatar" class="avatar">
-            <p class="nusuario">JOSE MARIA DE JESUS</p>
+            <p class="nusuario">@Session["nameUser"].ToString()</p>
             <p class="estado"><i class='fas fa-circle' style='font-size:18px;'></i> En linea</p>
         </div>
         <br><br><br>
-        <a href="@Url.Action("Index","Home")" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-house-user"></i> INICIO <span class="label danger">Principal</span></a>
-        <a href="@Url.Action("Tema","Repositorio")" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-book-bookmark"></i> MI REPOSITORIO</a>
+        <a href="@Url.Action("Index", "Home")" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-house-user"></i> INICIO <span class="label danger">Principal</span></a>
+        <a href="@Url.Action("Tema", "Repositorio")" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-book-bookmark"></i> MI REPOSITORIO</a>
         <a href="#" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-users"></i> COMPARTIDOS</a>
-        <a href="#" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-users-gear"></i> USUARIOS</a>
-        <a href="#" style="color: white;" class="btnm btnMenu"><i class="fas fa-question-circle"></i> AYUDA</a>
+        @{
+            string version = ConfigurationManager.AppSettings["webpages:Version"];
+            if (Session["perfil"].ToString().Equals("contentAdmin"))
+            {
+                <a href="#" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-users-gear"></i> USUARIOS</a>
+            }
+        }
 
+        <a href="#" style="color: white;" class="btnm btnMenu"><i class="fas fa-question-circle"></i> AYUDA</a>
     </div>
     <div>
         <br /><br />
@@ -72,8 +86,19 @@
 
 
         <footer class="fixed-bottom bg-white" style="z-index:-1; font-size:20px; font-weight: bold;">
-            <span class="float-start">&nbsp;&nbsp;&nbsp;Perfil</span>
-            <span class="float-end">Versión 1.0.0 | @DateTime.Now.Year</span>
+            @{ 
+                string perfil = "";
+                if (Session["perfil"].ToString().Equals("contentAdmin"))
+                {
+                    perfil = "Administrador de contenido";
+                }else if (Session["perfil"].ToString().Equals("contentViewer"))
+            {
+                perfil = "Visualizador de contenido";
+            }
+            }
+            <span class="float-start">&nbsp;&nbsp;&nbsp; @perfil</span>
+
+            <span class="float-end">@version | @DateTime.Now.Year</span>
         </footer>
     </div>
    
