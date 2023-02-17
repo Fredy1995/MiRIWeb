@@ -25,8 +25,25 @@
     });
 
     $('.nom_menu').click(function () {
-        alert("Has seleccionado " + $(this).html() + " sobre el fichero con id " + idSelec);
-    })
+        /*alert("Has seleccionado " + $(this).html() + " sobre el fichero con id " + idSelec);*/
+        let text = $(this).html();
+        let length = text.length;
+        if (length == 61) {
+            let pos = text.indexOf("C");
+            let part = text.slice(pos);
+            if (part == 'Cambiar nombre') {
+                $('#myModalCambiarNombre').modal('show');
+                $('#updatedirectory').val(document.getElementById(idSelec).value);
+                document.getElementById('hiddenIDTema').value = idSelec;
+            } else if (part == 'Compartir') {
+                $('#myModalCompartir').modal('show');
+            }
+        } else if (length == 66) {
+            let pos = text.indexOf("Ver");
+            let part = text.slice(pos);
+            alert('Seleccionaste: ' + part);
+        }
+    });
 
 
     //cuando hagamos click, el menú desaparecerá

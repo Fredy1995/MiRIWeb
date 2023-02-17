@@ -16,17 +16,37 @@ namespace MiriWeb.Controllers
     {
       
         private string BaseURL = ConfigurationManager.AppSettings["BaseURL:url"];
-
-        public ActionResult Index()
+        [HttpGet]
+        public async Task<ActionResult> Index()
         {
+            Mtotales totales = new Mtotales();
             if (Session["idUser"] != null)
             {
-                return View();
+                try
+                {
+                    using (var client = new HttpClient())
+                    {
+                        client.BaseAddress = new Uri(BaseURL);
+                        client.DefaultRequestHeaders.Clear();
+                        var response = await client.GetAsync("totalesController/readTotales/" + Session["idUser"].ToString());
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var miriResp = response.Content.ReadAsStringAsync().Result;
+                            totales = JsonConvert.DeserializeObject<Mtotales>(miriResp);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.AlertDanger = ex;
+                }
+               
             }
             else
             {
                 return RedirectToAction("Login");
             }
+            return View(totales);
         }
 
         public ActionResult Login()

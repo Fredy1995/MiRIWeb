@@ -1,4 +1,5 @@
-﻿@{
+﻿@model MiriWeb.Models.Mtotales
+@{
     ViewBag.Title = "Home Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -13,7 +14,7 @@
             <div id="cajaInterna">
                 <div class="cssfolder"><i class='fas fa-folder-open'></i></div>
             </div>
-            <div class="cssLabelTitle"><p>TEMAS</p><p>0</p></div>
+            <div class="cssLabelTitle"><p>TEMAS</p><p>@Model.totalTemas</p></div>
         </div>
     </div>
     <div class="col-xxl-3 col-md-3 col-sm-6  col-6">
@@ -21,7 +22,7 @@
             <div id="cajaInterna">
                 <div class="cssfolder"><i class='fas fa-folder-open'></i></div>
             </div>
-            <div class="cssLabelTitle"><p>CLASIFICACIONES</p><p>0</p></div>
+            <div class="cssLabelTitle"><p>CLASIFICACIONES</p><p>@Model.totalClasif</p></div>
         </div>
     </div>
     <div class="col-xxl-3 col-md-3 col-sm-6  col-6">
@@ -29,17 +30,23 @@
             <div id="cajaInterna">
                 <div class="cssfolder"><i class='fas fa-folder-open'></i></div>
             </div>
-            <div class="cssLabelTitle"><p>GRUPOS</p><p>0</p></div>
+            <div class="cssLabelTitle"><p>GRUPOS</p><p>@Model.totalGrupos</p></div>
         </div>
     </div>
-    <div class="col-xxl-3 col-md-3 col-sm-6  col-6">
-        <div id="cajaExterna">
-            <div id="cajaInterna">
-                <div class="cssfolder"><i class='fas fa-users'></i></div>
+    @{
+        if (Session["perfil"].ToString().Equals("contentAdmin"))
+        {
+            <div class="col-xxl-3 col-md-3 col-sm-6  col-6">
+                <div id="cajaExterna">
+                    <div id="cajaInterna">
+                        <div class="cssfolder"><i class='fas fa-users'></i></div>
+                    </div>
+                    <div class="cssLabelTitle"><p>USUARIOS</p><p>@Model.totalUsuarios</p></div>
+                </div>
             </div>
-            <div class="cssLabelTitle"><p>USUARIOS</p><p>0</p></div>
-        </div>
-    </div>
+        }
+    }
+
 </div>
 <br />
 <br />
