@@ -14,7 +14,7 @@ namespace MiriWeb.Controllers
    
     public class HomeController : Controller
     {
-      
+        private Seguridad _security = new Seguridad();
         private string BaseURL = ConfigurationManager.AppSettings["BaseURL:url"];
         [HttpGet]
         public async Task<ActionResult> Index()
@@ -58,9 +58,7 @@ namespace MiriWeb.Controllers
         public  async  Task<ActionResult> Login(string user, string pass)
         {
          
-            respuestaAPIMiri respAPIMIRI = new respuestaAPIMiri();
-            UsuariosPerfiles up = new UsuariosPerfiles();
-            //string version = ConfigurationManager.AppSettings["webpages:Version"];
+            MLogin login = new MLogin();
             
                 try
                 {
@@ -68,59 +66,34 @@ namespace MiriWeb.Controllers
                 {
                     client.BaseAddress = new Uri(BaseURL);
                     client.DefaultRequestHeaders.Clear();
-
-                    var response = await client.GetAsync("loginController/login/" + user + "/" + pass);
+                    var response = await client.GetAsync("loginController/login/" + user + "/" + _security.cifrar(pass));
                     if (response.IsSuccessStatusCode)
                     {
                         var miriResp = response.Content.ReadAsStringAsync().Result;
-                        up = JsonConvert.DeserializeObject<UsuariosPerfiles>(miriResp);
-                        
-                        if(up.respuestaAPI.codigo == 110)
+                        login = JsonConvert.DeserializeObject<MLogin>(miriResp);
+                        if(login.respuestaAPI.codigo == 110)
                         {
-                            response = await client.GetAsync("loginController/readIDUsuarioDB/"+up.idUser);
-                            if (response.IsSuccessStatusCode)
-                            {
-                                miriResp = response.Content.ReadAsStringAsync().Result;
-                                Session["idUser"] = JsonConvert.DeserializeObject<int>(miriResp);
-                                Session["nameUser"] = up.nombreUsuario;
-                                Session["nameComplete"] = up.nombreCompleto;
-                                Session["perfil"] = up.perfil;
-                                var mUsuario = new Usuario(0, up.idUser);
-                                var json = JsonConvert.SerializeObject(mUsuario);
-                                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                                response = await client.PostAsync("loginController/createIDUser", content);
-                                if (response.IsSuccessStatusCode)
-                                {
-                                    miriResp = response.Content.ReadAsStringAsync().Result;
-                                    respAPIMIRI = JsonConvert.DeserializeObject<respuestaAPIMiri>(miriResp);
-                                    if (respAPIMIRI.codigo == 111 || respAPIMIRI.codigo == 222)
-                                    {
-                                        return RedirectToAction("Index");
-                                    }
-                                    else
-                                    {
-                                        ViewBag.AlertDanger = respAPIMIRI.Descripcion;
-
-                                    }
-
-                                }
-                                else
-                                {
-                                    ViewBag.AlertDanger = response.StatusCode + "\nDetalles:" + response.RequestMessage;
-
-                                }
-                            }
-                            else
-                            {
-                                ViewBag.AlertDanger = response.StatusCode + "\nDetalles:" + response.RequestMessage;
-
-                            }
-
+                            Session["idUser"] = login.idUser;
+                            Session["nameUser"] = login.nombre;
+                            Session["nameComplete"] = login.nombre + " " + login.aPaterno +" "+ login.aMaterno;
+                            Session["perfil"] = login.perfil;
+                            return RedirectToAction("Index");
                         }
                         else
                         {
-                            ViewBag.AlertWarning =  up.respuestaAPI.Descripcion;
+                            switch (login.respuestaAPI.codigo)
+                            {
+                                case -300:
+                                    ViewBag.AlertWarning = login.respuestaAPI.Descripcion; break;
+                                case 220:
+                                    ViewBag.AlertWarning = login.respuestaAPI.Descripcion; break;
+                                case 333:
+                                    ViewBag.AlertWarning = login.respuestaAPI.Descripcion; break;
+                                case -200:
+                                    ViewBag.AlertDanger = login.respuestaAPI.Descripcion; break;
+                            }
                         }
+                       
                     }
                     else
                     {

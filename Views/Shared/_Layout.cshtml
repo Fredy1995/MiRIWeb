@@ -68,7 +68,7 @@
         <a href="#" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-users"></i> COMPARTIDOS</a>
         @{
             string version = ConfigurationManager.AppSettings["webpages:Version"];
-            if (Session["perfil"].ToString().Equals("contentAdmin"))
+            if (Session["perfil"].ToString().Equals("Administrador de contenido"))
             {
                 <a href="#" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-users-gear"></i> USUARIOS</a>
             }
@@ -87,14 +87,8 @@
 
         <footer class="fixed-bottom bg-white" style="z-index:-1; font-size:20px; font-weight: bold;">
             @{ 
-                string perfil = "";
-                if (Session["perfil"].ToString().Equals("contentAdmin"))
-                {
-                    perfil = "Administrador de contenido";
-                }else if (Session["perfil"].ToString().Equals("contentViewer"))
-            {
-                perfil = "Visualizador de contenido";
-            }
+                string perfil = Session["perfil"].ToString();
+              
             }
             <span class="float-start">&nbsp;&nbsp;&nbsp; @perfil</span>
 
