@@ -167,9 +167,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\MCompartir.cs" />
+    <Compile Include="Models\modelShared.cs" />
     <Compile Include="Models\MTemas.cs" />
     <Compile Include="Models\MTemaUsuario.cs" />
     <Compile Include="Models\Mtotales.cs" />
+    <Compile Include="Models\MUsuariosSinTema.cs" />
     <Compile Include="Models\respuestaAPIMiri.cs" />
     <Compile Include="Models\Seguridad.cs" />
     <Compile Include="Models\Usuario.cs" />

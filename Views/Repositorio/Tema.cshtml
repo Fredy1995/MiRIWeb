@@ -1,4 +1,4 @@
-﻿@model List<MiriWeb.Models.MTemas>
+﻿@model MiriWeb.Models.modelShared
 @{
     ViewBag.Title = "Tema";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -53,14 +53,14 @@
     <form>
         <div id="menu_derecho" class="shadow bg-white">
             <ul>
-                <li><a href="#" class="nom_menu"><i class='fas fa-user-plus'></i> Compartir</a></li>
+                <li><a href="#" class="nom_menu" onclick="deleteElement()"><i class='fas fa-user-plus'></i> Compartir</a></li>
                 <li><a href="#" class="nom_menu" id="linkUpdateTema"><i class='far fa-edit'></i> Cambiar nombre</a></li>
                 <li><a href="#" class="nom_menu"><i class='fas fa-info-circle'></i> Ver detalles</a></li>
             </ul>
         </div>
         <div id="cuerpo">
             @{
-                foreach (var tema in Model)
+                foreach (var tema in Model.mtemas.ToList())
                 {
                     <button id="@tema.IdTema" class="nom_fic btnDirectory defaultDirectory" title="@tema.Tema" value="@tema.Tema"><i class='fas fas fa-folder'></i> @tema.Tema</button>
                 }
@@ -136,16 +136,45 @@
             </div>
             <!-- Modal body -->
             <div class="modal-body">
-              <form method="post" action="Tema">
+                <form method="post" action="Tema">
+                    <input type="hidden" id="hiddenIDTemaC" name="hiddenIDTemaC">
+                    <input type="hidden" id="listUsers" name="listUsers">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <select id="myInput" class="form-select" name="comboUsuarios" style="width:100%">
+                                <option value="">--Seleccione--</option>
+                                @if (Model.musuariosintema != null)
+                                {
+                                    foreach (var item in Model.musuariosintema.ToList())
+                                    {
+                                        <option value="@item.idUsuario">@item.usuario</option>
+                                    }
+                                }
 
-              </form>
+
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="d-grid"><input type="button" value="Agregar" onclick="newElement()" class="btn btn-success" style="background-color:#034250; color:white;" /></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <ul id="myUL"></ul>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-6"><div class="d-grid"><a class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</a></div></div>
+                        <div class="col-sm-6"> <div class="d-grid"><input type="submit" onclick="enviarList()" value="Aceptar" name="btnAceptar" id="btnAceptar" class="btn btn-success" style="background-color:#034250; color:white;" /></div></div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
 
-
+ 
 <script type="text/javascript">
+    
 
     //Codigo script para poner el foco seleccionado en el nombre del Tema al momento de crearlo
     function validarInput() {
@@ -153,6 +182,7 @@
         document.getElementById("btnUpdate").disabled = !document.getElementById("updatedirectory").value.length;
     }
 
+    //Funcion para seleccionar automaticamente el texto
     $.fn.once = function (events, callback) {
         return this.each(function () {
             var myCallback = function (e) {

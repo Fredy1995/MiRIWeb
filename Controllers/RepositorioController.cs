@@ -16,13 +16,15 @@ namespace MiriWeb.Controllers
     {
 
         private string BaseURL = ConfigurationManager.AppSettings["BaseURL:url"];
-      
+        private modelShared data = new modelShared();
+
         // GET: Repositorio
-        
+       
         public async Task<ActionResult> Tema(FormCollection objetoForm)
         {
-              List<MTemas> temas = new List<MTemas>();
+          
             respuestaAPIMiri respAPIMIRI = new respuestaAPIMiri();
+         
             if (Session["idUser"] != null)
             {
                 try
@@ -93,10 +95,53 @@ namespace MiriWeb.Controllers
 
                             }
                         }
-
-
                     }
-                        temas = await listaTemas(Session["idUser"].ToString());
+                    else if (objetoForm["btnAceptar"] != null)
+                    {
+                        List<string> elementos = objetoForm["listUsers"].Split(',').ToList();
+                        var idtema = objetoForm["hiddenIDTemaC"].ToString();
+                        using (var client = new HttpClient())
+                        {
+                            client.BaseAddress = new Uri(BaseURL);
+                            client.DefaultRequestHeaders.Clear();
+                            foreach(var item in elementos)
+                            {
+                                var mCompartir = new MCompartir(idtema,item.ToString());
+                                var json = JsonConvert.SerializeObject(mCompartir);
+                                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                                var response = await client.PostAsync("temaController/compartirTema", content);
+                                if (response.IsSuccessStatusCode)
+                                {
+                                    var miriResp = response.Content.ReadAsStringAsync().Result;
+                                    respAPIMIRI = JsonConvert.DeserializeObject<respuestaAPIMiri>(miriResp);
+                                    switch (respAPIMIRI.codigo)
+                                    {
+                                        case 111:
+                                            ViewBag.AlertSuccess = respAPIMIRI.Descripcion; break;
+                                        case 222:
+                                            ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                        case 333:
+                                            ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                        case -200:
+                                            ViewBag.AlertDanger = respAPIMIRI.Descripcion; break;
+                                    }
+                                }
+                                else
+                                {
+                                    ViewBag.AlertDanger = response.StatusCode + "\nDetalles:" + response.RequestMessage;
+
+                                }
+                            }
+                            
+                        }
+                       
+                    }
+                   
+                    data.mtemas = await listaTemas(Session["idUser"].ToString());
+                    //if(objetoForm["hiddenIDTemaC"] != null)
+                    //{
+                    //    data.musuariosintema = await listaSelect(Convert.ToInt32(dato));
+                    //}
                 }
                 catch (Exception ex)
                 {
@@ -107,9 +152,32 @@ namespace MiriWeb.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            return View(temas);
+            return View(data);
         }
 
+       
+
+        /// <summary>
+        /// Metodo encargado de obtener una lista de usuarios que no son responsables del TEMA seleccionado
+        /// </summary>
+        /// <returns>Devuelve una lista de tipo MUsuariosSinTema</returns>
+        [HttpGet]
+        public async Task<List<MUsuariosSinTema>> listaSelect(int idtema)
+        {
+            List<MUsuariosSinTema> must = new List<MUsuariosSinTema>();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(BaseURL);
+                client.DefaultRequestHeaders.Clear();
+                var response = await client.GetAsync("temaController/readUsuariosSinTema/"+ idtema);
+                if (response.IsSuccessStatusCode)
+                {
+                    var miriResp = response.Content.ReadAsStringAsync().Result;
+                    must = JsonConvert.DeserializeObject<List<MUsuariosSinTema>>(miriResp);
+                }
+            }
+            return must;
+        }
         /// <summary>
         /// Metodo para listar todos los temas que pertenecen al usuario actual
         /// </summary>
