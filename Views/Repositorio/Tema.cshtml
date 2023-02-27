@@ -30,7 +30,7 @@
 }
 <div class="row">
     <ul class="breadcrumb" style="background-color: #E7E8E6;">
-        <li><a href="#">Temas</a></li>
+        <li><a>Temas</a></li>
     </ul>
 </div>
 <div class="row">
@@ -50,7 +50,7 @@
     <hr />
 </div>
 <div class="row  scroollDirectory" style=" background-color: #D8D6D6;">
-    <form>
+    <form method="post" action="Clasificacion">
         <div id="menu_derecho" class="shadow bg-white">
             <ul>
                 <li><a href="#" class="nom_menu" onclick="deleteElement()"><i class='fas fa-user-plus'></i> Compartir</a></li>
@@ -59,10 +59,12 @@
             </ul>
         </div>
         <div id="cuerpo">
+            <input type="hidden" id="hiddenidDirectorioSeleccionado" name="hiddenidDirectorioSeleccionado">
+            <input type="hidden" id="hiddenNombreDirectorioSeleccionado" name="hiddenNombreDirectorioSeleccionado">
             @{
                 foreach (var tema in Model.mtemas.ToList())
                 {
-                    <button id="@tema.IdTema" class="nom_fic btnDirectory defaultDirectory" title="@tema.Tema" value="@tema.Tema"><i class='fas fas fa-folder'></i> @tema.Tema</button>
+                    <button type="submit" name="btnClasificacion" id="@tema.IdTema" class="nom_fic btnDirectory defaultDirectory" title="@tema.Tema" value="@tema.Tema"><i class='fas fas fa-folder'></i> @tema.Tema</button>
                 }
             }
         </div>
@@ -83,7 +85,7 @@
             <div class="modal-body">
                 <form method="post" action="Tema">
                     <div class="row">
-                        <div class="col-sm-12 text-start"> <input type="text" name="nameTema" id="namedirectory" class="form-control" value="Directorio sin título" oninput="validarInput()"></div>
+                        <div class="col-sm-12 text-start"> <input type="text" name="nameDirectorio" id="namedirectory" class="form-control" value="Directorio sin título" oninput="validarInput()"></div>
                     </div><br>
                     <div class="row">
                         <div class="col-sm-6"><div class="d-grid"><a class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</a></div></div>
@@ -109,14 +111,14 @@
             <!-- Modal body -->
             <div class="modal-body">
                 <form method="post" action="Tema">
-                    <input type="hidden" id="hiddenIDTema" name="hiddenIDTema">
+                    <input type="hidden" id="hiddenIDDirectorio" name="hiddenIDDirectorio">
                     <div class="row">
-                        <div class="col-sm-12 text-start"><input type="text" name="nameTema" id="updatedirectory" class="form-control" oninput="validarInput()"></div>
+                        <div class="col-sm-12 text-start"><input type="text" name="nameDirectorio" id="updatedirectory" class="form-control" oninput="validarInput()"></div>
                     </div><br>
                     <div class="row">
                         <div class="col-sm-6"><div class="d-grid"><a class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</a></div></div>
                         <div class="col-sm-6">
-                            <div class="d-grid"><input type="submit" value="Aceptar" name="btnUpdateTema" id="btnUpdate" class="btn btn-success" style="background-color:#034250; color:white;" /></div>
+                            <div class="d-grid"><input type="submit" value="Aceptar" name="btnUpdateDiretorio" id="btnUpdate" class="btn btn-success" style="background-color:#034250; color:white;" /></div>
                         </div>
                     </div>
                 </form>
@@ -137,21 +139,12 @@
             <!-- Modal body -->
             <div class="modal-body">
                 <form method="post" action="Tema">
-                    <input type="hidden" id="hiddenIDTemaC" name="hiddenIDTemaC">
+                    <input type="hidden" id="hiddenIDDirectorioC" name="hiddenIDDirectorioC">
                     <input type="hidden" id="listUsers" name="listUsers">
                     <div class="row">
                         <div class="col-sm-8">
-                            <select id="myInput" class="form-select" name="comboUsuarios" style="width:100%">
-                                <option value="">--Seleccione--</option>
-                                @if (Model.musuariosintema != null)
-                                {
-                                    foreach (var item in Model.musuariosintema.ToList())
-                                    {
-                                        <option value="@item.idUsuario">@item.usuario</option>
-                                    }
-                                }
-
-
+                            <select id="users-select" class="form-select">
+                                @*<option value="">Selecciona un usuario</option>*@
                             </select>
                         </div>
                         <div class="col-sm-4">
@@ -173,50 +166,3 @@
 </div>
 
  
-<script type="text/javascript">
-    
-
-    //Codigo script para poner el foco seleccionado en el nombre del Tema al momento de crearlo
-    function validarInput() {
-        document.getElementById("btnCrear").disabled = !document.getElementById("namedirectory").value.length;
-        document.getElementById("btnUpdate").disabled = !document.getElementById("updatedirectory").value.length;
-    }
-
-    //Funcion para seleccionar automaticamente el texto
-    $.fn.once = function (events, callback) {
-        return this.each(function () {
-            var myCallback = function (e) {
-                callback.call(this, e);
-                $(this).off(events, myCallback);
-            };
-            $(this).on(events, myCallback);
-        });
-    };
-
-    $("#namedirectory").focus(function () {
-        $(this).once("click keyup", function (e) {
-            $(this).select();
-        });
-    });
-
-    $("#updatedirectory").focus(function () {
-        $(this).once("click keyup", function (e) {
-            $(this).select();
-        });
-    });
-
-    // event logger
-    $("#namedirectory").on("mousedown focus mouseup click blur " +
-        "keydown keypress keyup change",
-        function (e) {
-            console.log(e.type);
-        });
-    // event logger
-    $("#updatedirectory").on("mousedown focus mouseup click blur " +
-        "keydown keypress keyup change",
-        function (e) {
-            console.log(e.type);
-        });
-
-
-</script>

@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewBag.Title = "Clasificacion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+@{ if (ViewBag.AlertWarning != null)
+    {
+        <div class="alert alert-warning alert-dismissible fixed-top">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>¡Warning!</strong> @ViewBag.AlertWarning
+        </div>
+    }
+    else if (ViewBag.AlertDanger != null)
+    {
+        <div class="alert alert-danger alert-dismissible fixed-top">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>¡Error!</strong> @ViewBag.AlertDanger
+        </div>
+    }
+    else if (ViewBag.AlertSuccess != null)
+    {
+        <div class="alert alert-success alert-dismissible fixed-top">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>¡Bien hecho!</strong> @ViewBag.AlertSuccess
+        </div>
+    }
+
+}
+<div class="row">
+    <ul class="breadcrumb" style="background-color: #E7E8E6;">
+        <li><a href="@Url.Action("Tema", "Repositorio")">Temas</a></li>
+        <li><a>@ViewBag.NameTemaSelec</a></li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-xxl-5 col-md-4 col-sm-6 col-4"><button class="btn btn-secondary btn-block" data-bs-toggle="modal" data-bs-target="#myModalCrearNuevo"><i class="fa-solid fa-plus"></i> Agregar clasificación</button></div>
+    <div class="col-xxl-2 col-md-4 col-sm-1 col-1"></div>
+    <div class="col-xxl-5 col-md-4 col-sm-5 col-7">
+        @*<form>
+                <div class="input-group mb-3">
+                    <button class="btn btn btn-light" style="background-color:white; z-index:-1;" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <input type="text" class="form-control" placeholder="Buscar en el repositorio">
+                </div>
+            </form>*@
+    </div>
+</div>
+<div class="row">
+    <h2>CLASIFICACIONES</h2>
+    <hr />
+</div>
+
+
+
+
+<!-- The Modal para crear nueva clasificación -->
+<div class="modal fade" id="myModalCrearNuevo">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Crear nuevo</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form method="post" action="Clasificacion">
+                    <div class="row">
+                        <div class="col-sm-12 text-start"> <input type="text" name="nameDirectorio" id="namedirectory" class="form-control" value="Directorio sin título" oninput="validarInput()"></div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-sm-6"><div class="d-grid"><a class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</a></div></div>
+                        <div class="col-sm-6">
+                            <div class="d-grid"><input type="submit" value="Crear" name="btncrear" id="btnCrear" class="btn btn-success" style="background-color:#034250; color:white;" /></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+   
+</script>
+

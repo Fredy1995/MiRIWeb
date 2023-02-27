@@ -28,7 +28,7 @@
   </script>
 </head>
 <body style=" background: #D8D6D6;" onload="deshabilitaRetroceso()">
-    
+
 
     <nav class="navbar fixed-top navbar-expand-sm " style="background-color:#034250;">
         <div class="container-fluid">
@@ -87,15 +87,62 @@
 
 
         <footer class="fixed-bottom bg-white" style="z-index:-1; font-size:20px; font-weight: bold;">
-            @{ 
+            @{
                 string perfil = Session["perfil"].ToString();
-              
+
             }
             <span class="float-start">&nbsp;&nbsp;&nbsp; @perfil</span>
 
             <span class="float-end">@version | @DateTime.Now.Year</span>
         </footer>
     </div>
-   
+
+    <script type="text/javascript">
+
+
+        //Codigo script para poner el foco seleccionado en el nombre del Tema al momento de crearlo
+        function validarInput() {
+            document.getElementById("btnCrear").disabled = !document.getElementById("namedirectory").value.length;
+            document.getElementById("btnUpdate").disabled = !document.getElementById("updatedirectory").value.length;
+        }
+
+        //Funcion para seleccionar automaticamente el texto
+        $.fn.once = function (events, callback) {
+            return this.each(function () {
+                var myCallback = function (e) {
+                    callback.call(this, e);
+                    $(this).off(events, myCallback);
+                };
+                $(this).on(events, myCallback);
+            });
+        };
+
+        $("#namedirectory").focus(function () {
+            $(this).once("click keyup", function (e) {
+                $(this).select();
+            });
+        });
+
+        $("#updatedirectory").focus(function () {
+            $(this).once("click keyup", function (e) {
+                $(this).select();
+            });
+        });
+
+        // event logger
+        $("#namedirectory").on("mousedown focus mouseup click blur " +
+            "keydown keypress keyup change",
+            function (e) {
+                console.log(e.type);
+            });
+        // event logger
+        $("#updatedirectory").on("mousedown focus mouseup click blur " +
+            "keydown keypress keyup change",
+            function (e) {
+                console.log(e.type);
+            });
+
+
+    </script>
 </body>
 </html>

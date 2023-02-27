@@ -15,13 +15,22 @@
     //    return false;
     //});
 
+    //Para seleccionar con clic derecho
     var idSelec;
     $('.nom_fic').mousedown(function (event) {
         switch (event.which) {
             case 3:
                 idSelec = $(this).attr("id");
                 break;
+              
         }
+    });
+
+    //Para seleccionar con clic izquierdo
+    $('.nom_fic').click(function () {
+        /* alert('Aqui es:'+$(this).attr("value"));*/
+        document.getElementById('hiddenidDirectorioSeleccionado').value = $(this).attr("id");
+        document.getElementById('hiddenNombreDirectorioSeleccionado').value = $(this).attr("value");
     });
 
     $('.nom_menu').click(function () {
@@ -34,10 +43,40 @@
             if (part == 'Cambiar nombre') {
                 $('#myModalCambiarNombre').modal('show');
                 $('#updatedirectory').val(document.getElementById(idSelec).value);
-                document.getElementById('hiddenIDTema').value = idSelec;
+                document.getElementById('hiddenIDDirectorio').value = idSelec;
             } else if (part == 'Compartir') {
                 $('#myModalCompartir').modal('show');
-                document.getElementById('hiddenIDTemaC').value = idSelec;
+                document.getElementById('hiddenIDDirectorioC').value = idSelec;
+                //***********************Limpiar el tag selec y agregar una primera opcion antes de consumir la api
+                document.getElementById("users-select").innerHTML = "";
+                const select = document.getElementById('users-select');
+                const option = document.createElement('option');
+                option.value = "";
+                option.text = "--Selecciona un usuario--";
+                select.appendChild(option);
+                //**********************Fin de agregar opcion al selec
+                //:::::::::::::::::::::::::::::::::::::::::::::::::::::::API MIRI TEMAS POR USUARIO 
+                // Hacer la solicitud HTTP GET a la API REST
+                fetch('https://localhost:7241/temaController/readUsuariosSinTema/' + idSelec)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Función para llenar la select con las opciones
+                        function fillSelect(data) {
+                            const select = document.getElementById('users-select');
+
+                            data.forEach(user => {
+                                const option = document.createElement('option');
+                                option.value = user.idUsuario;
+                                option.text = user.usuario;
+                                select.appendChild(option);
+                            });
+                        }
+
+                        // Llamar a la función para llenar la select
+                        fillSelect(data);
+                    })
+                    .catch(error => console.error(error));
+    //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::FIN API
             }
         } else if (length == 66) {
             let pos = text.indexOf("Ver");
@@ -46,6 +85,7 @@
         }
     });
 
+    
 
     //cuando hagamos click, el menú desaparecerá
     $(document).click(function (e) {
@@ -83,8 +123,8 @@ function newElement() {
     }
     var li = document.createElement("li");
 
-    var inputValue = document.getElementById("myInput").value;
-    var combo = document.getElementById("myInput");
+    var inputValue = document.getElementById("users-select").value;
+    var combo = document.getElementById("users-select");
     var inputText = combo.options[combo.selectedIndex].text;
     var t = document.createTextNode(inputText);
     li.appendChild(t);
@@ -98,7 +138,7 @@ function newElement() {
         }
 
     }
-    document.getElementById("myInput").value = "";
+    document.getElementById("users-select").value = "";
 
     var span = document.createElement("SPAN");
     var txt = document.createTextNode("\u00D7");

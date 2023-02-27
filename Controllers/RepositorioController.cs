@@ -35,7 +35,7 @@ namespace MiriWeb.Controllers
                         {
                             client.BaseAddress = new Uri(BaseURL);
                             client.DefaultRequestHeaders.Clear();
-                            var mTemaUsuario = new MTemaUsuario(objetoForm["nameTema"], Session["idUser"].ToString());
+                            var mTemaUsuario = new MTemaUsuario(objetoForm["nameDirectorio"], Session["idUser"].ToString());
                             var json = JsonConvert.SerializeObject(mTemaUsuario);
                             var content = new StringContent(json, Encoding.UTF8, "application/json");
                             var response = await client.PostAsync("temaController/createTemaUsuario", content);
@@ -63,63 +63,28 @@ namespace MiriWeb.Controllers
 
                             }
                         }
-                    }else if (objetoForm["btnUpdateTema"] != null)
+                    }else if (objetoForm["btnUpdateDiretorio"] != null)
                     {
-                        var idtema = objetoForm["hiddenIDTema"].ToString();
-                        var tema = objetoForm["nameTema"].ToString();
-                        using (var client = new HttpClient())
+                        var idtema = objetoForm["hiddenIDDirectorio"].ToString();
+                        var tema = objetoForm["nameDirectorio"].ToString();
+                        if(tema != "")
                         {
-                            client.BaseAddress = new Uri(BaseURL);
-                            client.DefaultRequestHeaders.Clear();
-                            var updateTema = new MTemas(objetoForm["nameTema"], objetoForm["hiddenIDTema"]);
-                            var json = JsonConvert.SerializeObject(updateTema);
-                            var content = new StringContent(json, Encoding.UTF8, "application/json");
-                            var response = await client.PutAsync("temaController/updateTema", content);
-                            if (response.IsSuccessStatusCode)
+                            using (var client = new HttpClient())
                             {
-                                var miriResp = response.Content.ReadAsStringAsync().Result;
-                                respAPIMIRI = JsonConvert.DeserializeObject<respuestaAPIMiri>(miriResp);
-                                switch (respAPIMIRI.codigo)
-                                {
-                                    case 444:
-                                        ViewBag.AlertSuccess = respAPIMIRI.Descripcion; break;
-                                    case 333:
-                                        ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
-                                    case -200:
-                                        ViewBag.AlertDanger = respAPIMIRI.Descripcion; break;
-                                }
-                            }
-                            else
-                            {
-                                ViewBag.AlertDanger = response.StatusCode + "\nDetalles:" + response.RequestMessage;
-
-                            }
-                        }
-                    }
-                    else if (objetoForm["btnAceptar"] != null)
-                    {
-                        List<string> elementos = objetoForm["listUsers"].Split(',').ToList();
-                        var idtema = objetoForm["hiddenIDTemaC"].ToString();
-                        using (var client = new HttpClient())
-                        {
-                            client.BaseAddress = new Uri(BaseURL);
-                            client.DefaultRequestHeaders.Clear();
-                            foreach(var item in elementos)
-                            {
-                                var mCompartir = new MCompartir(idtema,item.ToString());
-                                var json = JsonConvert.SerializeObject(mCompartir);
+                                client.BaseAddress = new Uri(BaseURL);
+                                client.DefaultRequestHeaders.Clear();
+                                var updateTema = new MTemas(tema, idtema);
+                                var json = JsonConvert.SerializeObject(updateTema);
                                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                                var response = await client.PostAsync("temaController/compartirTema", content);
+                                var response = await client.PutAsync("temaController/updateTema", content);
                                 if (response.IsSuccessStatusCode)
                                 {
                                     var miriResp = response.Content.ReadAsStringAsync().Result;
                                     respAPIMIRI = JsonConvert.DeserializeObject<respuestaAPIMiri>(miriResp);
                                     switch (respAPIMIRI.codigo)
                                     {
-                                        case 111:
+                                        case 444:
                                             ViewBag.AlertSuccess = respAPIMIRI.Descripcion; break;
-                                        case 222:
-                                            ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
                                         case 333:
                                             ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
                                         case -200:
@@ -132,16 +97,62 @@ namespace MiriWeb.Controllers
 
                                 }
                             }
-                            
+                        }
+                        else
+                        {
+                            ViewBag.AlertWarning = "DEBE SELECCIONAR UN ELEMENTO";
                         }
                        
                     }
+                    else if (objetoForm["btnAceptar"] != null)
+                    {
+                        List<string> elementos = objetoForm["listUsers"].Split(',').ToList();
+                        var idtema = objetoForm["hiddenIDDirectorioC"].ToString();
+                        if(elementos[0].ToString() != "")
+                        {
+                            using (var client = new HttpClient())
+                            {
+                                client.BaseAddress = new Uri(BaseURL);
+                                client.DefaultRequestHeaders.Clear();
+                                foreach (var item in elementos)
+                                {
+                                    var mCompartir = new MCompartir(idtema, item.ToString());
+                                    var json = JsonConvert.SerializeObject(mCompartir);
+                                    var content = new StringContent(json, Encoding.UTF8, "application/json");
+                                    var response = await client.PostAsync("temaController/compartirTema", content);
+                                    if (response.IsSuccessStatusCode)
+                                    {
+                                        var miriResp = response.Content.ReadAsStringAsync().Result;
+                                        respAPIMIRI = JsonConvert.DeserializeObject<respuestaAPIMiri>(miriResp);
+                                        switch (respAPIMIRI.codigo)
+                                        {
+                                            case 111:
+                                                ViewBag.AlertSuccess = respAPIMIRI.Descripcion; break;
+                                            case 222:
+                                                ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                            case 333:
+                                                ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                            case -200:
+                                                ViewBag.AlertDanger = respAPIMIRI.Descripcion; break;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        ViewBag.AlertDanger = response.StatusCode + "\nDetalles:" + response.RequestMessage;
+
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.AlertWarning = "NO SE SELECCIONÓ NINGÚN ELEMENTO";
+                        }
+                     
+                    }
                    
                     data.mtemas = await listaTemas(Session["idUser"].ToString());
-                    //if(objetoForm["hiddenIDTemaC"] != null)
-                    //{
-                    //    data.musuariosintema = await listaSelect(Convert.ToInt32(dato));
-                    //}
+                   
                 }
                 catch (Exception ex)
                 {
@@ -155,29 +166,6 @@ namespace MiriWeb.Controllers
             return View(data);
         }
 
-       
-
-        /// <summary>
-        /// Metodo encargado de obtener una lista de usuarios que no son responsables del TEMA seleccionado
-        /// </summary>
-        /// <returns>Devuelve una lista de tipo MUsuariosSinTema</returns>
-        [HttpGet]
-        public async Task<List<MUsuariosSinTema>> listaSelect(int idtema)
-        {
-            List<MUsuariosSinTema> must = new List<MUsuariosSinTema>();
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(BaseURL);
-                client.DefaultRequestHeaders.Clear();
-                var response = await client.GetAsync("temaController/readUsuariosSinTema/"+ idtema);
-                if (response.IsSuccessStatusCode)
-                {
-                    var miriResp = response.Content.ReadAsStringAsync().Result;
-                    must = JsonConvert.DeserializeObject<List<MUsuariosSinTema>>(miriResp);
-                }
-            }
-            return must;
-        }
         /// <summary>
         /// Metodo para listar todos los temas que pertenecen al usuario actual
         /// </summary>
@@ -202,7 +190,13 @@ namespace MiriWeb.Controllers
             return temas;
         }
 
-
+        public ActionResult Clasificacion(FormCollection objetoForm)
+        {
+            Session["idTemaSeleccionado"] = objetoForm["hiddenidDirectorioSeleccionado"].ToString();
+            ViewBag.NameTemaSelec = objetoForm["hiddenNombreDirectorioSeleccionado"].ToString();
+            
+            return View();
+        }
 
     }
 }
