@@ -1,4 +1,4 @@
-﻿
+﻿@model MiriWeb.Models.modelShared
 @{
     ViewBag.Title = "Clasificacion";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -30,7 +30,7 @@
 <div class="row">
     <ul class="breadcrumb" style="background-color: #E7E8E6;">
         <li><a href="@Url.Action("Tema", "Repositorio")">Temas</a></li>
-        <li><a>@ViewBag.NameTemaSelec</a></li>
+        <li><a>@ViewBag.NameDirectorioSelec</a></li>
     </ul>
 </div>
 <div class="row">
@@ -49,7 +49,24 @@
     <h2>CLASIFICACIONES</h2>
     <hr />
 </div>
+<div class="row  scroollDirectory" style=" background-color: #D8D6D6;">
+    <div id="menu_derecho" class="shadow bg-white">
+        <ul>
+            <li><a href="#" class="nom_menu" onclick="deleteElement()"><i class='fas fa-user-plus'></i> Compartir</a></li>
+            <li><a href="#" class="nom_menu" id="linkUpdateTema"><i class='far fa-edit'></i> Cambiar nombre</a></li>
+            <li><a href="#" class="nom_menu"><i class='fas fa-info-circle'></i> Ver detalles</a></li>
+        </ul>
+    </div>
+    <div id="cuerpo">
 
+        @{
+            foreach (var clasificacion in Model.mclasificaciones.ToList())
+            {
+                <button id="@clasificacion.idClasif" class="nom_fic btnDirectory defaultDirectory" title="@clasificacion.Clasificacion" value="@clasificacion.Clasificacion"><i class='fas fas fa-folder'></i> @clasificacion.Clasificacion</button>
+            }
+        }
+    </div>
+</div>
 
 
 
@@ -65,6 +82,8 @@
             <!-- Modal body -->
             <div class="modal-body">
                 <form method="post" action="Clasificacion">
+                    <input type="hidden" name="hiddenIDDirectorio" value="@ViewBag.IdDirectorio">
+                    <input type="hidden" name="hiddenNameDirectorioSelec" value="@ViewBag.NameDirectorioSelec">
                     <div class="row">
                         <div class="col-sm-12 text-start"> <input type="text" name="nameDirectorio" id="namedirectory" class="form-control" value="Directorio sin título" oninput="validarInput()"></div>
                     </div><br>
@@ -80,7 +99,34 @@
     </div>
 </div>
 
-<script type="text/javascript">
-   
-</script>
+<!-- The Modal para cambiar nombre de directorio -->
+<div class="modal fade" id="myModalCambiarNombre">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Cambiar nombre</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form method="post" action="Clasificacion">
+                    <input type="hidden" name="hiddenIDDirectorioT" value="@ViewBag.IdDirectorioT">
+                    <input type="hidden" name="hiddenIDDirectorio">
+                    <input type="hidden" name="hiddenNameDirectorioSelec" value="@ViewBag.NameDirectorioSelec">
+                    <div class="row">
+                        <div class="col-sm-12 text-start"><input type="text" name="nameDirectorio" id="updatedirectory" class="form-control" oninput="validarInput()"></div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-sm-6"><div class="d-grid"><a class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</a></div></div>
+                        <div class="col-sm-6">
+                            <div class="d-grid"><input type="submit" value="Aceptar" name="btnUpdateDiretorio" id="btnUpdate" class="btn btn-success" style="background-color:#034250; color:white;" /></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 

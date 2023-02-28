@@ -50,7 +50,6 @@
     <hr />
 </div>
 <div class="row  scroollDirectory" style=" background-color: #D8D6D6;">
-    <form method="post" action="Clasificacion">
         <div id="menu_derecho" class="shadow bg-white">
             <ul>
                 <li><a href="#" class="nom_menu" onclick="deleteElement()"><i class='fas fa-user-plus'></i> Compartir</a></li>
@@ -59,20 +58,18 @@
             </ul>
         </div>
         <div id="cuerpo">
-            <input type="hidden" id="hiddenidDirectorioSeleccionado" name="hiddenidDirectorioSeleccionado">
-            <input type="hidden" id="hiddenNombreDirectorioSeleccionado" name="hiddenNombreDirectorioSeleccionado">
+            
             @{
                 foreach (var tema in Model.mtemas.ToList())
                 {
-                    <button type="submit" name="btnClasificacion" id="@tema.IdTema" class="nom_fic btnDirectory defaultDirectory" title="@tema.Tema" value="@tema.Tema"><i class='fas fas fa-folder'></i> @tema.Tema</button>
+                    <button  id="@tema.IdTema" class="nom_fic btnDirectory defaultDirectory" title="@tema.Tema" value="@tema.Tema"><i class='fas fas fa-folder'></i> @tema.Tema</button>
                 }
             }
         </div>
-    </form>
 </div>
 
 
-<!-- The Modal para crear nuevo tema -->
+<!-- The Modal para crear nuevo directorio -->
 <div class="modal fade" id="myModalCrearNuevo">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -99,7 +96,7 @@
     </div>
 </div>
 
-<!-- The Modal para cambiar nombre de tema -->
+<!-- The Modal para cambiar nombre de directorio -->
 <div class="modal fade" id="myModalCambiarNombre">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -127,7 +124,7 @@
     </div>
 </div>
 
-<!-- The Modal para compartir -->
+<!-- The Modal para compartir directorio -->
 <div class="modal fade" id="myModalCompartir">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -165,4 +162,7 @@
     </div>
 </div>
 
+<script>
+   
+</script>
  

@@ -1,4 +1,6 @@
-﻿$(document).ready(function () {
+﻿
+
+$(document).ready(function () {
 
     //Ocultamos el menú al cargar la página
     $("#menu_derecho").hide();
@@ -26,12 +28,7 @@
         }
     });
 
-    //Para seleccionar con clic izquierdo
-    $('.nom_fic').click(function () {
-        /* alert('Aqui es:'+$(this).attr("value"));*/
-        document.getElementById('hiddenidDirectorioSeleccionado').value = $(this).attr("id");
-        document.getElementById('hiddenNombreDirectorioSeleccionado').value = $(this).attr("value");
-    });
+   
 
     $('.nom_menu').click(function () {
         /*alert("Has seleccionado " + $(this).html() + " sobre el fichero con id " + idSelec);*/
@@ -76,7 +73,7 @@
                         fillSelect(data);
                     })
                     .catch(error => console.error(error));
-    //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::FIN API
+                //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::FIN API
             }
         } else if (length == 66) {
             let pos = text.indexOf("Ver");
