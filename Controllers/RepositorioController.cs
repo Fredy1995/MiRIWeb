@@ -86,6 +86,8 @@ namespace MiriWeb.Controllers
                                             ViewBag.AlertSuccess = respAPIMIRI.Descripcion; break;
                                         case 333:
                                             ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                        case 222:
+                                            ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
                                         case -200:
                                             ViewBag.AlertDanger = respAPIMIRI.Descripcion; break;
                                     }
@@ -198,13 +200,13 @@ namespace MiriWeb.Controllers
                 {
                     if (objetoForm["btncrear"] != null)
                     {
-                        ViewBag.IdDirectorio = objetoForm["hiddenIDDirectorio"].ToString();
+                        ViewBag.IdDirectorioT = objetoForm["hiddenIDDirectorioT"].ToString();
                         ViewBag.NameDirectorioSelec = objetoForm["hiddenNameDirectorioSelec"].ToString();
                         using (var client = new HttpClient())
                         {
                             client.BaseAddress = new Uri(BaseURL);
                             client.DefaultRequestHeaders.Clear();
-                            var mClasificacionTema = new MClasificacionTema(ViewBag.IdDirectorio, objetoForm["nameDirectorio"], Session["idUser"].ToString());
+                            var mClasificacionTema = new MClasificacionTema(ViewBag.IdDirectorioT, objetoForm["nameDirectorio"], Session["idUser"].ToString());
                             var json = JsonConvert.SerializeObject(mClasificacionTema);
                             var content = new StringContent(json, Encoding.UTF8, "application/json");
                             var response = await client.PostAsync("clasificacionController/createClasificacionTema", content);
@@ -238,7 +240,7 @@ namespace MiriWeb.Controllers
                       
                         if (objetoForm["nameDirectorio"].ToString() != "")
                         {
-                            ViewBag.IdDirectorio = objetoForm["hiddenIDDirectorio"].ToString();
+                            ViewBag.IdDirectorio = objetoForm["hiddenIDDirectorio"].ToString(); //Directorio seleccionado con clic derecho
                             ViewBag.IdDirectorioT = objetoForm["hiddenIDDirectorioT"].ToString();
                             ViewBag.NameDirectorioSelec = objetoForm["hiddenNameDirectorioSelec"].ToString();
                             using (var client = new HttpClient())
@@ -284,7 +286,7 @@ namespace MiriWeb.Controllers
                     }
                     else
                     {
-                        data.mclasificaciones = await listaClasificaciones(ViewBag.IdDirectorio, Session["idUser"].ToString());
+                        data.mclasificaciones = await listaClasificaciones(ViewBag.IdDirectorioT, Session["idUser"].ToString());
                     }
                    
                 }
@@ -300,8 +302,8 @@ namespace MiriWeb.Controllers
             if(idT != null && tema != null)
             {
                 ViewBag.NameDirectorioSelec = tema;
-                ViewBag.IdDirectorio = idT;
                 ViewBag.IdDirectorioT = idT;
+              
             }
          
             return View(data);

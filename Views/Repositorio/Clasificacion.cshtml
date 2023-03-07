@@ -82,7 +82,7 @@
             <!-- Modal body -->
             <div class="modal-body">
                 <form method="post" action="Clasificacion">
-                    <input type="hidden" name="hiddenIDDirectorio" value="@ViewBag.IdDirectorio">
+                    <input type="hidden" name="hiddenIDDirectorioT" value="@ViewBag.IdDirectorioT">
                     <input type="hidden" name="hiddenNameDirectorioSelec" value="@ViewBag.NameDirectorioSelec">
                     <div class="row">
                         <div class="col-sm-12 text-start"> <input type="text" name="nameDirectorio" id="namedirectory" class="form-control" value="Directorio sin título" oninput="validarInput()"></div>
@@ -112,7 +112,7 @@
             <div class="modal-body">
                 <form method="post" action="Clasificacion">
                     <input type="hidden" name="hiddenIDDirectorioT" value="@ViewBag.IdDirectorioT">
-                    <input type="hidden" name="hiddenIDDirectorio">
+                    <input type="hidden" id="hiddenIDDirectorio" name="hiddenIDDirectorio">
                     <input type="hidden" name="hiddenNameDirectorioSelec" value="@ViewBag.NameDirectorioSelec">
                     <div class="row">
                         <div class="col-sm-12 text-start"><input type="text" name="nameDirectorio" id="updatedirectory" class="form-control" oninput="validarInput()"></div>
