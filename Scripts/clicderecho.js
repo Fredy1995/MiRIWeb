@@ -52,28 +52,68 @@ $(document).ready(function () {
                 option.text = "--Selecciona un usuario--";
                 select.appendChild(option);
                 //**********************Fin de agregar opcion al selec
-                //:::::::::::::::::::::::::::::::::::::::::::::::::::::::API MIRI TEMAS POR USUARIO 
-                // Hacer la solicitud HTTP GET a la API REST
-                fetch('https://localhost:7241/temaController/readUsuariosSinTema/' + idSelec)
-                    .then(response => response.json())
-                    .then(data => {
-                        // Función para llenar la select con las opciones
-                        function fillSelect(data) {
-                            const select = document.getElementById('users-select');
 
-                            data.forEach(user => {
-                                const option = document.createElement('option');
-                                option.value = user.idUsuario;
-                                option.text = user.usuario;
-                                select.appendChild(option);
-                            });
+                fetch('https://localhost:7241/temaController/esTema/' + document.getElementById(idSelec).value)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data == true) {
+                            //:::::::::::::::::::::::::::::::::::::::::::::::::::::::API MIRI TEMAS POR USUARIO 
+                            // Hacer la solicitud HTTP GET a la API REST
+                            fetch('https://localhost:7241/temaController/readUsuariosSinTema/' + idSelec)
+                                .then(response => response.json())
+                                .then(data => {
+                                    // Función para llenar la select con las opciones
+                                    function fillSelect(data) {
+                                        const select = document.getElementById('users-select');
+
+                                        data.forEach(user => {
+                                            const option = document.createElement('option');
+                                            option.value = user.idUsuario;
+                                            option.text = user.usuario;
+                                            select.appendChild(option);
+                                        });
+                                    }
+
+                                    // Llamar a la función para llenar la select
+                                    fillSelect(data);
+                                })
+                                .catch(error => alert('Error: ' + error));
+                             //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::FIN API
+                        } else {
+                            fetch('https://localhost:7241/clasificacionController/esClasificacion/' + document.getElementById(idSelec).value)
+                                .then((response) => response.json())
+                                .then((data) => {
+                                    if (data == true) {
+                                        //:::::::::::::::::::::::::::::::::::::::::::::::::::::::API MIRI TEMAS POR USUARIO 
+                                        // Hacer la solicitud HTTP GET a la API REST
+                                        fetch('https://localhost:7241/clasificacionController/readUsuariosSinClasif/' + idSelec)
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                // Función para llenar la select con las opciones
+                                                function fillSelect(data) {
+                                                    const select = document.getElementById('users-select');
+
+                                                    data.forEach(user => {
+                                                        const option = document.createElement('option');
+                                                        option.value = user.idUsuario;
+                                                        option.text = user.usuario;
+                                                        select.appendChild(option);
+                                                    });
+                                                }
+
+                                                // Llamar a la función para llenar la select
+                                                fillSelect(data);
+                                            })
+                                            .catch(error => alert('Error: '+error));
+                                        //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::FIN API
+                                    } else {
+                                        alert('HAY UN PROBLEMA CON API-MIRI');
+                                    }
+                                });
                         }
 
-                        // Llamar a la función para llenar la select
-                        fillSelect(data);
-                    })
-                    .catch(error => console.error(error));
-                //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::FIN API
+                    });
+                
             }
         } else if (length == 66) {
             let pos = text.indexOf("Ver");
