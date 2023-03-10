@@ -10,5 +10,6 @@ namespace MiriWeb.Models
     {
         public List<MTemas> mtemas { get; set; }
         public List<MClasificaciones> mclasificaciones { get; set; }
+        public List<MGrupos> mgrupos { get; set; }
     }
 }

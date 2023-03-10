@@ -170,6 +170,8 @@
     <Compile Include="Models\MClasificaciones.cs" />
     <Compile Include="Models\MClasificacionTema.cs" />
     <Compile Include="Models\MCompartir.cs" />
+    <Compile Include="Models\MGrupoCT.cs" />
+    <Compile Include="Models\MGrupos.cs" />
     <Compile Include="Models\modelShared.cs" />
     <Compile Include="Models\MTemas.cs" />
     <Compile Include="Models\MTemaUsuario.cs" />
@@ -272,6 +274,7 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Repositorio\Tema.cshtml" />
     <Content Include="Views\Repositorio\Clasificacion.cshtml" />
+    <Content Include="Views\Repositorio\Grupo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
