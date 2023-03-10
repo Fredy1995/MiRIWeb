@@ -413,6 +413,8 @@ namespace MiriWeb.Controllers
 
                     if (objetoForm["btncrear"] != null)
                     {
+                        ViewBag.NameDirectorioSelecActual = objetoForm["hiddenNameDirectorioSelecActual"].ToString();
+                        ViewBag.IdDirectorioSelec = objetoForm["hiddenIdDirectorioSelec"].ToString();
                         ViewBag.IdDirectorioT = objetoForm["hiddenIDDirectorioT"].ToString();
                         ViewBag.NameDirectorioSelec = objetoForm["hiddenNameDirectorioSelec"].ToString(); //Necesario para mostrar la ruta en el directorio posicionado
                         using (var client = new HttpClient())
@@ -448,7 +450,105 @@ namespace MiriWeb.Controllers
                             }
                         }
                     }
-                   
+                    else if (objetoForm["btnUpdateDiretorio"] != null)
+                    {
+
+                        if (objetoForm["nameDirectorio"].ToString() != "")
+                        {
+                            ViewBag.NameDirectorioSelecActual = objetoForm["hiddenNameDirectorioSelecActual"].ToString(); //Directorio clasificación
+                            ViewBag.IdDirectorioSelec = objetoForm["hiddenIdDirectorioSelec"].ToString();
+                            ViewBag.IdDirectorio = objetoForm["hiddenIDDirectorio"].ToString(); //Directorio seleccionado con clic 
+                            ViewBag.IdDirectorioT = objetoForm["hiddenIDDirectorioT"].ToString();
+                            ViewBag.NameDirectorioSelec = objetoForm["hiddenNameDirectorioSelec"].ToString(); //Necesario para mostrar la ruta en el directorio posicionado
+                            using (var client = new HttpClient())
+                            {
+                                client.BaseAddress = new Uri(BaseURL);
+                                client.DefaultRequestHeaders.Clear();
+                                var updateGrupo = new MGrupos(objetoForm["nameDirectorio"].ToString(), ViewBag.IdDirectorio);
+                                var json = JsonConvert.SerializeObject(updateGrupo);
+                                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                                var response = await client.PutAsync("grupoController/updateGrupo", content);
+                                if (response.IsSuccessStatusCode)
+                                {
+                                    var miriResp = response.Content.ReadAsStringAsync().Result;
+                                    respAPIMIRI = JsonConvert.DeserializeObject<respuestaAPIMiri>(miriResp);
+                                    switch (respAPIMIRI.codigo)
+                                    {
+                                        case 444:
+                                            ViewBag.AlertSuccess = respAPIMIRI.Descripcion; break;
+                                        case 333:
+                                            ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                        case 222:
+                                            ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                        case -200:
+                                            ViewBag.AlertDanger = respAPIMIRI.Descripcion; break;
+                                    }
+                                }
+                                else
+                                {
+                                    ViewBag.AlertDanger = response.StatusCode + "\nDetalles:" + response.RequestMessage;
+
+                                }
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.AlertWarning = "DEBE SELECCIONAR UN ELEMENTO";
+                        }
+                        ViewBag.IdDirectorio = ViewBag.IdDirectorioT;
+                    }
+                    else if (objetoForm["btnAceptar"] != null)
+                    {
+                        List<string> elementos = objetoForm["listUsers"].Split(',').ToList();
+                        ViewBag.NameDirectorioSelecActual = objetoForm["hiddenNameDirectorioSelecActual"].ToString(); //Directorio clasificación
+                        ViewBag.IdDirectorioSelec = objetoForm["hiddenIdDirectorioSelec"].ToString();
+                        var idGrupo = objetoForm["hiddenIDDirectorioC"].ToString();
+                        ViewBag.IdDirectorioT = objetoForm["hiddenIDDirectorioT"].ToString();
+                        ViewBag.NameDirectorioSelec = objetoForm["hiddenNameDirectorioSelec"].ToString(); //Necesario para mostrar la ruta en el directorio posicionado
+                        if (elementos[0].ToString() != "")
+                        {
+                            using (var client = new HttpClient())
+                            {
+                                client.BaseAddress = new Uri(BaseURL);
+                                client.DefaultRequestHeaders.Clear();
+                                foreach (var item in elementos)
+                                {
+                                    var mCompartir = new MCompartir(idGrupo, item.ToString());
+                                    var json = JsonConvert.SerializeObject(mCompartir);
+                                    var content = new StringContent(json, Encoding.UTF8, "application/json");
+                                    var response = await client.PostAsync("grupoController/compartirGrupo", content);
+                                    if (response.IsSuccessStatusCode)
+                                    {
+                                        var miriResp = response.Content.ReadAsStringAsync().Result;
+                                        respAPIMIRI = JsonConvert.DeserializeObject<respuestaAPIMiri>(miriResp);
+                                        switch (respAPIMIRI.codigo)
+                                        {
+                                            case 111:
+                                                ViewBag.AlertSuccess = respAPIMIRI.Descripcion; break;
+                                            case 222:
+                                                ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                            case 333:
+                                                ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                            case -300:
+                                                ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                            case -200:
+                                                ViewBag.AlertDanger = respAPIMIRI.Descripcion; break;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        ViewBag.AlertDanger = response.StatusCode + "\nDetalles:" + response.RequestMessage;
+
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.AlertWarning = "NO SE SELECCIONÓ NINGÚN ELEMENTO";
+                        }
+                    }
+
                     if (idC != null && clasif != null)
                     {
                         data.mtemas = await devuelvaObjTema(Convert.ToInt32(idC));
@@ -464,11 +564,12 @@ namespace MiriWeb.Controllers
                     }
                     if (idC != null)
                     {
-                        data.mgrupos = await listaGrupos(ViewBag.IdDirectorioSelec, idC, Session["idUser"].ToString());
+                        data.mgrupos = await listaGrupos(Convert.ToInt32(ViewBag.IdDirectorioSelec), idC);
                     }
                     else
                     {
-                        data.mgrupos = await listaGrupos(ViewBag.IdDirectorioSelec, ViewBag.IdDirectorioT, Session["idUser"].ToString());
+                        
+                        data.mgrupos = await listaGrupos(Convert.ToInt32(ViewBag.IdDirectorioSelec), ViewBag.IdDirectorioT);
                     }
                 }
                 catch (Exception ex)
@@ -481,7 +582,7 @@ namespace MiriWeb.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            return View();
+            return View(data);
         }
 
         /// <summary>
@@ -492,7 +593,7 @@ namespace MiriWeb.Controllers
         /// <param name="iduser"></param>
         /// <returns>Devuelve una lista de grupos de tipo MGrupos</returns>
         [HttpGet]
-        public async Task<List<MGrupos>> listaGrupos(string idTema,string idClasif ,string iduser)
+        public async Task<List<MGrupos>> listaGrupos(int idtema,string idclasif)
         {
             List<MGrupos> grupos = new List<MGrupos>();
 
@@ -500,7 +601,7 @@ namespace MiriWeb.Controllers
             {
                 client.BaseAddress = new Uri(BaseURL);
                 client.DefaultRequestHeaders.Clear();
-                var response = await client.GetAsync("grupoController/readGrupo/" + idTema + "/" + idClasif + "/" + iduser);
+                var response = await client.GetAsync("grupoController/readGrupo/" + idtema + "/" + idclasif + "/" + Session["idUser"].ToString());
                 if (response.IsSuccessStatusCode)
                 {
                     var miriResp = response.Content.ReadAsStringAsync().Result;
