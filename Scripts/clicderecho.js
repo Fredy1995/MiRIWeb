@@ -43,6 +43,7 @@ $(document).ready(function () {
                 document.getElementById('hiddenIDDirectorio').value = idSelec;
             } else if (part == 'Compartir') {
                 $('#myModalCompartir').modal('show');
+                $('#permiso-select').hide(); /*Ocultar select para permisos*/
                 document.getElementById('hiddenIDDirectorioC').value = idSelec;
                 //***********************Limpiar el tag selec y agregar una primera opcion antes de consumir la api
                 document.getElementById("users-select").innerHTML = "";
@@ -84,7 +85,7 @@ $(document).ready(function () {
                                 .then((response) => response.json())
                                 .then((data) => {
                                     if (data == true) {
-                                        //:::::::::::::::::::::::::::::::::::::::::::::::::::::::API MIRI TEMAS POR USUARIO 
+                                        //:::::::::::::::::::::::::::::::::::::::::::::::::::::::API MIRI CLASIFICACIONES POR USUARIO 
                                         // Hacer la solicitud HTTP GET a la API REST
                                         fetch('https://localhost:7241/clasificacionController/readUsuariosSinClasif/' + idSelec)
                                             .then(response => response.json())
@@ -107,7 +108,37 @@ $(document).ready(function () {
                                             .catch(error => alert('Error: '+error));
                                         //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::FIN API
                                     } else {
-                                        alert('HAY UN PROBLEMA CON API-MIRI');
+                                        fetch('https://localhost:7241/grupoController/esGrupo/' + document.getElementById(idSelec).value)
+                                            .then((response) => response.json())
+                                            .then((data) => {
+                                                if (data == true) {
+                                                    //:::::::::::::::::::::::::::::::::::::::::::::::::::::::API MIRI GRUPOS POR USUARIO 
+                                                    // Hacer la solicitud HTTP GET a la API REST
+                                                    fetch('https://localhost:7241/grupoController/readUsuariosSinGrupo/' + idSelec)
+                                                        .then(response => response.json())
+                                                        .then(data => {
+                                                            // Función para llenar la select con las opciones
+                                                            function fillSelect(data) {
+                                                                const select = document.getElementById('users-select');
+
+                                                                data.forEach(user => {
+                                                                    const option = document.createElement('option');
+                                                                    option.value = user.idUsuario;
+                                                                    option.text = user.usuario;
+                                                                    select.appendChild(option);
+                                                                });
+                                                            }
+
+                                                            // Llamar a la función para llenar la select
+                                                            fillSelect(data);
+                                                        })
+                                                        .catch(error => alert('Error: ' + error));
+                                                    //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::FIN API
+                                                } else {
+
+                                                    alert('HAY UN PROBLEMA CON API-MIRI');
+                                                }
+                                            });
                                     }
                                 });
                         }
@@ -143,12 +174,13 @@ $(document).ready(function () {
 // Click on a close button to hide the current list item
 var close = document.getElementsByClassName("close");
 var i;
-for (i = 0; i < close.length; i++) {
-    close[i].onclick = function () {
-        var div = this.parentElement;
-        div.style.display = "none";
-    }
-}
+//for (i = 0; i < close.length; i++) {
+//    close[i].onclick = function () {
+//        var div = this.parentElement;
+//        div.style.display = "none";
+//    }
+//}
+
 
 
 
@@ -165,6 +197,7 @@ function newElement() {
     var inputText = combo.options[combo.selectedIndex].text;
     var t = document.createTextNode(inputText);
     li.appendChild(t);
+    $('#permiso-select').show(); /*Mostrar select para permisos*/
     if (inputValue === '') {
         alert("¡DEBE SELECCIONAR UN ELEMENTO!");
     } else {
@@ -187,6 +220,10 @@ function newElement() {
         close[i].onclick = function () {
             var div = this.parentElement;
             div.style.display = "none";
+            div.remove();
+            if (close.length === 0) {
+                $('#permiso-select').hide(); /*Ocultar select para permisos*/
+            }
         }
     }
 }

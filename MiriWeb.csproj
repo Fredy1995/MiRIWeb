@@ -170,6 +170,7 @@
     <Compile Include="Models\MClasificaciones.cs" />
     <Compile Include="Models\MClasificacionTema.cs" />
     <Compile Include="Models\MCompartir.cs" />
+    <Compile Include="Models\MCompartirGrupo.cs" />
     <Compile Include="Models\MGrupoCT.cs" />
     <Compile Include="Models\MGrupos.cs" />
     <Compile Include="Models\modelShared.cs" />

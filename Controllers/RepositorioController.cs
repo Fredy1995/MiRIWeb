@@ -499,6 +499,7 @@ namespace MiriWeb.Controllers
                     }
                     else if (objetoForm["btnAceptar"] != null)
                     {
+                       
                         List<string> elementos = objetoForm["listUsers"].Split(',').ToList();
                         ViewBag.NameDirectorioSelecActual = objetoForm["hiddenNameDirectorioSelecActual"].ToString(); //Directorio clasificación
                         ViewBag.IdDirectorioSelec = objetoForm["hiddenIdDirectorioSelec"].ToString();
@@ -513,7 +514,7 @@ namespace MiriWeb.Controllers
                                 client.DefaultRequestHeaders.Clear();
                                 foreach (var item in elementos)
                                 {
-                                    var mCompartir = new MCompartir(idGrupo, item.ToString());
+                                    var mCompartir = new MCompartirGrupo(idGrupo, item.ToString(), objetoForm["permiso-select"].ToString());
                                     var json = JsonConvert.SerializeObject(mCompartir);
                                     var content = new StringContent(json, Encoding.UTF8, "application/json");
                                     var response = await client.PostAsync("grupoController/compartirGrupo", content);
