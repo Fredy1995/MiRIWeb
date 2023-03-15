@@ -164,6 +164,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RepositorioController.cs" />
+    <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -177,6 +178,7 @@
     <Compile Include="Models\MTemas.cs" />
     <Compile Include="Models\MTemaUsuario.cs" />
     <Compile Include="Models\Mtotales.cs" />
+    <Compile Include="Models\MUsuario.cs" />
     <Compile Include="Models\respuestaAPIMiri.cs" />
     <Compile Include="Models\Seguridad.cs" />
     <Compile Include="Models\Usuario.cs" />
@@ -275,6 +277,8 @@
     <Content Include="Views\Repositorio\Tema.cshtml" />
     <Content Include="Views\Repositorio\Clasificacion.cshtml" />
     <Content Include="Views\Repositorio\Grupo.cshtml" />
+    <Content Include="Views\Repositorio\Archivos.cshtml" />
+    <Content Include="Views\Usuarios\Usuarios.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

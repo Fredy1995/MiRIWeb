@@ -71,7 +71,7 @@
             string version = ConfigurationManager.AppSettings["webpages:Version"];
             if (Session["perfil"].ToString().Equals("Administrador de contenido"))
             {
-                <a href="#" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-users-gear"></i> USUARIOS</a>
+                <a href="@Url.Action("Usuarios", "Usuarios")" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-users-gear"></i> USUARIOS</a>
             }
         }
 

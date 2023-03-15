@@ -611,5 +611,74 @@ namespace MiriWeb.Controllers
             }
             return grupos;
         }
+        /// <summary>
+        /// Metodo encargado de devolver el objeto Clasificion, solo recibe el id del grupo
+        /// </summary>
+        /// <param name="idClasif"></param>
+        /// <returns>Metodo encargado de devolver un objeto de tipo MClasificaciones</returns>
+        [HttpGet]
+        public async Task<List<MClasificaciones>> devuelvaObjClasificacion(int idClasif)
+        {
+            List<MClasificaciones> clasificacion = new List<MClasificaciones>();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(BaseURL);
+                client.DefaultRequestHeaders.Clear();
+                var response = await client.GetAsync("grupoController/devuelveObjClasif/" + idClasif);
+                if (response.IsSuccessStatusCode)
+                {
+                    var miriRep = response.Content.ReadAsStringAsync().Result;
+                    clasificacion = JsonConvert.DeserializeObject<List<MClasificaciones>>(miriRep);
+                }
+            }
+            return clasificacion;
+        }
+        public async Task<ActionResult> Archivos(FormCollection objetoForm, string idG, string grupo)
+        {
+            if (Session["idUser"] != null)
+            {
+                try
+                {
+                    if (idG != null && grupo != null)
+                    {
+                        data.mclasificaciones = await devuelvaObjClasificacion(Convert.ToInt32(idG));
+                        foreach(var itemc in data.mclasificaciones)
+                        {
+                            data.mtemas = await devuelvaObjTema(itemc.idClasif);
+                            foreach (var item in data.mtemas)
+                            {
+                                ViewBag.NameDirectorioSelecAnterior = item.Tema;
+                                ViewBag.IdDirectorioSelecAnterior = item.IdTema;
+                            }
+                            ViewBag.NameDirectorioSelec = itemc.Clasificacion;
+                            ViewBag.IdDirectorioSelec = itemc.idClasif;
+                        }
+
+                        ViewBag.NameDirectorioSelecActual = grupo;
+                        ViewBag.IdDirectorioT = idG;
+                    }
+                    if (idG != null)
+                    {
+                        //AQUI VAN LOS DATA PARA LISTAR O MOSTRAR LOS ARCHIVOS QUE HAY EN EL GRUPO SELECCIONADO
+                        //data.mgrupos = await listaGrupos(Convert.ToInt32(ViewBag.IdDirectorioSelec), idC);
+                    }
+                    else
+                    {
+                        //AQUI VAN LOS DATA PARA LISTAR O MOSTRAR LOS ARCHIVOS QUE HAY EN EL GRUPO SELECCIONADO
+                        //data.mgrupos = await listaGrupos(Convert.ToInt32(ViewBag.IdDirectorioSelec), ViewBag.IdDirectorioT);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.AlertDanger = ex;
+                }
+            }
+            else
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            return View();
+        }
+       
     }
 }

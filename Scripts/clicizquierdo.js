@@ -17,7 +17,15 @@ $(document).ready(function () {
                             if (data == true) {
                                 location.href = ("Grupo?idC=" + $(this).attr("id") + " &clasif=" + $(this).attr("value"));
                             } else {
-                                alert('HAY UN PROBLEMA CON LA RUTA ESPECIFICADA');
+                                fetch('https://localhost:7241/grupoController/esGrupo/' + $(this).attr("value"))
+                                    .then((response) => response.json())
+                                    .then((data) => {
+                                        if (data == true) {
+                                            location.href = ("Archivos?idG=" + $(this).attr("id") + " &grupo=" + $(this).attr("value"));
+                                        } else {
+                                            alert('HAY UN PROBLEMA CON LA RUTA ESPECIFICADA');
+                                        }
+                                    });
                             }
                         });
                 }
