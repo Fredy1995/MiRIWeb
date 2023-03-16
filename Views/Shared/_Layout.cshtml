@@ -28,74 +28,83 @@
   </script>
 </head>
 <body style=" background: #D8D6D6;" onload="deshabilitaRetroceso()">
-
-
-    <nav class="navbar fixed-top navbar-expand-sm " style="background-color:#034250;">
-        <div class="container-fluid">
-            <div class="navbar-brand" href="#">
-                <button class="openbtn" onclick="openNav()">☰ Menu</button>
-            </div>
-            <ul class="navbar-nav navbar-toggler" data-bs-toggle="collapse">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" style="color:white;"><img src="~/Images/Usericon.png" alt="Avatar" class="avatarNav"></a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item">@Session["nameComplete"].ToString()</a></li>
-                        <li><a class="dropdown-item" href="@Url.Action("Logout", "Home")">SALIR</a></li>
+    @{
+        if (Session["nameComplete"] != null)
+        {
+            <nav class="navbar fixed-top navbar-expand-sm " style="background-color:#034250;">
+                <div class="container-fluid">
+                    <div class="navbar-brand" href="#">
+                        <button class="openbtn" onclick="openNav()">☰ Menu</button>
+                    </div>
+                    <ul class="navbar-nav navbar-toggler" data-bs-toggle="collapse">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" style="color:white;"><img src="~/Images/Usericon.png" alt="Avatar" class="avatarNav"></a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item">@Session["nameComplete"].ToString()</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("Logout", "Home")">SALIR</a></li>
+                            </ul>
+                        </li>
                     </ul>
-                </li>
-            </ul>
 
-            <div class="collapse navbar-collapse">
-                <ul class="navbar-nav me-auto">
-                </ul>
-                <form class="d-flex">
-                    <a><img src="~/Images/Usericon.png" alt="Avatar" class="avatarNav"> </a>&nbsp;&nbsp;
-                    <a style="color:white;">@Session["nameComplete"].ToString() </a>&nbsp;&nbsp;
-                    <a href="@Url.Action("Logout", "Home")"><i class='fas fa-power-off' style='font-size:18px; color:white;'></i></a>
-                </form>
+                    <div class="collapse navbar-collapse">
+                        <ul class="navbar-nav me-auto">
+                        </ul>
+                        <form class="d-flex">
+                            <a><img src="~/Images/Usericon.png" alt="Avatar" class="avatarNav"> </a>&nbsp;&nbsp;
+                            <a style="color:white;">@Session["nameComplete"].ToString() </a>&nbsp;&nbsp;
+                            <a href="@Url.Action("Logout", "Home")"><i class='fas fa-power-off' style='font-size:18px; color:white;'></i></a>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+            <div id="mySidepanel" class="sidepanel">
+                <div class="UserBox">
+                    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+                    <img src="~/Images/Usericon.png" alt="Avatar" class="avatar">
+                    <p class="nusuario">@Session["nameUser"].ToString()</p>
+                    <p class="estado"><i class='fas fa-circle' style='font-size:18px;'></i> En linea</p>
+                </div>
+                <br><br><br>
+                <a href="@Url.Action("Index", "Home")" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-house-user"></i> INICIO <span class="label danger">Principal</span></a>
+                <a href="@Url.Action("Tema", "Repositorio")" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-book-bookmark"></i> MI REPOSITORIO</a>
+                <a href="#" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-users"></i> COMPARTIDOS</a>
+                @{
+                    string version = ConfigurationManager.AppSettings["webpages:Version"];
+                    if (Session["perfil"].ToString().Equals("Administrador de contenido"))
+                    {
+                        <a href="@Url.Action("Usuarios", "Usuarios")" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-users-gear"></i> USUARIOS</a>
+                    }
+                }
+
+                <a href="#" style="color: white;" class="btnm btnMenu"><i class="fas fa-question-circle"></i> AYUDA</a>
             </div>
-        </div>
-    </nav>
-    <div id="mySidepanel" class="sidepanel">
-        <div class="UserBox">
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-            <img src="~/Images/Usericon.png" alt="Avatar" class="avatar">
-            <p class="nusuario">@Session["nameUser"].ToString()</p>
-            <p class="estado"><i class='fas fa-circle' style='font-size:18px;'></i> En linea</p>
-        </div>
-        <br><br><br>
-        <a href="@Url.Action("Index", "Home")" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-house-user"></i> INICIO <span class="label danger">Principal</span></a>
-        <a href="@Url.Action("Tema", "Repositorio")" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-book-bookmark"></i> MI REPOSITORIO</a>
-        <a href="#" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-users"></i> COMPARTIDOS</a>
-        @{
-            string version = ConfigurationManager.AppSettings["webpages:Version"];
-            if (Session["perfil"].ToString().Equals("Administrador de contenido"))
-            {
-                <a href="@Url.Action("Usuarios", "Usuarios")" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-users-gear"></i> USUARIOS</a>
-            }
+            <div>
+                <br /><br />
+                <div class="container">
+                    @RenderBody()
+                    @*<p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>*@
+                    <div style="position:absolute; z-index:-1; right:0px; top:740px;"><img src="~/Images/gestordocumental.png" class="img-fluid" width="250" height="250" /></div>
+                </div>
+
+
+                <footer class="fixed-bottom bg-white" style="z-index:-1; font-size:20px; font-weight: bold;">
+                    @{
+                        string perfil = Session["perfil"].ToString();
+
+                    }
+                    <span class="float-start">&nbsp;&nbsp;&nbsp; @perfil</span>
+
+                    <span class="float-end">@version | @DateTime.Now.Year</span>
+                </footer>
+            </div>
         }
-
-        <a href="#" style="color: white;" class="btnm btnMenu"><i class="fas fa-question-circle"></i> AYUDA</a>
-    </div>
-    <div>
-        <br /><br />
-        <div class="container">
-            @RenderBody()
-            @*<p>&copy; @DateTime.Now.Year - Mi aplicación ASP.NET</p>*@
-            <div style="position:absolute; z-index:-1; right:0px; top:740px;"><img src="~/Images/gestordocumental.png" class="img-fluid" width="250" height="250" /></div>
-        </div>
+        else
+        {
+            @Url.Action("Login", "Home");
+        }
+    }
 
 
-        <footer class="fixed-bottom bg-white" style="z-index:-1; font-size:20px; font-weight: bold;">
-            @{
-                string perfil = Session["perfil"].ToString();
-
-            }
-            <span class="float-start">&nbsp;&nbsp;&nbsp; @perfil</span>
-
-            <span class="float-end">@version | @DateTime.Now.Year</span>
-        </footer>
-    </div>
 
     <script type="text/javascript">
 

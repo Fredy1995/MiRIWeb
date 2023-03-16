@@ -204,6 +204,7 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\clicderecho.css" />
     <Content Include="Content\login.css" />
+    <Content Include="Content\pwdValidation.css" />
     <Content Include="Content\StyleIndex.css" />
     <Content Include="Content\StyleLayout.css" />
     <Content Include="Content\StyleTema.css" />
@@ -248,6 +249,7 @@
     <None Include="Scripts\jquery-3.6.1.intellisense.js" />
     <Content Include="Scripts\clicderecho.js" />
     <Content Include="Scripts\clicizquierdo.js" />
+    <Content Include="Scripts\eventosVu.js" />
     <Content Include="Scripts\jquery-3.6.1.js" />
     <Content Include="Scripts\jquery-3.6.1.min.js" />
     <Content Include="Scripts\jquery-3.6.1.slim.js" />
@@ -261,6 +263,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\menujs.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\pwdValitation.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -279,6 +282,7 @@
     <Content Include="Views\Repositorio\Grupo.cshtml" />
     <Content Include="Views\Repositorio\Archivos.cshtml" />
     <Content Include="Views\Usuarios\Usuarios.cshtml" />
+    <Content Include="Views\Usuarios\EditUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

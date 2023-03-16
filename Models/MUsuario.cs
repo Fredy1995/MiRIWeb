@@ -7,6 +7,16 @@ namespace MiriWeb.Models
 {
     public class MUsuario
     {
+        public MUsuario(string nombre, string aPaterno, string aMaterno, string usuario,string pwd,int idperfil)
+        {
+            this.Nombre = nombre;
+            this.APaterno = aPaterno;
+            this.AMaterno = aMaterno;
+            this.Usuario1 = usuario;
+            this.Contraseña = pwd;
+            this.IdPerfil = idperfil;
+        }
+
         public int IdUsuario { get; set; }
 
         public string Usuario1 { get; set; }
