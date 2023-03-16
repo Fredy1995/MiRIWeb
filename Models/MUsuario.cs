@@ -7,14 +7,17 @@ namespace MiriWeb.Models
 {
     public class MUsuario
     {
-        public MUsuario(string nombre, string aPaterno, string aMaterno, string usuario,string pwd,int idperfil)
+        public MUsuario(string IdUser,string nombre, string aPaterno, string aMaterno, string usuario,string pwd,int idperfil,bool habilitado,bool check)
         {
+            this.IdUsuario =Convert.ToInt32(IdUser);
             this.Nombre = nombre;
             this.APaterno = aPaterno;
             this.AMaterno = aMaterno;
             this.Usuario1 = usuario;
             this.Contraseña = pwd;
             this.IdPerfil = idperfil;
+            this.Habilitado = habilitado;
+            this.check = check;
         }
 
         public int IdUsuario { get; set; }
@@ -33,9 +36,9 @@ namespace MiriWeb.Models
 
         public string Perfil { get; set; }
 
-        public DateTime FechaIngreso { get; set; }
+        public DateTime? FechaIngreso { get; set; }
 
-        public bool Habilitado { get; set; }
+        public bool? Habilitado { get; set; }
 
         public bool? check { get; set; }
     }

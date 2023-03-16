@@ -175,6 +175,7 @@
     <Compile Include="Models\MGrupoCT.cs" />
     <Compile Include="Models\MGrupos.cs" />
     <Compile Include="Models\modelShared.cs" />
+    <Compile Include="Models\MPerfiles.cs" />
     <Compile Include="Models\MTemas.cs" />
     <Compile Include="Models\MTemaUsuario.cs" />
     <Compile Include="Models\Mtotales.cs" />
@@ -211,6 +212,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\bloqueado.jpg" />
     <Content Include="Images\gestordocumental.png" />
     <Content Include="Images\IRCEP.svg" />
     <Content Include="Images\logoGobierno.png" />
@@ -283,6 +285,7 @@
     <Content Include="Views\Repositorio\Archivos.cshtml" />
     <Content Include="Views\Usuarios\Usuarios.cshtml" />
     <Content Include="Views\Usuarios\EditUser.cshtml" />
+    <Content Include="Views\Repositorio\Sinpermisos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
