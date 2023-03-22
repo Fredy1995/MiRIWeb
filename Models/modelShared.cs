@@ -13,5 +13,6 @@ namespace MiriWeb.Models
         public List<MGrupos> mgrupos { get; set; }
         public List<MUsuario> musuarios { get; set; }
         public List<MPerfiles> mperfiles { get; set; }
+        public List<MDirectoriosCompartidos> mdirectorioscompartidos { get; set; }
     }
 }

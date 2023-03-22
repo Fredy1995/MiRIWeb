@@ -162,6 +162,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CompartidosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RepositorioController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="Models\MClasificacionTema.cs" />
     <Compile Include="Models\MCompartir.cs" />
     <Compile Include="Models\MCompartirGrupo.cs" />
+    <Compile Include="Models\MDirectoriosCompartidos.cs" />
     <Compile Include="Models\MGrupoCT.cs" />
     <Compile Include="Models\MGrupos.cs" />
     <Compile Include="Models\modelShared.cs" />
@@ -286,6 +288,7 @@
     <Content Include="Views\Usuarios\Usuarios.cshtml" />
     <Content Include="Views\Usuarios\EditUser.cshtml" />
     <Content Include="Views\Repositorio\Sinpermisos.cshtml" />
+    <Content Include="Views\Compartidos\Compartidos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

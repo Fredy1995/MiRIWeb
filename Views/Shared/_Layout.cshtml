@@ -67,7 +67,7 @@
                 <br><br><br>
                 <a href="@Url.Action("Index", "Home")" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-house-user"></i> INICIO <span class="label danger">Principal</span></a>
                 <a href="@Url.Action("Tema", "Repositorio")" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-book-bookmark"></i> MI REPOSITORIO</a>
-                <a href="#" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-users"></i> COMPARTIDOS</a>
+                <a href="@Url.Action("Compartidos","Compartidos")" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-users"></i> COMPARTIDOS</a>
                 @{
                     string version = ConfigurationManager.AppSettings["webpages:Version"];
                     if (Session["perfil"].ToString().Equals("Administrador de contenido"))
