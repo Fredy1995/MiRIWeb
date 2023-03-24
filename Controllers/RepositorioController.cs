@@ -19,74 +19,42 @@ namespace MiriWeb.Controllers
         private modelShared data = new modelShared();
         private respuestaAPIMiri respAPIMIRI = new respuestaAPIMiri();
         // GET: Repositorio
-
+        public ActionResult Sinpermisos()
+        {
+            return View();
+        }
         public async Task<ActionResult> Tema(FormCollection objetoForm)
         {
-          
-           
-         
+      
             if (Session["idUser"] != null)
             {
-                try
+                if (Session["perfil"].ToString().Equals("Administrador de contenido"))
                 {
-                    if (objetoForm["btncrear"] != null)
+                    try
                     {
-                        using (var client = new HttpClient())
-                        {
-                            client.BaseAddress = new Uri(BaseURL);
-                            client.DefaultRequestHeaders.Clear();
-                            var mTemaUsuario = new MTemaUsuario(objetoForm["nameDirectorio"], Session["idUser"].ToString());
-                            var json = JsonConvert.SerializeObject(mTemaUsuario);
-                            var content = new StringContent(json, Encoding.UTF8, "application/json");
-                            var response = await client.PostAsync("temaController/createTemaUsuario", content);
-                            if (response.IsSuccessStatusCode)
-                            {
-                                var miriResp = response.Content.ReadAsStringAsync().Result;
-                                respAPIMIRI = JsonConvert.DeserializeObject<respuestaAPIMiri>(miriResp);
-                                switch (respAPIMIRI.codigo)
-                                {
-                                    case 111:
-                                        ViewBag.AlertSuccess = respAPIMIRI.Descripcion; break;
-                                    case 222:
-                                        ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
-                                    case 333:
-                                        ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
-                                    case -300:
-                                        ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
-                                    case -200:
-                                        ViewBag.AlertDanger = respAPIMIRI.Descripcion; break;
-                                }
-                            }
-                            else
-                            {
-                                ViewBag.AlertDanger = response.StatusCode + "\nDetalles:" + response.RequestMessage;
-
-                            }
-                        }
-                    }else if (objetoForm["btnUpdateDiretorio"] != null)
-                    {
-                     
-                        if(objetoForm["nameDirectorio"].ToString() != "")
+                        if (objetoForm["btncrear"] != null)
                         {
                             using (var client = new HttpClient())
                             {
                                 client.BaseAddress = new Uri(BaseURL);
                                 client.DefaultRequestHeaders.Clear();
-                                var updateTema = new MTemas(objetoForm["nameDirectorio"].ToString(), objetoForm["hiddenIDDirectorio"].ToString());
-                                var json = JsonConvert.SerializeObject(updateTema);
+                                var mTemaUsuario = new MTemaUsuario(objetoForm["nameDirectorio"], Session["idUser"].ToString());
+                                var json = JsonConvert.SerializeObject(mTemaUsuario);
                                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                                var response = await client.PutAsync("temaController/updateTema", content);
+                                var response = await client.PostAsync("temaController/createTemaUsuario", content);
                                 if (response.IsSuccessStatusCode)
                                 {
                                     var miriResp = response.Content.ReadAsStringAsync().Result;
                                     respAPIMIRI = JsonConvert.DeserializeObject<respuestaAPIMiri>(miriResp);
                                     switch (respAPIMIRI.codigo)
                                     {
-                                        case 444:
+                                        case 111:
                                             ViewBag.AlertSuccess = respAPIMIRI.Descripcion; break;
+                                        case 222:
+                                            ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
                                         case 333:
                                             ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
-                                        case 222:
+                                        case -300:
                                             ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
                                         case -200:
                                             ViewBag.AlertDanger = respAPIMIRI.Descripcion; break;
@@ -99,41 +67,30 @@ namespace MiriWeb.Controllers
                                 }
                             }
                         }
-                        else
+                        else if (objetoForm["btnUpdateDiretorio"] != null)
                         {
-                            ViewBag.AlertWarning = "DEBE SELECCIONAR UN ELEMENTO";
-                        }
-                       
-                    }
-                    else if (objetoForm["btnAceptar"] != null)
-                    {
-                        List<string> elementos = objetoForm["listUsers"].Split(',').ToList();
-                        var idtema = objetoForm["hiddenIDDirectorioC"].ToString();
-                        if(elementos[0].ToString() != "")
-                        {
-                            using (var client = new HttpClient())
+
+                            if (objetoForm["nameDirectorio"].ToString() != "")
                             {
-                                client.BaseAddress = new Uri(BaseURL);
-                                client.DefaultRequestHeaders.Clear();
-                                foreach (var item in elementos)
+                                using (var client = new HttpClient())
                                 {
-                                    var mCompartir = new MCompartir(idtema, item.ToString());
-                                    var json = JsonConvert.SerializeObject(mCompartir);
+                                    client.BaseAddress = new Uri(BaseURL);
+                                    client.DefaultRequestHeaders.Clear();
+                                    var updateTema = new MTemas(objetoForm["nameDirectorio"].ToString(), objetoForm["hiddenIDDirectorio"].ToString());
+                                    var json = JsonConvert.SerializeObject(updateTema);
                                     var content = new StringContent(json, Encoding.UTF8, "application/json");
-                                    var response = await client.PostAsync("temaController/compartirTema", content);
+                                    var response = await client.PutAsync("temaController/updateTema", content);
                                     if (response.IsSuccessStatusCode)
                                     {
                                         var miriResp = response.Content.ReadAsStringAsync().Result;
                                         respAPIMIRI = JsonConvert.DeserializeObject<respuestaAPIMiri>(miriResp);
                                         switch (respAPIMIRI.codigo)
                                         {
-                                            case 111:
+                                            case 444:
                                                 ViewBag.AlertSuccess = respAPIMIRI.Descripcion; break;
-                                            case 222:
-                                                ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
                                             case 333:
                                                 ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
-                                            case -300:
+                                            case 222:
                                                 ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
                                             case -200:
                                                 ViewBag.AlertDanger = respAPIMIRI.Descripcion; break;
@@ -146,20 +103,73 @@ namespace MiriWeb.Controllers
                                     }
                                 }
                             }
+                            else
+                            {
+                                ViewBag.AlertWarning = "DEBE SELECCIONAR UN ELEMENTO";
+                            }
+
                         }
-                        else
+                        else if (objetoForm["btnAceptar"] != null)
                         {
-                            ViewBag.AlertWarning = "NO SE SELECCIONÓ NINGÚN ELEMENTO";
+                            List<string> elementos = objetoForm["listUsers"].Split(',').ToList();
+                            var idtema = objetoForm["hiddenIDDirectorioC"].ToString();
+                            if (elementos[0].ToString() != "")
+                            {
+                                using (var client = new HttpClient())
+                                {
+                                    client.BaseAddress = new Uri(BaseURL);
+                                    client.DefaultRequestHeaders.Clear();
+                                    foreach (var item in elementos)
+                                    {
+                                        var mCompartir = new MCompartir(idtema, item.ToString());
+                                        var json = JsonConvert.SerializeObject(mCompartir);
+                                        var content = new StringContent(json, Encoding.UTF8, "application/json");
+                                        var response = await client.PostAsync("temaController/compartirTema", content);
+                                        if (response.IsSuccessStatusCode)
+                                        {
+                                            var miriResp = response.Content.ReadAsStringAsync().Result;
+                                            respAPIMIRI = JsonConvert.DeserializeObject<respuestaAPIMiri>(miriResp);
+                                            switch (respAPIMIRI.codigo)
+                                            {
+                                                case 111:
+                                                    ViewBag.AlertSuccess = respAPIMIRI.Descripcion; break;
+                                                case 222:
+                                                    ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                                case 333:
+                                                    ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                                case -300:
+                                                    ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                                case -200:
+                                                    ViewBag.AlertDanger = respAPIMIRI.Descripcion; break;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            ViewBag.AlertDanger = response.StatusCode + "\nDetalles:" + response.RequestMessage;
+
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                ViewBag.AlertWarning = "NO SE SELECCIONÓ NINGÚN ELEMENTO";
+                            }
                         }
+
+                        data.mtemas = await listaTemas(Session["idUser"].ToString());
+
                     }
-                   
-                    data.mtemas = await listaTemas(Session["idUser"].ToString());
-                   
+                    catch (Exception ex)
+                    {
+                        ViewBag.AlertDanger = ex;
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    ViewBag.AlertDanger = ex;
+                    return RedirectToAction("Sinpermisos", "Repositorio");
                 }
+                    
             }
             else
             {
@@ -565,12 +575,12 @@ namespace MiriWeb.Controllers
                     }
                     if (idC != null)
                     {
-                        data.mgrupos = await listaGrupos(Convert.ToInt32(ViewBag.IdDirectorioSelec), idC);
+                        data.mgrupos = await listaGrupos(Convert.ToInt32(ViewBag.IdDirectorioSelec), idC, Session["idUser"].ToString());
                     }
                     else
                     {
                         
-                        data.mgrupos = await listaGrupos(Convert.ToInt32(ViewBag.IdDirectorioSelec), ViewBag.IdDirectorioT);
+                        data.mgrupos = await listaGrupos(Convert.ToInt32(ViewBag.IdDirectorioSelec), ViewBag.IdDirectorioT, Session["idUser"].ToString());
                     }
                 }
                 catch (Exception ex)
@@ -594,7 +604,7 @@ namespace MiriWeb.Controllers
         /// <param name="iduser"></param>
         /// <returns>Devuelve una lista de grupos de tipo MGrupos</returns>
         [HttpGet]
-        public async Task<List<MGrupos>> listaGrupos(int idtema,string idclasif)
+        public async Task<List<MGrupos>> listaGrupos(int idtema,string idclasif,string idUser)
         {
             List<MGrupos> grupos = new List<MGrupos>();
 
@@ -602,7 +612,7 @@ namespace MiriWeb.Controllers
             {
                 client.BaseAddress = new Uri(BaseURL);
                 client.DefaultRequestHeaders.Clear();
-                var response = await client.GetAsync("grupoController/readGrupo/" + idtema + "/" + idclasif + "/" + Session["idUser"].ToString());
+                var response = await client.GetAsync("grupoController/readGrupo/" + idtema + "/" + idclasif + "/" + idUser);
                 if (response.IsSuccessStatusCode)
                 {
                     var miriResp = response.Content.ReadAsStringAsync().Result;
@@ -611,5 +621,74 @@ namespace MiriWeb.Controllers
             }
             return grupos;
         }
+        /// <summary>
+        /// Metodo encargado de devolver el objeto Clasificion, solo recibe el id del grupo
+        /// </summary>
+        /// <param name="idClasif"></param>
+        /// <returns>Metodo encargado de devolver un objeto de tipo MClasificaciones</returns>
+        [HttpGet]
+        public async Task<List<MClasificaciones>> devuelvaObjClasificacion(int idClasif)
+        {
+            List<MClasificaciones> clasificacion = new List<MClasificaciones>();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(BaseURL);
+                client.DefaultRequestHeaders.Clear();
+                var response = await client.GetAsync("grupoController/devuelveObjClasif/" + idClasif);
+                if (response.IsSuccessStatusCode)
+                {
+                    var miriRep = response.Content.ReadAsStringAsync().Result;
+                    clasificacion = JsonConvert.DeserializeObject<List<MClasificaciones>>(miriRep);
+                }
+            }
+            return clasificacion;
+        }
+        public async Task<ActionResult> Archivos(FormCollection objetoForm, string idG, string grupo)
+        {
+            if (Session["idUser"] != null)
+            {
+                try
+                {
+                    if (idG != null && grupo != null)
+                    {
+                        data.mclasificaciones = await devuelvaObjClasificacion(Convert.ToInt32(idG));
+                        foreach(var itemc in data.mclasificaciones)
+                        {
+                            data.mtemas = await devuelvaObjTema(itemc.idClasif);
+                            foreach (var item in data.mtemas)
+                            {
+                                ViewBag.NameDirectorioSelecAnterior = item.Tema;
+                                ViewBag.IdDirectorioSelecAnterior = item.IdTema;
+                            }
+                            ViewBag.NameDirectorioSelec = itemc.Clasificacion;
+                            ViewBag.IdDirectorioSelec = itemc.idClasif;
+                        }
+
+                        ViewBag.NameDirectorioSelecActual = grupo;
+                        ViewBag.IdDirectorioT = idG;
+                    }
+                    if (idG != null)
+                    {
+                        //AQUI VAN LOS DATA PARA LISTAR O MOSTRAR LOS ARCHIVOS QUE HAY EN EL GRUPO SELECCIONADO
+                        //data.mgrupos = await listaGrupos(Convert.ToInt32(ViewBag.IdDirectorioSelec), idC);
+                    }
+                    else
+                    {
+                        //AQUI VAN LOS DATA PARA LISTAR O MOSTRAR LOS ARCHIVOS QUE HAY EN EL GRUPO SELECCIONADO
+                        //data.mgrupos = await listaGrupos(Convert.ToInt32(ViewBag.IdDirectorioSelec), ViewBag.IdDirectorioT);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.AlertDanger = ex;
+                }
+            }
+            else
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            return View();
+        }
+       
     }
 }
