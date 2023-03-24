@@ -49,9 +49,14 @@ namespace MiriWeb.Controllers
             return View(totales);
         }
 
-        public ActionResult Login()
+        public ActionResult Login(string session)
         {
-            return View();
+            
+            //if(session != null)
+            //{
+            //    ViewBag.AlertSuccess = "La session expiró...";
+            //}
+                return View();
         }
         
         [HttpPost]

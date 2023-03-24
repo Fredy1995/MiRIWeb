@@ -1,0 +1,137 @@
+﻿@model MiriWeb.Models.modelShared
+@{
+    ViewBag.Title = "Usuarios";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    WebGrid grid = new WebGrid(Model.musuarios);
+}
+<link href="~/Content/pwdValidation.css" rel="stylesheet" />
+<br />
+@{ if (ViewBag.AlertWarning != null)
+    {
+        <div class="alert alert-warning alert-dismissible fixed-top">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>¡Warning!</strong> @ViewBag.AlertWarning
+        </div>
+    }
+    else if (ViewBag.AlertDanger != null)
+    {
+        <div class="alert alert-danger alert-dismissible fixed-top">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>¡Error!</strong> @ViewBag.AlertDanger
+        </div>
+    }
+    else if (ViewBag.AlertSuccess != null)
+    {
+        <div class="alert alert-success alert-dismissible fixed-top">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>¡Bien hecho!</strong> @ViewBag.AlertSuccess
+        </div>
+    }
+
+}
+<div class="mt-2 rounded text-center" style="background-color: #EBEFF1;">
+    <h1>Administrar usuarios</h1>
+</div>
+<div class="row">
+    <div class="col-xxl-2 col-md-3 col-sm-6 col-6"><button id="btnAddUser" class="btn btn-secondary btn-block" data-bs-toggle="modal" data-bs-target="#myModalCreateUser"><i class="fa-solid fa-plus"></i> Agregar Usuario</button></div>
+    @*<div class="col-xxl-2 col-md-3 col-sm-6 col-6"><button class="btn btn-secondary btn-block" data-bs-toggle="modal" data-bs-target="#myModalUpdateUser"><i class="fa-solid fa-plus"></i> Actualizar</button></div>*@
+</div>
+<br />
+<div class="table-responsive">
+    @grid.GetHtml(tableStyle: "table table-striped table-bordered table-hover", columns: new[]{
+    grid.Column("idUsuario",header:"ID",canSort:false),
+    grid.Column("Usuario1",header:"Usuario",canSort:false),
+    grid.Column("nombre",header:"Nombre(s)",canSort:false),
+    grid.Column("aPaterno",header:"A.Paterno",canSort:false),
+    grid.Column("aMaterno",header:"A.Materno",canSort:false),
+    grid.Column("perfil",header:"Perfil",canSort:false),
+    grid.Column("fechaIngreso",header:"Fecha y hora de ingreso",canSort:false),
+     grid.Column("habilitado",header:"Habilitado",canSort:false),
+    grid.Column(
+          "",
+          header: "Accion",
+          format: @<text>
+    @Html.ActionLink("Editar",   "EditUser",   new { Iduser=item.idUsuario} )
+        </text>
+)
+
+})
+</div>
+
+
+<!-- The Modal para crear nueva clasificación -->
+<div class="modal fade" id="myModalCreateUser">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Agregar usuario</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form method="post" action="Usuarios">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-floating mb-3 mt-3">
+                                <input type="text" class="form-control" id="nombre" placeholder="Ingresa nombre (s)" name="nombre" required>
+                                <label for="nombre">Nombre (s):</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-floating mb-3 mt-3">
+                                <input type="text" class="form-control" id="aPaterno" placeholder="Ingresa primer apellido" name="aPaterno" required>
+                                <label for="aPaterno">Primer apellido</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-floating mb-3 mt-3">
+                                <input type="text" class="form-control" id="aMaterno" placeholder="Ingresa segundo apellido" name="AMaterno" required>
+                                <label for="aMaterno">Segundo apellido</label>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-floating mb-3 mt-3">
+                                <input type="text" class="form-control" id="usuario" placeholder="Ingresa un nombre de usuario"  name="usuario" required>
+                                <label for="usuario">Usuario:</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-floating mt-3 mb-3">
+                                <input type="password" class="form-control" id="psw" placeholder="Ingresa una contraseña" name="pwd" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Debe contener al menos un número y una letra mayúscula y minúscula, y al menos 8 o más caracteres" required>
+                                <label for="pwd">Contraseña:</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-floating mt-3">
+                                <select class="form-select" id="selectPerfil" name="selectPerfil"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div id="message">
+                            <h6>La contraseña debe contener lo siguiente:</h6>
+                            <p id="letter" class="invalid">Una letra <b>minúscula</b></p>
+                            <p id="capital" class="invalid">Una letra <b>mayúscula</b></p>
+                            <p id="number" class="invalid">Un <b>número</b></p>
+                            <p id="length" class="invalid">Mínunimo <b>8 caracteres</b></p>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-6"><div class="d-grid"><a class="btn btn-outline-secondary cancelar" data-bs-dismiss="modal">Cancelar</a></div></div>
+                        <div class="col-sm-6">
+                            <div class="d-grid"><input type="submit" value="Agregar" name="btnAgregar" id="btnAgregar" class="btn btn-success" style="background-color:#034250; color:white;" /></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/eventosVu.js"></script>
+<script src="~/Scripts/pwdValitation.js"></script>

@@ -7,13 +7,13 @@ namespace MiriWeb.Models
 {
     public class MCompartir
     {
-        public MCompartir(string idtema, string username)
+        public MCompartir(string iddirectorio, string username)
         {
-            this._idtema = Convert.ToInt32(idtema);
+            this._idDirectorio = Convert.ToInt32(iddirectorio);
             this._username = username;
         }
 
-        public int _idtema  { get; set; }
+        public int _idDirectorio  { get; set; }
         public string _username { get; set; }
     }
 }

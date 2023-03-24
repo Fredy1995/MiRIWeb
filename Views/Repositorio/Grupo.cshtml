@@ -1,6 +1,6 @@
 ﻿@model MiriWeb.Models.modelShared
 @{
-    ViewBag.Title = "Clasificacion";
+    ViewBag.Title = "Grupo";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <br />
@@ -30,11 +30,12 @@
 <div class="row">
     <ul class="breadcrumb" style="background-color: #E7E8E6;">
         <li><a href="@Url.Action("Tema", "Repositorio")">Temas</a></li>
-        <li><a>@ViewBag.NameDirectorioSelec</a></li>
+        <li><a href="@Url.Action("Clasificacion", "Repositorio",new {idT = @ViewBag.IdDirectorioSelec, tema = @ViewBag.NameDirectorioSelec })">@ViewBag.NameDirectorioSelec</a></li>
+        <li><a>@ViewBag.NameDirectorioSelecActual</a></li>
     </ul>
 </div>
 <div class="row">
-    <div class="col-xxl-5 col-md-4 col-sm-6 col-4"><button class="btn btn-secondary btn-block" data-bs-toggle="modal" data-bs-target="#myModalCrearNuevo"><i class="fa-solid fa-plus"></i> Agregar clasificación</button></div>
+    <div class="col-xxl-5 col-md-4 col-sm-6 col-4"><button class="btn btn-secondary btn-block" data-bs-toggle="modal" data-bs-target="#myModalCrearNuevo"><i class="fa-solid fa-plus"></i> Agregar grupo</button></div>
     <div class="col-xxl-2 col-md-4 col-sm-1 col-1"></div>
     <div class="col-xxl-5 col-md-4 col-sm-5 col-7">
         @*<form>
@@ -46,11 +47,11 @@
     </div>
 </div>
 <div class="row">
-    <h2>CLASIFICACIONES</h2>
+    <h2>GRUPOS</h2>
     <hr />
 </div>
 @{
-    if (Model.mclasificaciones.Count > 0)
+    if (Model.mgrupos.Count > 0)
     {
         <div class="row  scroollDirectory" style=" background-color: #D8D6D6;">
             <div id="menu_derecho" class="shadow bg-white">
@@ -63,9 +64,9 @@
             <div id="cuerpo">
 
                 @{
-                    foreach (var clasificacion in Model.mclasificaciones.ToList())
+                    foreach (var grupo in Model.mgrupos.ToList())
                     {
-                        <button id="@clasificacion.idClasif" class="nom_fic btnDirectory defaultDirectory" title="@clasificacion.Clasificacion" value="@clasificacion.Clasificacion"><i class='fas fas fa-folder'></i> @clasificacion.Clasificacion</button>
+                        <button id="@grupo.IdGrupo" class="nom_fic btnDirectory defaultDirectory" title="@grupo.Grupo" value="@grupo.Grupo"><i class='fas fas fa-folder'></i> @grupo.Grupo</button>
                     }
                 }
             </div>
@@ -86,7 +87,7 @@
 
 
 
-<!-- The Modal para crear nueva clasificación -->
+<!-- The Modal para crear nuevo Grupo -->
 <div class="modal fade" id="myModalCrearNuevo">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -97,9 +98,11 @@
             </div>
             <!-- Modal body -->
             <div class="modal-body">
-                <form method="post" action="Clasificacion">
-                    <input type="hidden" name="hiddenIDDirectorioT" value="@ViewBag.IdDirectorioT">
-                    <input type="hidden" name="hiddenNameDirectorioSelec" value="@ViewBag.NameDirectorioSelec">
+                <form method="post" action="Grupo">
+                    <input type="hidden" name="hiddenIDDirectorioT" value="@ViewBag.IdDirectorioT" />
+                    <input type="hidden" name="hiddenNameDirectorioSelec" value="@ViewBag.NameDirectorioSelec" />
+                    <input type="hidden" name="hiddenIdDirectorioSelec" value="@ViewBag.IdDirectorioSelec" />
+                    <input type="hidden" name="hiddenNameDirectorioSelecActual" value="@ViewBag.NameDirectorioSelecActual" />
                     <div class="row">
                         <div class="col-sm-12 text-start"> <input type="text" name="nameDirectorio" id="namedirectory" class="form-control" value="Directorio sin título" oninput="validarInput()"></div>
                     </div><br>
@@ -126,10 +129,12 @@
             </div>
             <!-- Modal body -->
             <div class="modal-body">
-                <form method="post" action="Clasificacion">
+                <form method="post" action="Grupo">
                     <input type="hidden" name="hiddenIDDirectorioT" value="@ViewBag.IdDirectorioT">
                     <input type="hidden" id="hiddenIDDirectorio" name="hiddenIDDirectorio">
+                    <input type="hidden" name="hiddenIdDirectorioSelec" value="@ViewBag.IdDirectorioSelec" />
                     <input type="hidden" name="hiddenNameDirectorioSelec" value="@ViewBag.NameDirectorioSelec">
+                    <input type="hidden" name="hiddenNameDirectorioSelecActual" value="@ViewBag.NameDirectorioSelecActual" />
                     <div class="row">
                         <div class="col-sm-12 text-start"><input type="text" name="nameDirectorio" id="updatedirectory" class="form-control" oninput="validarInput()"></div>
                     </div><br>
@@ -145,31 +150,39 @@
     </div>
 </div>
 
-
 <!-- The Modal para compartir directorio -->
 <div class="modal fade" id="myModalCompartir">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">Compartir clasificación</h4>
+                <h4 class="modal-title">Compartir grupo</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <!-- Modal body -->
             <div class="modal-body">
-                <form method="post" action="Clasificacion">
+                <form method="post" action="Grupo">
                     <input type="hidden" id="hiddenIDDirectorioC" name="hiddenIDDirectorioC">
                     <input type="hidden" name="hiddenIDDirectorioT" value="@ViewBag.IdDirectorioT">
+                    <input type="hidden" name="hiddenIdDirectorioSelec" value="@ViewBag.IdDirectorioSelec" />
                     <input type="hidden" name="hiddenNameDirectorioSelec" value="@ViewBag.NameDirectorioSelec">
+                    <input type="hidden" name="hiddenNameDirectorioSelecActual" value="@ViewBag.NameDirectorioSelecActual" />
                     <input type="hidden" id="listUsers" name="listUsers">
                     <div class="row">
-                        <div class="col-sm-8">
+                        <div class="col-sm-6">
                             <select id="users-select" class="form-select">
                                 @*<option value="">Selecciona un usuario</option>*@
                             </select>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <div class="d-grid"><input type="button" value="Agregar" onclick="newElement()" class="btn btn-success" style="background-color:#034250; color:white;" /></div>
+                        </div>
+                        <div class="col-sm-3">
+                            <select name="permiso-select" id="permiso-select" class="form-select">
+                                <option value="0">Editar</option>
+                                <option value="1">Lectura</option>
+                                <option value="2">Modificar</option>
+                            </select>
                         </div>
                     </div>
                     <div class="row">
