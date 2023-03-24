@@ -5,9 +5,10 @@ using System.Web;
 
 namespace MiriWeb.Models
 {
-    public class MUsuariosSinTema
+    public class MPerfiles
     {
-        public int idUsuario { get; set; }
-        public string usuario { get; set; }
+        public int IdPerfil { get; set; }
+
+        public string Perfil { get; set; }
     }
 }

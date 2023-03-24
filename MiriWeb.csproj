@@ -162,19 +162,26 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CompartidosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RepositorioController.cs" />
+    <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\MClasificaciones.cs" />
     <Compile Include="Models\MClasificacionTema.cs" />
     <Compile Include="Models\MCompartir.cs" />
+    <Compile Include="Models\MCompartirGrupo.cs" />
+    <Compile Include="Models\MDirectoriosCompartidos.cs" />
+    <Compile Include="Models\MGrupoCT.cs" />
+    <Compile Include="Models\MGrupos.cs" />
     <Compile Include="Models\modelShared.cs" />
+    <Compile Include="Models\MPerfiles.cs" />
     <Compile Include="Models\MTemas.cs" />
     <Compile Include="Models\MTemaUsuario.cs" />
     <Compile Include="Models\Mtotales.cs" />
-    <Compile Include="Models\MUsuariosSinTema.cs" />
+    <Compile Include="Models\MUsuario.cs" />
     <Compile Include="Models\respuestaAPIMiri.cs" />
     <Compile Include="Models\Seguridad.cs" />
     <Compile Include="Models\Usuario.cs" />
@@ -200,12 +207,15 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\clicderecho.css" />
     <Content Include="Content\login.css" />
+    <Content Include="Content\pwdValidation.css" />
     <Content Include="Content\StyleIndex.css" />
     <Content Include="Content\StyleLayout.css" />
     <Content Include="Content\StyleTema.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\bloqueado.jpg" />
+    <Content Include="Images\filenube.png" />
     <Content Include="Images\gestordocumental.png" />
     <Content Include="Images\IRCEP.svg" />
     <Content Include="Images\logoGobierno.png" />
@@ -244,6 +254,7 @@
     <None Include="Scripts\jquery-3.6.1.intellisense.js" />
     <Content Include="Scripts\clicderecho.js" />
     <Content Include="Scripts\clicizquierdo.js" />
+    <Content Include="Scripts\eventosVu.js" />
     <Content Include="Scripts\jquery-3.6.1.js" />
     <Content Include="Scripts\jquery-3.6.1.min.js" />
     <Content Include="Scripts\jquery-3.6.1.slim.js" />
@@ -257,6 +268,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\menujs.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\pwdValitation.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -272,6 +284,15 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Repositorio\Tema.cshtml" />
     <Content Include="Views\Repositorio\Clasificacion.cshtml" />
+    <Content Include="Views\Repositorio\Grupo.cshtml" />
+    <Content Include="Views\Repositorio\Archivos.cshtml" />
+    <Content Include="Views\Usuarios\Usuarios.cshtml" />
+    <Content Include="Views\Usuarios\EditUser.cshtml" />
+    <Content Include="Views\Repositorio\Sinpermisos.cshtml" />
+    <Content Include="Views\Compartidos\Compartidos.cshtml" />
+    <Content Include="Views\Compartidos\Clasificacion.cshtml" />
+    <Content Include="Views\Compartidos\Grupo.cshtml" />
+    <Content Include="Views\Compartidos\Archivos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,135 @@
+﻿@model MiriWeb.Models.modelShared
+@{
+    ViewBag.Title = "EditUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+@{ if (ViewBag.AlertWarning != null)
+    {
+        <div class="alert alert-warning alert-dismissible fixed-top">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>¡Warning!</strong> @ViewBag.AlertWarning
+        </div>
+    }
+    else if (ViewBag.AlertDanger != null)
+    {
+        <div class="alert alert-danger alert-dismissible fixed-top">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>¡Error!</strong> @ViewBag.AlertDanger
+        </div>
+    }
+    else if (ViewBag.AlertSuccess != null)
+    {
+        <div class="alert alert-success alert-dismissible fixed-top">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>¡Bien hecho!</strong> @ViewBag.AlertSuccess
+        </div>
+    }
+
+}
+<link href="~/Content/pwdValidation.css" rel="stylesheet" />
+<div class="mt-2 rounded text-center" style="background-color: #EBEFF1;">
+    <h1>Editar usuario</h1>
+</div>
+<br />
+<div class="container">
+
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <div class="card">
+                <div class="card-body">
+                    <form method="post" action="EditUser">
+                        <input type="hidden" name="hiddenIDuser" value="@ViewBag.IDUserTemp">
+                        <div class="row">
+                            <div class="col-sm-4"></div>
+                            <div class="col-sm-4"></div>
+                            <div class="col-sm-4">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="mySwitch" name="darkmode" @(ViewBag.Habilitado ? "checked" : "") />
+                                    <label class="form-check-label" id="lblswitch" for="mySwitch">@ViewBag.LblHabilitado</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="mb-3 mt-3">
+                                    <label for="nombre">Nombre (s):</label>
+                                    <input type="text" class="form-control" value="@ViewBag.Nombre" id="nombre" placeholder="Ingresa nombre (s)" name="nombre" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="mb-3 mt-3">
+                                    <label for="aPaterno">Primer apellido</label>
+                                    <input type="text" class="form-control" value="@ViewBag.APaterno" id="aPaterno" placeholder="Ingresa primer apellido" name="aPaterno" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="mb-3 mt-3">
+                                    <label for="aMaterno">Segundo apellido</label>
+                                    <input type="text" class="form-control" value="@ViewBag.AMaterno" id="aMaterno" placeholder="Ingresa segundo apellido" name="AMaterno" required>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="mb-3 mt-3">
+                                    <label for="usuario">Usuario:</label>
+                                    <input type="text" class="form-control" value="@ViewBag.Usuario" id="usuario" placeholder="Ingresa usuario" name="usuario" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="mb-3 mt-3">
+                                    <label for="pwd">Contraseña:</label>
+                                    <div class="input-group mb-3">
+
+                                        <div class="input-group-text">
+                                            <input type="checkbox" name="checkboxPwd">
+                                        </div>
+
+                                        <input type="password" class="form-control" id="psw" placeholder="Ingresa contraseña" name="pwd" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Debe contener al menos un número y una letra mayúscula y minúscula, y al menos 8 o más caracteres">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="mb-3 mt-3">
+                                    <label for="perfil">Selecciona perfil:</label>
+                                    <select class="form-select" id="selectPerfil" name="selectPerfil">
+                                        @foreach (var perfil in Model.mperfiles.ToList())
+                                        {
+                                            <option value="@perfil.IdPerfil" @(perfil.IdPerfil == ViewBag.OptionSelect ? "selected" : "")>@perfil.Perfil</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div id="message">
+                                <h6>La contraseña debe contener lo siguiente:</h6>
+                                <p id="letter" class="invalid">Una letra <b>minúscula</b></p>
+                                <p id="capital" class="invalid">Una letra <b>mayúscula</b></p>
+                                <p id="number" class="invalid">Un <b>número</b></p>
+                                <p id="length" class="invalid">Mínunimo <b>8 caracteres</b></p>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-6"><div class="d-grid"><a href="@Url.Action("Usuarios", "Usuarios")" class="btn btn-outline-secondary cancelar">Cancelar</a></div></div>
+                            <div class="col-sm-6">
+                                <div class="d-grid"><input type="submit" value="Guardar" name="btnGuardar" id="btnGuardar" class="btn btn-success" style="background-color:#034250; color:white;" /></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+</div>
+<script>
+
+
+</script>
+<script src="~/Scripts/eventosVu.js"></script>
+<script src="~/Scripts/pwdValitation.js"></script>
