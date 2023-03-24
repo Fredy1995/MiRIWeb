@@ -67,9 +67,14 @@
                 <br><br><br>
                 <a href="@Url.Action("Index", "Home")" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-house-user"></i> INICIO <span class="label danger">Principal</span></a>
                 <a href="@Url.Action("Tema", "Repositorio")" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-book-bookmark"></i> MI REPOSITORIO</a>
-                <a href="@Url.Action("Compartidos","Compartidos")" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-users"></i> COMPARTIDOS</a>
                 @{
-                    string version = ConfigurationManager.AppSettings["webpages:Version"];
+                    if (Session["perfil"].ToString() != "Administrador de contenido")
+                    {
+                        <a href="@Url.Action("Compartidos","Compartidos")" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-users"></i> COMPARTIDOS</a>
+                    }
+
+
+                  
                     if (Session["perfil"].ToString().Equals("Administrador de contenido"))
                     {
                         <a href="@Url.Action("Usuarios", "Usuarios")" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-users-gear"></i> USUARIOS</a>
@@ -90,7 +95,7 @@
                 <footer class="fixed-bottom bg-white" style="z-index:-1; font-size:20px; font-weight: bold;">
                     @{
                         string perfil = Session["perfil"].ToString();
-
+                        string version = ConfigurationManager.AppSettings["webpages:Version"];
                     }
                     <span class="float-start">&nbsp;&nbsp;&nbsp; @perfil</span>
 
@@ -100,7 +105,9 @@
         }
         else
         {
+           
             @Url.Action("Login", "Home");
+            
         }
     }
 
