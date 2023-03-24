@@ -25,9 +25,7 @@ namespace MiriWeb.Controllers
         }
         public async Task<ActionResult> Tema(FormCollection objetoForm)
         {
-          
-           
-         
+      
             if (Session["idUser"] != null)
             {
                 if (Session["perfil"].ToString().Equals("Administrador de contenido"))
@@ -577,12 +575,12 @@ namespace MiriWeb.Controllers
                     }
                     if (idC != null)
                     {
-                        data.mgrupos = await listaGrupos(Convert.ToInt32(ViewBag.IdDirectorioSelec), idC);
+                        data.mgrupos = await listaGrupos(Convert.ToInt32(ViewBag.IdDirectorioSelec), idC, Session["idUser"].ToString());
                     }
                     else
                     {
                         
-                        data.mgrupos = await listaGrupos(Convert.ToInt32(ViewBag.IdDirectorioSelec), ViewBag.IdDirectorioT);
+                        data.mgrupos = await listaGrupos(Convert.ToInt32(ViewBag.IdDirectorioSelec), ViewBag.IdDirectorioT, Session["idUser"].ToString());
                     }
                 }
                 catch (Exception ex)
@@ -606,7 +604,7 @@ namespace MiriWeb.Controllers
         /// <param name="iduser"></param>
         /// <returns>Devuelve una lista de grupos de tipo MGrupos</returns>
         [HttpGet]
-        public async Task<List<MGrupos>> listaGrupos(int idtema,string idclasif)
+        public async Task<List<MGrupos>> listaGrupos(int idtema,string idclasif,string idUser)
         {
             List<MGrupos> grupos = new List<MGrupos>();
 
@@ -614,7 +612,7 @@ namespace MiriWeb.Controllers
             {
                 client.BaseAddress = new Uri(BaseURL);
                 client.DefaultRequestHeaders.Clear();
-                var response = await client.GetAsync("grupoController/readGrupo/" + idtema + "/" + idclasif + "/" + Session["idUser"].ToString());
+                var response = await client.GetAsync("grupoController/readGrupo/" + idtema + "/" + idclasif + "/" + idUser);
                 if (response.IsSuccessStatusCode)
                 {
                     var miriResp = response.Content.ReadAsStringAsync().Result;

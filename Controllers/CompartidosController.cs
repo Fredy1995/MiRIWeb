@@ -16,7 +16,7 @@ namespace MiriWeb.Controllers
         private string BaseURL = ConfigurationManager.AppSettings["BaseURL:url"];
         private modelShared data = new modelShared();
         private respuestaAPIMiri respAPIMIRI = new respuestaAPIMiri();
-
+        private RepositorioController repositorio = new RepositorioController();
         // GET: Compartidos
         public async Task<ActionResult> Compartidos()
         {
@@ -36,6 +36,130 @@ namespace MiriWeb.Controllers
                 return RedirectToAction("Login", "Home");
             }
             return View(data);
+        }
+        public async Task<ActionResult> Clasificacion(FormCollection objetoForm, string idT, string tema)
+        {
+            if (Session["idUser"] != null)
+            {
+                try
+                {
+                    ////FALTA AGREGAR EVENTOS
+
+                    if (idT != null)
+                    {
+                        data.mclasificaciones = await repositorio.listaClasificaciones(idT, Session["idUser"].ToString());
+                    }
+                    else
+                    {
+                        data.mclasificaciones = await repositorio.listaClasificaciones(ViewBag.IdDirectorioT, Session["idUser"].ToString());
+                    }
+
+                    if (idT != null && tema != null)
+                    {
+                        ViewBag.NameDirectorioSelec = tema;
+                        ViewBag.IdDirectorioT = idT;
+
+                    }
+                } catch (Exception ex)
+                {
+                    ViewBag.AlertDanger = ex;
+                }
+            }
+            else
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            return View(data);
+        }
+
+        public async Task<ActionResult> Grupo(FormCollection objetoForm, string idC, string clasif)
+        {
+            
+            if (Session["idUser"] != null)
+            {
+                try
+                {
+                    ////FALTA AGREGAR EVENTOS
+                    
+                    if (idC != null && clasif != null)
+                    {
+                        data.mtemas = await repositorio.devuelvaObjTema(Convert.ToInt32(idC));
+                        foreach (var item in data.mtemas)
+                        {
+                            ViewBag.NameDirectorioSelec = item.Tema;
+                            ViewBag.IdDirectorioSelec = item.IdTema;
+                        }
+
+
+                        ViewBag.NameDirectorioSelecActual = clasif;
+                        ViewBag.IdDirectorioT = idC;
+                    }
+                    if (idC != null)
+                    {
+                        data.mgrupos = await repositorio.listaGrupos(Convert.ToInt32(ViewBag.IdDirectorioSelec), idC, Session["idUser"].ToString());
+                    }
+                    else
+                    {
+
+                        data.mgrupos = await repositorio.listaGrupos(Convert.ToInt32(ViewBag.IdDirectorioSelec), ViewBag.IdDirectorioT, Session["idUser"].ToString());
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.AlertDanger = ex;
+                }
+            }
+            else
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            return View(data);
+        }
+        public async Task<ActionResult> Archivos(FormCollection objetoForm, string idG, string grupo)
+        {
+            if (Session["idUser"] != null)
+            {
+                try
+                {
+                    if (idG != null && grupo != null)
+                    {
+                        data.mclasificaciones = await repositorio.devuelvaObjClasificacion(Convert.ToInt32(idG));
+                        foreach (var itemc in data.mclasificaciones)
+                        {
+                            data.mtemas = await repositorio.devuelvaObjTema(itemc.idClasif);
+                            foreach (var item in data.mtemas)
+                            {
+                                ViewBag.NameDirectorioSelecAnterior = item.Tema;
+                                ViewBag.IdDirectorioSelecAnterior = item.IdTema;
+                            }
+                            ViewBag.NameDirectorioSelec = itemc.Clasificacion;
+                            ViewBag.IdDirectorioSelec = itemc.idClasif;
+                        }
+
+                        ViewBag.NameDirectorioSelecActual = grupo;
+                        ViewBag.IdDirectorioT = idG;
+                    }
+                    if (idG != null)
+                    {
+                        //AQUI VAN LOS DATA PARA LISTAR O MOSTRAR LOS ARCHIVOS QUE HAY EN EL GRUPO SELECCIONADO
+                        //data.mgrupos = await listaGrupos(Convert.ToInt32(ViewBag.IdDirectorioSelec), idC);
+                    }
+                    else
+                    {
+                        //AQUI VAN LOS DATA PARA LISTAR O MOSTRAR LOS ARCHIVOS QUE HAY EN EL GRUPO SELECCIONADO
+                        //data.mgrupos = await listaGrupos(Convert.ToInt32(ViewBag.IdDirectorioSelec), ViewBag.IdDirectorioT);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ViewBag.AlertDanger = ex;
+                }
+            }
+            else
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            return View();
         }
         /// <summary>
         /// Metodo encargado de obtener una lista de los directorios compartidos al usuario pasado por parametro

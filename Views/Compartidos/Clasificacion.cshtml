@@ -1,6 +1,6 @@
 ﻿@model MiriWeb.Models.modelShared
 @{
-    ViewBag.Title = "Compartidos";
+    ViewBag.Title = "Clasificacion";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -28,14 +28,14 @@
     }
 
 }
-
 <div class="row">
     <ul class="breadcrumb" style="background-color: #E7E8E6;">
-        <li><a>Compartidos conmigo</a></li>
+        <li><a href="@Url.Action("Compartidos", "Compartidos")">Compartidos conmigo</a></li>
+        <li><a>@ViewBag.NameDirectorioSelec</a></li>
     </ul>
 </div>
 <div class="row">
-    <div class="col-xxl-5 col-md-4 col-sm-6 col-4">@*<button class="btn btn-secondary btn-block" data-bs-toggle="modal" data-bs-target="#myModalCrearNuevo"><i class="fa-solid fa-plus"></i> Agregar tema</button>*@</div>
+    <div class="col-xxl-5 col-md-4 col-sm-6 col-4"><button class="btn btn-secondary btn-block" data-bs-toggle="modal" data-bs-target="#myModalCrearNuevo"><i class="fa-solid fa-plus"></i> Agregar clasificación</button></div>
     <div class="col-xxl-2 col-md-4 col-sm-1 col-1"></div>
     <div class="col-xxl-5 col-md-4 col-sm-5 col-7">
         @*<form>
@@ -47,11 +47,11 @@
     </div>
 </div>
 <div class="row">
-    <h2>COMPARTIDOS CONMIGO</h2>
+    <h2>CLASIFICACIONES</h2>
     <hr />
 </div>
 @{
-    if (Model.mdirectorioscompartidos.Count > 0)
+    if (Model.mclasificaciones.Count > 0)
     {
         <div class="row  scroollDirectory" style=" background-color: #D8D6D6;">
             <div id="menu_derecho" class="shadow bg-white">
@@ -62,9 +62,12 @@
                 </ul>
             </div>
             <div id="cuerpo">
-                @foreach (var directorio in Model.mdirectorioscompartidos.ToList())
-                {
-                    <button id="@directorio.IdDirectorio" class="nom_ficC btnDirectory defaultDirectory" title="@directorio.NameDirectorio" value="@directorio.NameDirectorio"><i class='fas fas fa-folder'></i> @directorio.NameDirectorio</button>
+
+                @{
+                    foreach (var clasificacion in Model.mclasificaciones.ToList())
+                    {
+                        <button id="@clasificacion.idClasif" class="nom_fic btnDirectory defaultDirectory" title="@clasificacion.Clasificacion" value="@clasificacion.Clasificacion"><i class='fas fas fa-folder'></i> @clasificacion.Clasificacion</button>
+                    }
                 }
             </div>
         </div>
@@ -80,3 +83,4 @@
         </div>
     }
 }
+

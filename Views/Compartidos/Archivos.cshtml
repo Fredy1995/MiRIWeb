@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "Archivos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+@{ if (ViewBag.AlertWarning != null)
+    {
+        <div class="alert alert-warning alert-dismissible fixed-top">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>¡Warning!</strong> @ViewBag.AlertWarning
+        </div>
+    }
+    else if (ViewBag.AlertDanger != null)
+    {
+        <div class="alert alert-danger alert-dismissible fixed-top">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>¡Error!</strong> @ViewBag.AlertDanger
+        </div>
+    }
+    else if (ViewBag.AlertSuccess != null)
+    {
+        <div class="alert alert-success alert-dismissible fixed-top">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>¡Bien hecho!</strong> @ViewBag.AlertSuccess
+        </div>
+    }
+
+}
+<div class="row">
+    <ul class="breadcrumb" style="background-color: #E7E8E6;">
+        <li><a href="@Url.Action("Compartidos", "Compartidos")">Compartidos conmigo</a></li>
+        <li><a href="@Url.Action("Clasificacion", "Compartidos",new {idT = @ViewBag.IdDirectorioSelecAnterior, tema = @ViewBag.NameDirectorioSelecAnterior })">@ViewBag.NameDirectorioSelecAnterior</a></li>
+        <li><a href="@Url.Action("Grupo", "Compartidos",new {idC = @ViewBag.IdDirectorioSelec, clasif = @ViewBag.NameDirectorioSelec })">@ViewBag.NameDirectorioSelec</a></li>
+        <li><a>@ViewBag.NameDirectorioSelecActual</a></li>
+    </ul>
+</div>
+<div class="row">
+    <div class="col-xxl-5 col-md-4 col-sm-6 col-4"><button class="btn btn-secondary btn-block" data-bs-toggle="modal" data-bs-target="#myModalCrearNuevo"><i class="fas fa-upload"></i> Subir archivo</button></div>
+    <div class="col-xxl-2 col-md-4 col-sm-1 col-1"></div>
+    <div class="col-xxl-5 col-md-4 col-sm-5 col-7">
+        @*<form>
+                <div class="input-group mb-3">
+                    <button class="btn btn btn-light" style="background-color:white; z-index:-1;" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <input type="text" class="form-control" placeholder="Buscar en el repositorio">
+                </div>
+            </form>*@
+    </div>
+</div>
+<div class="row">
+    <h2>ARCHIVOS</h2>
+    <hr />
+</div>
+
+

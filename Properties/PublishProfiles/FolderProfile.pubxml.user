@@ -66,10 +66,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>04/11/2022 19:09:46</publishTime>
     </File>
     <File Include="bin/MiriWeb.dll">
-      <publishTime>03/22/2023 17:56:16</publishTime>
+      <publishTime>03/24/2023 12:46:31</publishTime>
     </File>
     <File Include="bin/MiriWeb.pdb">
-      <publishTime>03/22/2023 17:56:16</publishTime>
+      <publishTime>03/24/2023 12:46:31</publishTime>
     </File>
     <File Include="bin/Newtonsoft.Json.dll">
       <publishTime>11/24/2022 02:10:26</publishTime>
@@ -341,6 +341,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Images/bloqueado.jpg">
       <publishTime>03/16/2023 17:02:08</publishTime>
     </File>
+    <File Include="Images/filenube.png">
+      <publishTime>03/23/2023 13:26:47</publishTime>
+    </File>
     <File Include="Images/gestordocumental.png">
       <publishTime>02/28/2023 16:29:45</publishTime>
     </File>
@@ -402,7 +405,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/15/2023 12:51:47</publishTime>
     </File>
     <File Include="Scripts/clicizquierdo.js">
-      <publishTime>03/16/2023 18:07:02</publishTime>
+      <publishTime>03/24/2023 11:52:38</publishTime>
     </File>
     <File Include="Scripts/eventosVu.js">
       <publishTime>03/16/2023 17:02:08</publishTime>
@@ -446,8 +449,17 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Scripts/pwdValitation.js">
       <publishTime>03/16/2023 17:02:08</publishTime>
     </File>
+    <File Include="Views/Compartidos/Archivos.cshtml">
+      <publishTime>03/24/2023 12:38:23</publishTime>
+    </File>
+    <File Include="Views/Compartidos/Clasificacion.cshtml">
+      <publishTime>03/24/2023 12:07:59</publishTime>
+    </File>
     <File Include="Views/Compartidos/Compartidos.cshtml">
-      <publishTime>03/22/2023 16:51:13</publishTime>
+      <publishTime>03/24/2023 11:50:00</publishTime>
+    </File>
+    <File Include="Views/Compartidos/Grupo.cshtml">
+      <publishTime>03/24/2023 12:27:41</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
       <publishTime>02/28/2023 16:29:46</publishTime>
@@ -459,22 +471,22 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>03/16/2023 17:02:08</publishTime>
     </File>
     <File Include="Views/Repositorio/Clasificacion.cshtml">
-      <publishTime>03/14/2023 10:19:36</publishTime>
+      <publishTime>03/23/2023 13:45:33</publishTime>
     </File>
     <File Include="Views/Repositorio/Grupo.cshtml">
-      <publishTime>03/14/2023 11:07:58</publishTime>
+      <publishTime>03/23/2023 13:47:02</publishTime>
     </File>
     <File Include="Views/Repositorio/Sinpermisos.cshtml">
-      <publishTime>03/16/2023 17:02:08</publishTime>
+      <publishTime>03/23/2023 13:41:37</publishTime>
     </File>
     <File Include="Views/Repositorio/Tema.cshtml">
-      <publishTime>02/28/2023 16:29:46</publishTime>
+      <publishTime>03/23/2023 13:43:32</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>11/25/2022 13:10:30</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>03/22/2023 16:32:41</publishTime>
+      <publishTime>03/23/2023 18:04:09</publishTime>
     </File>
     <File Include="Views/Usuarios/EditUser.cshtml">
       <publishTime>03/16/2023 17:02:08</publishTime>
@@ -489,7 +501,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/25/2022 13:10:30</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>03/22/2023 17:56:22</publishTime>
+      <publishTime>03/24/2023 12:46:33</publishTime>
     </File>
   </ItemGroup>
 </Project>

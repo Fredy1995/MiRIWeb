@@ -290,6 +290,9 @@
     <Content Include="Views\Usuarios\EditUser.cshtml" />
     <Content Include="Views\Repositorio\Sinpermisos.cshtml" />
     <Content Include="Views\Compartidos\Compartidos.cshtml" />
+    <Content Include="Views\Compartidos\Clasificacion.cshtml" />
+    <Content Include="Views\Compartidos\Grupo.cshtml" />
+    <Content Include="Views\Compartidos\Archivos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
