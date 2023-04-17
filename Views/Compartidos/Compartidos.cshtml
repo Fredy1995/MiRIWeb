@@ -61,7 +61,7 @@
                     <li><a href="#" class="nom_menu"><i class='fas fa-info-circle'></i> Ver detalles</a></li>
                 </ul>
             </div>
-            <div id="cuerpo">
+            <div id="">
                 @foreach (var directorio in Model.mdirectorioscompartidos.ToList())
                 {
                     <button id="@directorio.IdDirectorio" class="nom_ficC btnDirectory defaultDirectory" title="@directorio.NameDirectorio" value="@directorio.NameDirectorio"><i class='fas fas fa-folder'></i> @directorio.NameDirectorio</button>

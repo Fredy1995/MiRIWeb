@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -17,6 +18,7 @@ namespace MiriWeb.Controllers
         private modelShared data = new modelShared();
         private respuestaAPIMiri respAPIMIRI = new respuestaAPIMiri();
         private RepositorioController repositorio = new RepositorioController();
+        
         // GET: Compartidos
         public async Task<ActionResult> Compartidos()
         {
@@ -37,15 +39,52 @@ namespace MiriWeb.Controllers
             }
             return View(data);
         }
+
         public async Task<ActionResult> Clasificacion(FormCollection objetoForm, string idT, string tema)
         {
             if (Session["idUser"] != null)
             {
                 try
                 {
-                    ////FALTA AGREGAR EVENTOS
+                    if (objetoForm["btncrear"] != null)
+                    {
+                        ViewBag.IdDirectorioT = objetoForm["hiddenIDDirectorioT"].ToString();
+                        ViewBag.NameDirectorioSelec = objetoForm["hiddenNameDirectorioSelec"].ToString(); //Necesario para mostrar la ruta en el directorio posicionado
+                        using (var client = new HttpClient())
+                        {
+                            client.BaseAddress = new Uri(BaseURL);
+                            client.DefaultRequestHeaders.Clear();
+                            var mClasificacionTema = new MClasificacionTema(ViewBag.IdDirectorioT, objetoForm["nameDirectorio"], Session["idUser"].ToString());
+                            var json = JsonConvert.SerializeObject(mClasificacionTema);
+                            var content = new StringContent(json, Encoding.UTF8, "application/json");
+                            var response = await client.PostAsync("clasificacionController/createClasificacionTema", content);
+                            if (response.IsSuccessStatusCode)
+                            {
+                                var miriResp = response.Content.ReadAsStringAsync().Result;
+                                respAPIMIRI = JsonConvert.DeserializeObject<respuestaAPIMiri>(miriResp);
+                                switch (respAPIMIRI.codigo)
+                                {
+                                    case 111:
+                                        ViewBag.AlertSuccess = respAPIMIRI.Descripcion; break;
+                                    case 222:
+                                        ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                    case 333:
+                                        ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                    case -300:
+                                        ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                    case -200:
+                                        ViewBag.AlertDanger = respAPIMIRI.Descripcion; break;
+                                }
+                            }
+                            else
+                            {
+                                ViewBag.AlertDanger = response.StatusCode + "\nDetalles:" + response.RequestMessage;
 
-                    if (idT != null)
+                            }
+                        }
+                    }
+
+                        if (idT != null)
                     {
                         data.mclasificaciones = await repositorio.listaClasificaciones(idT, Session["idUser"].ToString());
                     }
@@ -58,6 +97,7 @@ namespace MiriWeb.Controllers
                     {
                         ViewBag.NameDirectorioSelec = tema;
                         ViewBag.IdDirectorioT = idT;
+                       
 
                     }
                 } catch (Exception ex)
@@ -88,9 +128,9 @@ namespace MiriWeb.Controllers
                         {
                             ViewBag.NameDirectorioSelec = item.Tema;
                             ViewBag.IdDirectorioSelec = item.IdTema;
+                            ////FUNCION NECESARIA PARA VERIFICAR SI EL USUARIO TIENE ACCESO AL DIRECTORIO INDICADO
+                            ViewBag.ActivarLinks = await accesoAdirectorio(Convert.ToInt32(item.IdTema), Convert.ToInt32(Session["idUser"].ToString()), "t");
                         }
-
-
                         ViewBag.NameDirectorioSelecActual = clasif;
                         ViewBag.IdDirectorioT = idC;
                     }
@@ -131,9 +171,12 @@ namespace MiriWeb.Controllers
                             {
                                 ViewBag.NameDirectorioSelecAnterior = item.Tema;
                                 ViewBag.IdDirectorioSelecAnterior = item.IdTema;
+                                ////FUNCION NECESARIA PARA VERCAR SI EL USUARIO TIENE ACCESO AL DIRECTORIO INDICADO
+                                ViewBag.ActivarLinks = await accesoAdirectorio(Convert.ToInt32(item.IdTema), Convert.ToInt32(Session["idUser"].ToString()), "t");
                             }
                             ViewBag.NameDirectorioSelec = itemc.Clasificacion;
                             ViewBag.IdDirectorioSelec = itemc.idClasif;
+                            ViewBag.ActivarLinks2 = await accesoAdirectorio(Convert.ToInt32(itemc.idClasif), Convert.ToInt32(Session["idUser"].ToString()), "c");
                         }
 
                         ViewBag.NameDirectorioSelecActual = grupo;
@@ -183,6 +226,31 @@ namespace MiriWeb.Controllers
                 }
             }
             return compartidos;
+        }
+
+        /// <summary>
+        /// Metodo encargado de verificar si el usuario tiene acceso al directorio indicado
+        /// </summary>
+        /// <param name="directorio"></param>
+        /// <param name="iduser"></param>
+        /// <param name="tipoD"></param>
+        /// <returns>Devuelve verdadero si el usuario tiene acceso al directorio indicado</returns>
+        [HttpGet]
+        public async Task<bool> accesoAdirectorio(int directorio, int iduser , string tipoD)
+        {
+            bool respuesta = false;
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(BaseURL);
+                client.DefaultRequestHeaders.Clear();
+                var response = await client.GetAsync("compartidosController/accesoAdirectorio/" + directorio + "/" + iduser + "/" + tipoD);
+                if (response.IsSuccessStatusCode)
+                {
+                    var miriResp = response.Content.ReadAsStringAsync().Result;
+                    respuesta = JsonConvert.DeserializeObject<bool>(miriResp);
+                }
+            }
+            return respuesta;
         }
     }
 }
