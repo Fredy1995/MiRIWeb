@@ -50,37 +50,41 @@
     <hr />
 </div>
 @{
-    if (Model.mclasificaciones.Count > 0)
+    if (Model.mclasificaciones != null)
     {
-        <div class="row  scroollDirectory" style=" background-color: #D8D6D6;">
-            <div id="menu_derecho" class="shadow bg-white">
-                <ul>
-                    <li><a href="#" class="nom_menu" onclick="deleteElement()"><i class='fas fa-user-plus'></i> Compartir</a></li>
-                    <li><a href="#" class="nom_menu" id="linkUpdateTema"><i class='far fa-edit'></i> Cambiar nombre</a></li>
-                    <li><a href="#" class="nom_menu"><i class='fas fa-info-circle'></i> Ver detalles</a></li>
-                </ul>
-            </div>
-            <div id="cuerpo">
+        if (Model.mclasificaciones.Count > 0)
+        {
+            <div class="row  scroollDirectory" style=" background-color: #D8D6D6;">
+                <div id="menu_derecho" class="shadow bg-white">
+                    <ul>
+                        <li><a href="#" class="nom_menu" onclick="deleteElement()"><i class='fas fa-user-plus'></i> Compartir</a></li>
+                        <li><a href="#" class="nom_menu" id="linkUpdateTema"><i class='far fa-edit'></i> Cambiar nombre</a></li>
+                        <li><a href="#" class="nom_menu"><i class='fas fa-info-circle'></i> Ver detalles</a></li>
+                    </ul>
+                </div>
+                <div id="cuerpo">
 
-                @{
-                    foreach (var clasificacion in Model.mclasificaciones.ToList())
-                    {
-                        <button id="@clasificacion.idClasif" class="nom_fic btnDirectory defaultDirectory" title="@clasificacion.Clasificacion" value="@clasificacion.Clasificacion"><i class='fas fas fa-folder'></i> @clasificacion.Clasificacion</button>
+                    @{
+                        foreach (var clasificacion in Model.mclasificaciones.ToList())
+                        {
+                            <button id="@clasificacion.idClasif" class="nom_fic btnDirectory defaultDirectory" title="@clasificacion.Clasificacion" value="@clasificacion.Clasificacion"><i class='fas fas fa-folder'></i> @clasificacion.Clasificacion</button>
+                        }
                     }
-                }
+                </div>
             </div>
-        </div>
-    }
-    else
-    {
-        <br />
-        <div class="row">
-            <div class="note">
-                <p><i class='far fa-folder-open' style='font-size:48px'></i>&nbsp;&nbsp;&nbsp; Nada que mostrar... :(</p>
-                <div class="text-center"><img src="~/Images/filenube.png" class="img-fluid logoMiri" /></div>
+        }
+        else
+        {
+            <br />
+            <div class="row">
+                <div class="note">
+                    <p><i class='far fa-folder-open' style='font-size:48px'></i>&nbsp;&nbsp;&nbsp; Nada que mostrar... :(</p>
+                    <div class="text-center"><img src="~/Images/filenube.png" class="img-fluid logoMiri" /></div>
+                </div>
             </div>
-        </div>
+        }
     }
+
 }
 
 

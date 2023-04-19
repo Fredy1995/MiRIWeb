@@ -46,6 +46,7 @@
                     <li><a>@ViewBag.NameDirectorioSelecActual</a></li>
                 }
             }
+
         }
 
     </ul>
@@ -67,36 +68,103 @@
     <hr />
 </div>
 @{
-    if (Model.mgrupos.Count > 0)
+    if (Model.mgrupos != null)
     {
-        <div class="row  scroollDirectory" style=" background-color: #D8D6D6;">
-            <div id="menu_derecho" class="shadow bg-white">
-                <ul>
-                    <li><a href="#" class="nom_menu" onclick="deleteElement()"><i class='fas fa-user-plus'></i> Compartir</a></li>
-                    <li><a href="#" class="nom_menu" id="linkUpdateTema"><i class='far fa-edit'></i> Cambiar nombre</a></li>
-                    <li><a href="#" class="nom_menu"><i class='fas fa-info-circle'></i> Ver detalles</a></li>
-                </ul>
-            </div>
-            <div id="cuerpo">
+        if (Model.mgrupos.Count > 0)
+        {
+            <div class="row  scroollDirectory" style=" background-color: #D8D6D6;">
+                <div id="menu_derecho" class="shadow bg-white">
+                    <ul>
+                        <li><a href="#" class="nom_menu" onclick="deleteElement()"><i class='fas fa-user-plus'></i> Compartir</a></li>
+                        <li><a href="#" class="nom_menu" id="linkUpdateTema"><i class='far fa-edit'></i> Cambiar nombre</a></li>
+                        <li><a href="#" class="nom_menu"><i class='fas fa-info-circle'></i> Ver detalles</a></li>
+                    </ul>
+                </div>
+                <div id="cuerpo">
 
-                @{
-                    foreach (var grupo in Model.mgrupos.ToList())
-                    {
-                        <button id="@grupo.IdGrupo" class="nom_fic btnDirectory defaultDirectory" title="@grupo.Grupo" value="@grupo.Grupo"><i class='fas fas fa-folder'></i> @grupo.Grupo</button>
+                    @{
+                        foreach (var grupo in Model.mgrupos.ToList())
+                        {
+                            <button id="@grupo.IdGrupo" class="nom_fic btnDirectory defaultDirectory" title="@grupo.Grupo" value="@grupo.Grupo"><i class='fas fas fa-folder'></i> @grupo.Grupo</button>
+                        }
                     }
-                }
+                </div>
             </div>
-        </div>
-    }
-    else
-    {
-        <br />
-        <div class="row">
-            <div class="note">
-                <p><i class='far fa-folder-open' style='font-size:48px'></i>&nbsp;&nbsp;&nbsp; Nada que mostrar... :(</p>
-                <div class="text-center"><img src="~/Images/filenube.png" class="img-fluid logoMiri" /></div>
+        }
+        else
+        {
+            <br />
+            <div class="row">
+                <div class="note">
+                    <p><i class='far fa-folder-open' style='font-size:48px'></i>&nbsp;&nbsp;&nbsp; Nada que mostrar... :(</p>
+                    <div class="text-center"><img src="~/Images/filenube.png" class="img-fluid logoMiri" /></div>
+                </div>
             </div>
-        </div>
+        }
     }
+
 }
 
+
+<!-- The Modal para crear nuevo Grupo -->
+<div class="modal fade" id="myModalCrearNuevo">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Crear nuevo</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form method="post" action="Grupo">
+                    <input type="hidden" name="hiddenIDDirectorioT" value="@ViewBag.IdDirectorioT" />
+                    <input type="hidden" name="hiddenNameDirectorioSelec" value="@ViewBag.NameDirectorioSelec" />
+                    <input type="hidden" name="hiddenIdDirectorioSelec" value="@ViewBag.IdDirectorioSelec" />
+                    <input type="hidden" name="hiddenNameDirectorioSelecActual" value="@ViewBag.NameDirectorioSelecActual" />
+                    <div class="row">
+                        <div class="col-sm-12 text-start"> <input type="text" name="nameDirectorio" id="namedirectory" class="form-control" value="Directorio sin título" oninput="validarInput()"></div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-sm-6"><div class="d-grid"><a class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</a></div></div>
+                        <div class="col-sm-6">
+                            <div class="d-grid"><input type="submit" value="Crear" name="btncrear" id="btnCrear" class="btn btn-success" style="background-color:#034250; color:white;" /></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- The Modal para cambiar nombre de directorio -->
+<div class="modal fade" id="myModalCambiarNombre">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Cambiar nombre</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form method="post" action="Grupo">
+                    <input type="hidden" name="hiddenIDDirectorioT" value="@ViewBag.IdDirectorioT">
+                    <input type="hidden" id="hiddenIDDirectorio" name="hiddenIDDirectorio">
+                    <input type="hidden" name="hiddenIdDirectorioSelec" value="@ViewBag.IdDirectorioSelec" />
+                    <input type="hidden" name="hiddenNameDirectorioSelec" value="@ViewBag.NameDirectorioSelec">
+                    <input type="hidden" name="hiddenNameDirectorioSelecActual" value="@ViewBag.NameDirectorioSelecActual" />
+                    <div class="row">
+                        <div class="col-sm-12 text-start"><input type="text" name="nameDirectorio" id="updatedirectory" class="form-control" oninput="validarInput()"></div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-sm-6"><div class="d-grid"><a class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</a></div></div>
+                        <div class="col-sm-6">
+                            <div class="d-grid"><input type="submit" value="Aceptar" name="btnUpdateDiretorio" id="btnUpdate" class="btn btn-success" style="background-color:#034250; color:white;" /></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

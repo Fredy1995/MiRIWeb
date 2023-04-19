@@ -51,32 +51,36 @@
     <hr />
 </div>
 @{
-    if (Model.mdirectorioscompartidos.Count > 0)
+    if (Model.mdirectorioscompartidos != null)
     {
-        <div class="row  scroollDirectory" style=" background-color: #D8D6D6;">
-            <div id="menu_derecho" class="shadow bg-white">
-                <ul>
-                    <li><a href="#" class="nom_menu" onclick="deleteElement()"><i class='fas fa-user-plus'></i> Compartir</a></li>
-                    <li><a href="#" class="nom_menu" id="linkUpdateTema"><i class='far fa-edit'></i> Cambiar nombre</a></li>
-                    <li><a href="#" class="nom_menu"><i class='fas fa-info-circle'></i> Ver detalles</a></li>
-                </ul>
+        if (Model.mdirectorioscompartidos.Count > 0)
+        {
+            <div class="row  scroollDirectory" style=" background-color: #D8D6D6;">
+                <div id="menu_derecho" class="shadow bg-white">
+                    <ul>
+                        <li><a href="#" class="nom_menu" onclick="deleteElement()"><i class='fas fa-user-plus'></i> Compartir</a></li>
+                        <li><a href="#" class="nom_menu" id="linkUpdateTema"><i class='far fa-edit'></i> Cambiar nombre</a></li>
+                        <li><a href="#" class="nom_menu"><i class='fas fa-info-circle'></i> Ver detalles</a></li>
+                    </ul>
+                </div>
+                <div id="">
+                    @foreach (var directorio in Model.mdirectorioscompartidos.ToList())
+                    {
+                        <button id="@directorio.IdDirectorio" class="nom_ficC btnDirectory defaultDirectory" title="@directorio.NameDirectorio" value="@directorio.NameDirectorio"><i class='fas fas fa-folder'></i> @directorio.NameDirectorio</button>
+                    }
+                </div>
             </div>
-            <div id="">
-                @foreach (var directorio in Model.mdirectorioscompartidos.ToList())
-                {
-                    <button id="@directorio.IdDirectorio" class="nom_ficC btnDirectory defaultDirectory" title="@directorio.NameDirectorio" value="@directorio.NameDirectorio"><i class='fas fas fa-folder'></i> @directorio.NameDirectorio</button>
-                }
+        }
+        else
+        {
+            <br />
+            <div class="row">
+                <div class="note">
+                    <p><i class='far fa-folder-open' style='font-size:48px'></i>&nbsp;&nbsp;&nbsp; Nada que mostrar... :(</p>
+                    <div class="text-center"><img src="~/Images/filenube.png" class="img-fluid logoMiri" /></div>
+                </div>
             </div>
-        </div>
+        }
     }
-    else
-    {
-        <br />
-        <div class="row">
-            <div class="note">
-                <p><i class='far fa-folder-open' style='font-size:48px'></i>&nbsp;&nbsp;&nbsp; Nada que mostrar... :(</p>
-                <div class="text-center"><img src="~/Images/filenube.png" class="img-fluid logoMiri" /></div>
-            </div>
-        </div>
-    }
+
 }

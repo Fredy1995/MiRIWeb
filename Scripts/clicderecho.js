@@ -6,10 +6,11 @@ $(document).ready(function () {
     $("#menu_derecho").hide();
     document.oncontextmenu = function () { return false }
     /* mostramos el menú si hacemos click derecho con el ratón */
-    var div = $("#cuerpo").first();
+    var div = $("#cuerpo").find("button");
+   
     div.contextmenu(function (e) {
         $("#menu_derecho").css({ 'display': 'block', 'left': e.pageX, 'top': e.pageY });
-       
+
     });
 
     //$(document).bind("contextmenu", function (e) {

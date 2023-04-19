@@ -83,8 +83,53 @@ namespace MiriWeb.Controllers
                             }
                         }
                     }
+                    else if (objetoForm["btnUpdateDiretorio"] != null)
+                    {
 
-                        if (idT != null)
+                        if (objetoForm["nameDirectorio"].ToString() != "")
+                        {
+                            ViewBag.IdDirectorio = objetoForm["hiddenIDDirectorio"].ToString(); //Directorio seleccionado con clic 
+                            ViewBag.IdDirectorioT = objetoForm["hiddenIDDirectorioT"].ToString();
+                            ViewBag.NameDirectorioSelec = objetoForm["hiddenNameDirectorioSelec"].ToString(); //Necesario para mostrar la ruta en el directorio posicionado
+                            using (var client = new HttpClient())
+                            {
+                                client.BaseAddress = new Uri(BaseURL);
+                                client.DefaultRequestHeaders.Clear();
+                                var updateClasif = new MClasificaciones(ViewBag.IdDirectorio, objetoForm["nameDirectorio"].ToString());
+                                var json = JsonConvert.SerializeObject(updateClasif);
+                                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                                var response = await client.PutAsync("clasificacionController/updateClasificacion", content);
+                                if (response.IsSuccessStatusCode)
+                                {
+                                    var miriResp = response.Content.ReadAsStringAsync().Result;
+                                    respAPIMIRI = JsonConvert.DeserializeObject<respuestaAPIMiri>(miriResp);
+                                    switch (respAPIMIRI.codigo)
+                                    {
+                                        case 444:
+                                            ViewBag.AlertSuccess = respAPIMIRI.Descripcion; break;
+                                        case 333:
+                                            ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                        case 222:
+                                            ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                        case -200:
+                                            ViewBag.AlertDanger = respAPIMIRI.Descripcion; break;
+                                    }
+                                }
+                                else
+                                {
+                                    ViewBag.AlertDanger = response.StatusCode + "\nDetalles:" + response.RequestMessage;
+
+                                }
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.AlertWarning = "DEBE SELECCIONAR UN ELEMENTO";
+                        }
+                        ViewBag.IdDirectorio = ViewBag.IdDirectorioT;
+                    }
+
+                    if (idT != null)
                     {
                         data.mclasificaciones = await repositorio.listaClasificaciones(idT, Session["idUser"].ToString());
                     }
@@ -119,8 +164,94 @@ namespace MiriWeb.Controllers
             {
                 try
                 {
+                   
+                    if (objetoForm["btncrear"] != null)
+                    {
+                        ViewBag.NameDirectorioSelecActual = objetoForm["hiddenNameDirectorioSelecActual"].ToString();
+                        ViewBag.IdDirectorioSelec = objetoForm["hiddenIdDirectorioSelec"].ToString();
+                        ViewBag.IdDirectorioT = objetoForm["hiddenIDDirectorioT"].ToString();
+                        ViewBag.NameDirectorioSelec = objetoForm["hiddenNameDirectorioSelec"].ToString(); //Necesario para mostrar la ruta en el directorio posicionado
+                        using (var client = new HttpClient())
+                        {
+                            client.BaseAddress = new Uri(BaseURL);
+                            client.DefaultRequestHeaders.Clear();
+                            var mGrupoCT = new MGrupoCT(ViewBag.IdDirectorioT, objetoForm["nameDirectorio"], Session["idUser"].ToString(), 2);
+                            var json = JsonConvert.SerializeObject(mGrupoCT);
+                            var content = new StringContent(json, Encoding.UTF8, "application/json");
+                            var response = await client.PostAsync("grupoController/createGrupoClasificacionTema", content);
+                            if (response.IsSuccessStatusCode)
+                            {
+                                var miriResp = response.Content.ReadAsStringAsync().Result;
+                                respAPIMIRI = JsonConvert.DeserializeObject<respuestaAPIMiri>(miriResp);
+                                switch (respAPIMIRI.codigo)
+                                {
+                                    case 111:
+                                        ViewBag.AlertSuccess = respAPIMIRI.Descripcion; break;
+                                    case 222:
+                                        ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                    case 333:
+                                        ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                    case -300:
+                                        ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                    case -200:
+                                        ViewBag.AlertDanger = respAPIMIRI.Descripcion; break;
+                                }
+                            }
+                            else
+                            {
+                                ViewBag.AlertDanger = response.StatusCode + "\nDetalles:" + response.RequestMessage;
+
+                            }
+                        }
+                    }
+                    else if (objetoForm["btnUpdateDiretorio"] != null)
+                    {
+
+                        if (objetoForm["nameDirectorio"].ToString() != "")
+                        {
+                            ViewBag.NameDirectorioSelecActual = objetoForm["hiddenNameDirectorioSelecActual"].ToString(); //Directorio clasificación
+                            ViewBag.IdDirectorioSelec = objetoForm["hiddenIdDirectorioSelec"].ToString();
+                            ViewBag.IdDirectorio = objetoForm["hiddenIDDirectorio"].ToString(); //Directorio seleccionado con clic 
+                            ViewBag.IdDirectorioT = objetoForm["hiddenIDDirectorioT"].ToString();
+                            ViewBag.NameDirectorioSelec = objetoForm["hiddenNameDirectorioSelec"].ToString(); //Necesario para mostrar la ruta en el directorio posicionado
+                            using (var client = new HttpClient())
+                            {
+                                client.BaseAddress = new Uri(BaseURL);
+                                client.DefaultRequestHeaders.Clear();
+                                var updateGrupo = new MGrupos(objetoForm["nameDirectorio"].ToString(), ViewBag.IdDirectorio);
+                                var json = JsonConvert.SerializeObject(updateGrupo);
+                                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                                var response = await client.PutAsync("grupoController/updateGrupo", content);
+                                if (response.IsSuccessStatusCode)
+                                {
+                                    var miriResp = response.Content.ReadAsStringAsync().Result;
+                                    respAPIMIRI = JsonConvert.DeserializeObject<respuestaAPIMiri>(miriResp);
+                                    switch (respAPIMIRI.codigo)
+                                    {
+                                        case 444:
+                                            ViewBag.AlertSuccess = respAPIMIRI.Descripcion; break;
+                                        case 333:
+                                            ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                        case 222:
+                                            ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                        case -200:
+                                            ViewBag.AlertDanger = respAPIMIRI.Descripcion; break;
+                                    }
+                                }
+                                else
+                                {
+                                    ViewBag.AlertDanger = response.StatusCode + "\nDetalles:" + response.RequestMessage;
+
+                                }
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.AlertWarning = "DEBE SELECCIONAR UN ELEMENTO";
+                        }
+                        ViewBag.IdDirectorio = ViewBag.IdDirectorioT;
+                    }
                     ////FALTA AGREGAR EVENTOS
-                    
                     if (idC != null && clasif != null)
                     {
                         data.mtemas = await repositorio.devuelvaObjTema(Convert.ToInt32(idC));
@@ -136,13 +267,15 @@ namespace MiriWeb.Controllers
                     }
                     if (idC != null)
                     {
+                        ViewBag.ActivarLinks = await accesoAdirectorio(Convert.ToInt32(ViewBag.IdDirectorioSelec), Convert.ToInt32(Session["idUser"].ToString()), "t");
                         data.mgrupos = await repositorio.listaGrupos(Convert.ToInt32(ViewBag.IdDirectorioSelec), idC, Session["idUser"].ToString());
                     }
                     else
                     {
-
                         data.mgrupos = await repositorio.listaGrupos(Convert.ToInt32(ViewBag.IdDirectorioSelec), ViewBag.IdDirectorioT, Session["idUser"].ToString());
+                        ViewBag.ActivarLinks = await accesoAdirectorio(Convert.ToInt32(ViewBag.IdDirectorioSelec), Convert.ToInt32(Session["idUser"].ToString()), "t");
                     }
+                  
                 }
                 catch (Exception ex)
                 {
