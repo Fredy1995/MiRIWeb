@@ -38,7 +38,10 @@
 </div>
 <br />
 <div class="table-responsive">
-    @grid.GetHtml(tableStyle: "table table-striped table-bordered table-hover", columns: new[]{
+    @{
+        if (Model.musuarios != null)
+        {
+            @grid.GetHtml(tableStyle: "table table-striped table-bordered table-hover", columns: new[]{
     grid.Column("idUsuario",header:"ID",canSort:false),
     grid.Column("Usuario1",header:"Usuario",canSort:false),
     grid.Column("nombre",header:"Nombre(s)",canSort:false),
@@ -46,7 +49,7 @@
     grid.Column("aMaterno",header:"A.Materno",canSort:false),
     grid.Column("perfil",header:"Perfil",canSort:false),
     grid.Column("fechaIngreso",header:"Fecha y hora de ingreso",canSort:false),
-     grid.Column("habilitado",header:"Habilitado",canSort:false),
+    grid.Column("habilitado",header:"Habilitado",canSort:false),
     grid.Column(
           "",
           header: "Accion",
@@ -56,6 +59,10 @@
 )
 
 })
+        }
+
+    }
+
 </div>
 
 

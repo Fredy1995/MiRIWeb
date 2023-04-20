@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "Ayuda";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<div class="mt-2 rounded text-center" style="background-color: #EBEFF1;">
+    <h1>Ayuda</h1>
+</div>
+<div class="row ">
+    <div class="d-flex flex-row-reverse ">
+        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#ModalPDF"><i class="fa fa-leanpub"></i> Manual</button>
+    </div>
+</div>
+<br />
+<div class="row">
+
+    <div class="note" style="text-align: justify; ">
+        <p>
+            <i class='fas fa-desktop' style='font-size:48px'></i>&nbsp; El departamento de Geomática ha desarrollado este sistema MIRI con la intención dde establecer un espacio que permita almacenar, organizar y
+            mantener de forma digital todos los archivos del IRCEP.
+        </p>
+        <p>
+            Este sistema es una aplicación web de acceso exclusivo a través de la intranet para el personal del IRCEP, con credenciales y <span id="dots">...</span><span id="more">
+                privilegios previamente otorgados para el uso del sistema.<br />
+                Permite la mejora de la organización de documentos a través de una estructura en forma de árbol para su fácil acceso, reduciendo el tiempo empleado en búsquedas de archivos e incrementando la productividad.<br /><br />
+                ¿Tienes alguna duda sobre cómo funciona el sistema?  en el botón Manual la guia para el uso adecuado del sistema.
+            </span>
+        </p>
+
+        <div class="text-center" style="opacity:0.5; z-index:-1;"><img src="~/Images/MiRI_Logo2.png" class="img-fluid logoMiri" /></div>
+    </div>
+
+</div>
+<!-- The Modal PDF -->
+<div class="modal fade" id="ModalPDF">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header" style="background-color: darkgray; color: white;">
+                <h4 class="modal-title">Manual de usuario</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <iframe src="~/Recursos/manual.pdf" style="border: none; height: 680px; width: 100%; " title="Manual de usuario"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- FIN Modal PDF -->

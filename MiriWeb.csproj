@@ -162,6 +162,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AyudaController.cs" />
     <Compile Include="Controllers\CompartidosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RepositorioController.cs" />
@@ -251,6 +252,7 @@
     <Content Include="Content\bootstrap-grid.rtl.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Recursos\manual.pdf" />
     <None Include="Scripts\jquery-3.6.1.intellisense.js" />
     <Content Include="Scripts\clicderecho.js" />
     <Content Include="Scripts\clicizquierdo.js" />
@@ -293,6 +295,7 @@
     <Content Include="Views\Compartidos\Clasificacion.cshtml" />
     <Content Include="Views\Compartidos\Grupo.cshtml" />
     <Content Include="Views\Compartidos\Archivos.cshtml" />
+    <Content Include="Views\Ayuda\Ayuda.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
