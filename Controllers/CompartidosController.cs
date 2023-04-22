@@ -95,7 +95,7 @@ namespace MiriWeb.Controllers
                             {
                                 client.BaseAddress = new Uri(BaseURL);
                                 client.DefaultRequestHeaders.Clear();
-                                var updateClasif = new MClasificaciones(ViewBag.IdDirectorio, objetoForm["nameDirectorio"].ToString());
+                                var updateClasif = new MClasificaciones(ViewBag.IdDirectorio, objetoForm["nameDirectorio"].ToString(), Session["idUser"].ToString());
                                 var json = JsonConvert.SerializeObject(updateClasif);
                                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                                 var response = await client.PutAsync("clasificacionController/updateClasificacion", content);
@@ -127,6 +127,55 @@ namespace MiriWeb.Controllers
                             ViewBag.AlertWarning = "DEBE SELECCIONAR UN ELEMENTO";
                         }
                         ViewBag.IdDirectorio = ViewBag.IdDirectorioT;
+                    }
+                    else if (objetoForm["btnAceptar"] != null)
+                    {
+                        List<string> elementos = objetoForm["listUsers"].Split(',').ToList();
+                        var idClasif = objetoForm["hiddenIDDirectorioC"].ToString();
+                        ViewBag.IdDirectorioT = objetoForm["hiddenIDDirectorioT"].ToString();
+                        ViewBag.NameDirectorioSelec = objetoForm["hiddenNameDirectorioSelec"].ToString(); //Necesario para mostrar la ruta en el directorio posicionado
+                        if (elementos[0].ToString() != "")
+                        {
+                            using (var client = new HttpClient())
+                            {
+                                client.BaseAddress = new Uri(BaseURL);
+                                client.DefaultRequestHeaders.Clear();
+                                foreach (var item in elementos)
+                                {
+                                    var mCompartir = new MCompartir(idClasif, item.ToString());
+                                    var json = JsonConvert.SerializeObject(mCompartir);
+                                    var content = new StringContent(json, Encoding.UTF8, "application/json");
+                                    var response = await client.PostAsync("clasificacionController/compartirClasificacion", content);
+                                    if (response.IsSuccessStatusCode)
+                                    {
+                                        var miriResp = response.Content.ReadAsStringAsync().Result;
+                                        respAPIMIRI = JsonConvert.DeserializeObject<respuestaAPIMiri>(miriResp);
+                                        switch (respAPIMIRI.codigo)
+                                        {
+                                            case 111:
+                                                ViewBag.AlertSuccess = respAPIMIRI.Descripcion; break;
+                                            case 222:
+                                                ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                            case 333:
+                                                ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                            case -300:
+                                                ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                            case -200:
+                                                ViewBag.AlertDanger = respAPIMIRI.Descripcion; break;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        ViewBag.AlertDanger = response.StatusCode + "\nDetalles:" + response.RequestMessage;
+
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.AlertWarning = "NO SE SELECCIONÓ NINGÚN ELEMENTO";
+                        }
                     }
 
                     if (idT != null)
@@ -218,7 +267,7 @@ namespace MiriWeb.Controllers
                             {
                                 client.BaseAddress = new Uri(BaseURL);
                                 client.DefaultRequestHeaders.Clear();
-                                var updateGrupo = new MGrupos(objetoForm["nameDirectorio"].ToString(), ViewBag.IdDirectorio);
+                                var updateGrupo = new MGrupos(objetoForm["nameDirectorio"].ToString(), ViewBag.IdDirectorio, Session["idUser"].ToString());
                                 var json = JsonConvert.SerializeObject(updateGrupo);
                                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                                 var response = await client.PutAsync("grupoController/updateGrupo", content);
@@ -251,7 +300,58 @@ namespace MiriWeb.Controllers
                         }
                         ViewBag.IdDirectorio = ViewBag.IdDirectorioT;
                     }
-                    ////FALTA AGREGAR EVENTOS
+                    else if (objetoForm["btnAceptar"] != null)
+                    {
+
+                        List<string> elementos = objetoForm["listUsers"].Split(',').ToList();
+                        ViewBag.NameDirectorioSelecActual = objetoForm["hiddenNameDirectorioSelecActual"].ToString(); //Directorio clasificación
+                        ViewBag.IdDirectorioSelec = objetoForm["hiddenIdDirectorioSelec"].ToString();
+                        var idGrupo = objetoForm["hiddenIDDirectorioC"].ToString();
+                        ViewBag.IdDirectorioT = objetoForm["hiddenIDDirectorioT"].ToString();
+                        ViewBag.NameDirectorioSelec = objetoForm["hiddenNameDirectorioSelec"].ToString(); //Necesario para mostrar la ruta en el directorio posicionado
+                        if (elementos[0].ToString() != "")
+                        {
+                            using (var client = new HttpClient())
+                            {
+                                client.BaseAddress = new Uri(BaseURL);
+                                client.DefaultRequestHeaders.Clear();
+                                foreach (var item in elementos)
+                                {
+                                    var mCompartir = new MCompartirGrupo(idGrupo, item.ToString(), objetoForm["permiso-select"].ToString());
+                                    var json = JsonConvert.SerializeObject(mCompartir);
+                                    var content = new StringContent(json, Encoding.UTF8, "application/json");
+                                    var response = await client.PostAsync("grupoController/compartirGrupo", content);
+                                    if (response.IsSuccessStatusCode)
+                                    {
+                                        var miriResp = response.Content.ReadAsStringAsync().Result;
+                                        respAPIMIRI = JsonConvert.DeserializeObject<respuestaAPIMiri>(miriResp);
+                                        switch (respAPIMIRI.codigo)
+                                        {
+                                            case 111:
+                                                ViewBag.AlertSuccess = respAPIMIRI.Descripcion; break;
+                                            case 222:
+                                                ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                            case 333:
+                                                ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                            case -300:
+                                                ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
+                                            case -200:
+                                                ViewBag.AlertDanger = respAPIMIRI.Descripcion; break;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        ViewBag.AlertDanger = response.StatusCode + "\nDetalles:" + response.RequestMessage;
+
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.AlertWarning = "NO SE SELECCIONÓ NINGÚN ELEMENTO";
+                        }
+                    }
                     if (idC != null && clasif != null)
                     {
                         data.mtemas = await repositorio.devuelvaObjTema(Convert.ToInt32(idC));

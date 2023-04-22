@@ -147,3 +147,43 @@
     </div>
 </div>
 
+
+<!-- The Modal para compartir directorio -->
+<div class="modal fade" id="myModalCompartir">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Compartir clasificación</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form method="post" action="Clasificacion">
+                    <input type="hidden" id="hiddenIDDirectorioC" name="hiddenIDDirectorioC">
+                    <input type="hidden" name="hiddenIDDirectorioT" value="@ViewBag.IdDirectorioT">
+                    <input type="hidden" name="hiddenNameDirectorioSelec" value="@ViewBag.NameDirectorioSelec">
+                    <input type="hidden" id="listUsers" name="listUsers">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <select id="users-select" class="form-select">
+                                @*<option value="">Selecciona un usuario</option>*@
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="d-grid"><input type="button" value="Agregar" onclick="newElement()" class="btn btn-success" style="background-color:#034250; color:white;" /></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <ul id="myUL"></ul>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-6"><div class="d-grid"><a class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</a></div></div>
+                        <div class="col-sm-6"> <div class="d-grid"><input type="submit" onclick="enviarList()" value="Aceptar" name="btnAceptar" id="btnAceptar" class="btn btn-success" style="background-color:#034250; color:white;" /></div></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

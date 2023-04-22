@@ -168,3 +168,52 @@
         </div>
     </div>
 </div>
+
+<!-- The Modal para compartir directorio -->
+<div class="modal fade" id="myModalCompartir">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Compartir grupo</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form method="post" action="Grupo">
+                    <input type="hidden" id="hiddenIDDirectorioC" name="hiddenIDDirectorioC">
+                    <input type="hidden" name="hiddenIDDirectorioT" value="@ViewBag.IdDirectorioT">
+                    <input type="hidden" name="hiddenIdDirectorioSelec" value="@ViewBag.IdDirectorioSelec" />
+                    <input type="hidden" name="hiddenNameDirectorioSelec" value="@ViewBag.NameDirectorioSelec">
+                    <input type="hidden" name="hiddenNameDirectorioSelecActual" value="@ViewBag.NameDirectorioSelecActual" />
+                    <input type="hidden" id="listUsers" name="listUsers">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <select id="users-select" class="form-select">
+                                @*<option value="">Selecciona un usuario</option>*@
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="d-grid"><input type="button" value="Agregar" onclick="newElement()" class="btn btn-success" style="background-color:#034250; color:white;" /></div>
+                        </div>
+                        <div class="col-sm-3">
+                            <select name="permiso-select" id="permiso-select" class="form-select">
+                                <option value="0">Editar</option>
+                                <option value="1">Lectura</option>
+                                <option value="2">Modificar</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <ul id="myUL"></ul>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-sm-6"><div class="d-grid"><a class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</a></div></div>
+                        <div class="col-sm-6"> <div class="d-grid"><input type="submit" onclick="enviarList()" value="Aceptar" name="btnAceptar" id="btnAceptar" class="btn btn-success" style="background-color:#034250; color:white;" /></div></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -76,7 +76,7 @@ namespace MiriWeb.Controllers
                                 {
                                     client.BaseAddress = new Uri(BaseURL);
                                     client.DefaultRequestHeaders.Clear();
-                                    var updateTema = new MTemas(objetoForm["nameDirectorio"].ToString(), objetoForm["hiddenIDDirectorio"].ToString());
+                                    var updateTema = new MTemas(objetoForm["nameDirectorio"].ToString(), objetoForm["hiddenIDDirectorio"].ToString(), Session["idUser"].ToString());
                                     var json = JsonConvert.SerializeObject(updateTema);
                                     var content = new StringContent(json, Encoding.UTF8, "application/json");
                                     var response = await client.PutAsync("temaController/updateTema", content);
@@ -258,7 +258,7 @@ namespace MiriWeb.Controllers
                             {
                                 client.BaseAddress = new Uri(BaseURL);
                                 client.DefaultRequestHeaders.Clear();
-                                var updateClasif = new MClasificaciones(ViewBag.IdDirectorio, objetoForm["nameDirectorio"].ToString());
+                                var updateClasif = new MClasificaciones(ViewBag.IdDirectorio, objetoForm["nameDirectorio"].ToString(), Session["idUser"].ToString());
                                 var json = JsonConvert.SerializeObject(updateClasif);
                                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                                 var response = await client.PutAsync("clasificacionController/updateClasificacion", content);
@@ -474,7 +474,7 @@ namespace MiriWeb.Controllers
                             {
                                 client.BaseAddress = new Uri(BaseURL);
                                 client.DefaultRequestHeaders.Clear();
-                                var updateGrupo = new MGrupos(objetoForm["nameDirectorio"].ToString(), ViewBag.IdDirectorio);
+                                var updateGrupo = new MGrupos(objetoForm["nameDirectorio"].ToString(), ViewBag.IdDirectorio, Session["idUser"].ToString());
                                 var json = JsonConvert.SerializeObject(updateGrupo);
                                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                                 var response = await client.PutAsync("grupoController/updateGrupo", content);

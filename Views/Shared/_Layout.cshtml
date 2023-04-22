@@ -28,6 +28,9 @@
   </script>
 </head>
 <body style=" background: #D8D6D6;" onload="deshabilitaRetroceso()">
+
+
+
     @{
         if (Session["nameComplete"] != null)
         {
@@ -57,6 +60,7 @@
                     </div>
                 </div>
             </nav>
+            <div class="loader"></div>
             <div id="mySidepanel" class="sidepanel">
                 <div class="UserBox">
                     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
@@ -74,7 +78,7 @@
                     }
 
 
-                  
+
                     if (Session["perfil"].ToString().Equals("Administrador de contenido"))
                     {
                         <a href="@Url.Action("Usuarios", "Usuarios")" style="color: white;" class="btnm btnMenu"><i class="fa-solid fa-users-gear"></i> USUARIOS</a>
@@ -105,9 +109,9 @@
         }
         else
         {
-           
+
             @Url.Action("Login", "Home");
-            
+
         }
     }
 
@@ -115,7 +119,9 @@
 
     <script type="text/javascript">
 
-
+        $(window).load(function () {
+            $(".loader").fadeOut("slow");
+        });
         //Codigo script para poner el foco seleccionado en el nombre del Tema al momento de crearlo
         function validarInput() {
             document.getElementById("btnCrear").disabled = !document.getElementById("namedirectory").value.length;
@@ -158,7 +164,7 @@
                 console.log(e.type);
             });
 
-
+       
     </script>
 </body>
 </html>
