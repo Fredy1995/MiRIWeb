@@ -11,21 +11,23 @@
     <script src="https://kit.fontawesome.com/25c469d056.js" crossorigin="anonymous"></script>
     <link href="~/Content/StyleLayout.css" rel="stylesheet" />
     <link href="~/Content/StyleIndex.css" rel="stylesheet" />
-    <link href="~/Content/StyleTema.css" rel="stylesheet" />
+    <link href="~/Content/StyleDirectorios.css" rel="stylesheet" />
+    <link href="~/Content/StyleDetalles.css" rel="stylesheet" />
     <script src="~/Scripts/jquery-3.6.1.js"></script>
     <script src="~/Scripts/menujs.js"></script>
+    <script src="~/Scripts/detalles.js"></script>
     <script src="~/Scripts/jquery-3.6.1.min.js"></script>
     <script src="~/Scripts/clicizquierdo.js"></script>
     <script type="text/javascript">javascript: window.history.forward(1);</script> <!--Script para el boton back del navegador-->
     <script src="~/Scripts/clicderecho.js"></script>
     <link href="~/Content/clicderecho.css" rel="stylesheet" />
-  <script>
-      function deshabilitaRetroceso() {
-          window.location.hash = "no-back-button";
-          window.location.hash = "Again-No-back-button" //chrome
-          window.onhashchange = function () { window.location.hash = ""; }
-      }
-  </script>
+    <script>
+        function deshabilitaRetroceso() {
+            window.location.hash = "no-back-button";
+            window.location.hash = "Again-No-back-button" //chrome
+            window.onhashchange = function () { window.location.hash = ""; }
+        }
+    </script>
 </head>
 <body style=" background: #D8D6D6;" onload="deshabilitaRetroceso()">
 
@@ -61,7 +63,7 @@
                 </div>
             </nav>
             <div class="loader"></div>
-            <div id="mySidepanel" class="sidepanel">
+            <div id="mySidepanel" class="sidepanel ">
                 <div class="UserBox">
                     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
                     <img src="~/Images/Usericon.png" alt="Avatar" class="avatar">

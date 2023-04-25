@@ -209,9 +209,10 @@
     <Content Include="Content\clicderecho.css" />
     <Content Include="Content\login.css" />
     <Content Include="Content\pwdValidation.css" />
+    <Content Include="Content\StyleDetalles.css" />
     <Content Include="Content\StyleIndex.css" />
     <Content Include="Content\StyleLayout.css" />
-    <Content Include="Content\StyleTema.css" />
+    <Content Include="Content\StyleDirectorios.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -257,6 +258,7 @@
     <None Include="Scripts\jquery-3.6.1.intellisense.js" />
     <Content Include="Scripts\clicderecho.js" />
     <Content Include="Scripts\clicizquierdo.js" />
+    <Content Include="Scripts\detalles.js" />
     <Content Include="Scripts\eventosVu.js" />
     <Content Include="Scripts\jquery-3.6.1.js" />
     <Content Include="Scripts\jquery-3.6.1.min.js" />

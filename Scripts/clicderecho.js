@@ -148,9 +148,10 @@ $(document).ready(function () {
                 
             }
         } else if (length == 66) {
-            let pos = text.indexOf("Ver");
-            let part = text.slice(pos);
-            alert('Seleccionaste: ' + part);
+            //let pos = text.indexOf("Ver");
+            //let part = text.slice(pos);
+            //alert('Seleccionaste: ' + part);
+            openSide();
         }
     });
 
