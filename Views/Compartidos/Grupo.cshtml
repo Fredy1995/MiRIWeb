@@ -217,3 +217,21 @@
         </div>
     </div>
 </div>
+
+<!---Menu despegable posición derecha para mostrar detalles del directorio/archivo seleccionado-->
+<div id="mySidenav" class="sidenav shadow">
+    <button class="closebtnD" onclick="closeSide()" title="Ocultar detalles">&times;</button>
+    <div class="nameDirect"><label for="directorio" id="directorio"></label></div>
+    <div style="font-size: 68px; color: #034250; " class="text-center"><i class='fas fas fa-folder'></i></div>
+    <div class="text-center"> <a href="#" class="btn btn-outline-secondary">Administrar acceso</a></div>
+    <hr />
+    <div class="infoFile">
+        <p class="encabezado">Detalles de la carpeta</p>
+        <p class="encabezado" style="font-size:14px;">Propietario</p>
+        <p><label for="propietario" id="propietario"></label></p>
+        <p class="encabezado" style="font-size:14px;">Creado</p>
+        <p><label for="fechaCreacion" id="fechaCreacion"></label></p>
+        <p class="encabezado" style="font-size:14px;" id="modificado"></p>
+        <p><label for="modificacion" id="modificacion"></label> </p>
+    </div>
+</div>

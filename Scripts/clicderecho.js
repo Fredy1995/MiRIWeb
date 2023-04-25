@@ -151,10 +151,41 @@ $(document).ready(function () {
             //let pos = text.indexOf("Ver");
             //let part = text.slice(pos);
             //alert('Seleccionaste: ' + part);
-            openSide();
+            // Hacer la solicitud HTTP GET a la API REST para ver destalles del directorio
+            fetch('https://localhost:7241/directorioController/readDetallesDirectorio/' + document.getElementById(idSelec).value)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(detalles => {
+                        document.getElementById('directorio').innerHTML = detalles.directorio;
+                        document.getElementById('propietario').innerHTML = detalles.propietario;
+                        const fc = new Date(detalles.fechaCreacion);
+                        const months = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Agto", "Sept", "Oct", "Nov", "Dic"];
+                        let nuevaFechaC = fc.getFullYear() + '-' + (fc.getMonth() + 1) + '-' + fc.getDate()
+                        const fcn = new Date(nuevaFechaC);
+                        let month = months[fcn.getMonth()];
+                        document.getElementById('fechaCreacion').innerHTML = fc.getDate() + ' ' + month + ' ' + fc.getFullYear()
+
+                        if (detalles.fechaModificacion != null) {
+                            const fm = new Date(detalles.fechaModificacion);
+                            let nuevaFechaM = fm.getFullYear() + '-' + (fm.getMonth() + 1) + '-' + fm.getDate()
+                            const fcnM = new Date(nuevaFechaM);
+                            let monthM = months[fcnM.getMonth()];
+                            document.getElementById('modificado').innerHTML = 'Modificado'
+                            document.getElementById('modificacion').innerHTML = fm.getDate() + ' ' + monthM + ' ' + fm.getFullYear() + ' por ' + detalles.modificadoPor
+                        } else {
+                            document.getElementById('modificacion').innerHTML = '';
+                            document.getElementById('modificado').innerHTML = '';
+                        }
+                       
+                    });
+                })
+                .catch(error => alert('Error: ' + error));
+                //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::FIN API
+            openSide(); /*Abrir modal detalles*/
         }
     });
 
+    
     
 
     //cuando hagamos click, el menú desaparecerá

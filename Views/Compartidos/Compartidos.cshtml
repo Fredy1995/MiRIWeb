@@ -58,15 +58,15 @@
             <div class="row  scroollDirectory" style=" background-color: #D8D6D6;">
                 <div id="menu_derecho" class="shadow bg-white">
                     <ul>
-                        <li><a href="#" class="nom_menu" onclick="deleteElement()"><i class='fas fa-user-plus'></i> Compartir</a></li>
-                        <li><a href="#" class="nom_menu" id="linkUpdateTema"><i class='far fa-edit'></i> Cambiar nombre</a></li>
+                        @*<li><a href="#" class="nom_menu" onclick="deleteElement()"><i class='fas fa-user-plus'></i> Compartir</a></li>
+                            <li><a href="#" class="nom_menu" id="linkUpdateTema"><i class='far fa-edit'></i> Cambiar nombre</a></li>*@
                         <li><a href="#" class="nom_menu"><i class='fas fa-info-circle'></i> Ver detalles</a></li>
                     </ul>
                 </div>
-                <div id="">
+                <div id="cuerpo">
                     @foreach (var directorio in Model.mdirectorioscompartidos.ToList())
                     {
-                        <button id="@directorio.IdDirectorio" class="nom_ficC btnDirectory defaultDirectory" title="@directorio.NameDirectorio" value="@directorio.NameDirectorio"><i class='fas fas fa-folder'></i> @directorio.NameDirectorio</button>
+                        <button id="@directorio.IdDirectorio" class="nom_fic btnDirectory defaultDirectory" title="@directorio.NameDirectorio" value="@directorio.NameDirectorio"><i class='fas fas fa-folder'></i> @directorio.NameDirectorio</button>
                     }
                 </div>
             </div>
@@ -84,3 +84,22 @@
     }
 
 }
+
+
+<!---Menu despegable posición derecha para mostrar detalles del directorio/archivo seleccionado-->
+<div id="mySidenav" class="sidenav shadow">
+    <button class="closebtnD" onclick="closeSide()" title="Ocultar detalles">&times;</button>
+    <div class="nameDirect"><label for="directorio" id="directorio"></label></div>
+    <div style="font-size: 68px; color: #034250; " class="text-center"><i class='fas fas fa-folder'></i></div>
+    <div class="text-center"> <a href="#" class="btn btn-outline-secondary">Administrar acceso</a></div>
+    <hr />
+    <div class="infoFile">
+        <p class="encabezado">Detalles de la carpeta</p>
+        <p class="encabezado" style="font-size:14px;">Propietario</p>
+        <p><label for="propietario" id="propietario"></label></p>
+        <p class="encabezado" style="font-size:14px;">Creado</p>
+        <p><label for="fechaCreacion" id="fechaCreacion"></label></p>
+        <p class="encabezado" style="font-size:14px;" id="modificado"></p>
+        <p><label for="modificacion" id="modificacion"></label> </p>
+    </div>
+</div>
