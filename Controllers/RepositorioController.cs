@@ -16,6 +16,7 @@ namespace MiriWeb.Controllers
     {
 
         private string BaseURL = ConfigurationManager.AppSettings["BaseURL:url"];
+        private string BaseURLTEL = ConfigurationManager.AppSettings["BaseURL:FileServer"];
         private modelShared data = new modelShared();
         private respuestaAPIMiri respAPIMIRI = new respuestaAPIMiri();
         // GET: Repositorio
@@ -25,7 +26,7 @@ namespace MiriWeb.Controllers
         }
         public async Task<ActionResult> Tema(FormCollection objetoForm)
         {
-      
+            respuestaAPIMiriServer rms = new respuestaAPIMiriServer();
             if (Session["idUser"] != null)
             {
                 if (Session["perfil"].ToString().Equals("Administrador de contenido"))
@@ -42,7 +43,8 @@ namespace MiriWeb.Controllers
                                 var json = JsonConvert.SerializeObject(mTemaUsuario);
                                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                                 var response = await client.PostAsync("temaController/createTemaUsuario", content);
-                                if (response.IsSuccessStatusCode)
+                                rms = await GetFolder(objetoForm["nameDirectorio"]); //**********************Consumo de API MIRIServer ***************
+                                if (response.IsSuccessStatusCode && rms.estatus)
                                 {
                                     var miriResp = response.Content.ReadAsStringAsync().Result;
                                     respAPIMIRI = JsonConvert.DeserializeObject<respuestaAPIMiri>(miriResp);
@@ -62,8 +64,14 @@ namespace MiriWeb.Controllers
                                 }
                                 else
                                 {
-                                    ViewBag.AlertDanger = response.StatusCode + "\nDetalles:" + response.RequestMessage;
-
+                                    if (rms.estatus == false)
+                                    {
+                                        ViewBag.AlertDanger = response.StatusCode + "\nDetalles:" + rms.respuesta;
+                                    }
+                                    else
+                                    {
+                                        ViewBag.AlertDanger = response.StatusCode + "\nDetalles:" + response.RequestMessage;
+                                    }
                                 }
                             }
                         }
@@ -177,7 +185,40 @@ namespace MiriWeb.Controllers
             }
             return View(data);
         }
-
+        /// <summary>
+        /// Metodo encargado de consumir endpoit de api MiriServer para crear un directorio en el servidor de archivos
+        /// </summary>
+        /// <param name="rutadirectorio"></param>
+        /// <returns>Devuelve un mensaje para saber si se ah creado el directorio</returns>
+        [HttpGet]
+        public async Task<respuestaAPIMiriServer> GetFolder(string rutadirectorio)
+        {
+            string TELResp = "";
+            respuestaAPIMiriServer rms = new respuestaAPIMiriServer();
+            using(var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(BaseURLTEL);
+                client.DefaultRequestHeaders.Clear();
+                var response = await client.GetAsync("ws/MIRIServer/api/Archivo/GetFolder/?ruta="+ rutadirectorio);
+                if (response.IsSuccessStatusCode)
+                {
+                     TELResp = response.Content.ReadAsStringAsync().Result;  
+                }
+            }
+            if(TELResp.Equals("Carpeta Creada"))
+            {
+                rms.estatus = true;
+                rms.respuesta = TELResp;
+                return rms;
+            }
+            else
+            {
+                rms.estatus = false;
+                rms.respuesta = TELResp;
+                return rms;
+            }
+            
+        }
         /// <summary>
         /// Metodo para listar todos los temas que pertenecen al usuario actual
         /// </summary>

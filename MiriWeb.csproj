@@ -184,6 +184,7 @@
     <Compile Include="Models\Mtotales.cs" />
     <Compile Include="Models\MUsuario.cs" />
     <Compile Include="Models\respuestaAPIMiri.cs" />
+    <Compile Include="Models\respuestaAPIMiriServer.cs" />
     <Compile Include="Models\Seguridad.cs" />
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Models\MLogin.cs" />
