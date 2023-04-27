@@ -3,7 +3,9 @@
     ViewBag.Title = "Archivos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <br />
+
 @{ if (ViewBag.AlertWarning != null)
     {
         <div class="alert alert-warning alert-dismissible fixed-top">
@@ -36,7 +38,7 @@
     </ul>
 </div>
 <div class="row">
-    <div class="col-xxl-5 col-md-4 col-sm-6 col-4"><button class="btn btn-secondary btn-block" data-bs-toggle="modal" data-bs-target="#myModalCrearNuevo"><i class="fas fa-upload"></i> Subir archivo</button></div>
+    <div class="col-xxl-5 col-md-4 col-sm-6 col-4"><button class="btn btn-secondary btn-block" data-bs-toggle="modal" data-bs-target="#myModalSubirArchivos"><i class="fas fa-upload"></i> Subir archivo</button></div>
     <div class="col-xxl-2 col-md-4 col-sm-1 col-1"></div>
     <div class="col-xxl-5 col-md-4 col-sm-5 col-7">
         @*<form>
@@ -51,3 +53,36 @@
     <h2>ARCHIVOS</h2>
     <hr />
 </div>
+
+<!-- The Modal para subir archivos -->
+<div class="modal fade" id="myModalSubirArchivos">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Seleccionar archivos</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form method="post" action="Archivos" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-sm-12 text-start">
+                            <section id="multi-selector-uniq">
+                                <input id="files" type="file" name="files" multiple>
+                                <ul id="preview"></ul>
+                            </section>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div class="col-sm-6"><div class="d-grid"><a class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</a></div></div>
+                        <div class="col-sm-6">
+                            <div class="d-grid"><input type="submit" value="Subir" name="btnSubir" id="btnSubir" class="btn btn-success" style="background-color:#034250; color:white;" /></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/inputFile.js"></script>

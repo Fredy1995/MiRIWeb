@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using MiriWeb.Models;
 using Newtonsoft.Json;
+using static System.Net.WebRequestMethods;
 
 namespace MiriWeb.Controllers
 {
@@ -19,6 +22,7 @@ namespace MiriWeb.Controllers
         private string BaseURLTEL = ConfigurationManager.AppSettings["BaseURL:FileServer"];
         private modelShared data = new modelShared();
         private respuestaAPIMiri respAPIMIRI = new respuestaAPIMiri();
+        private respuestaAPIMiriServer rms = new respuestaAPIMiriServer();
         // GET: Repositorio
         public ActionResult Sinpermisos()
         {
@@ -26,7 +30,7 @@ namespace MiriWeb.Controllers
         }
         public async Task<ActionResult> Tema(FormCollection objetoForm)
         {
-            respuestaAPIMiriServer rms = new respuestaAPIMiriServer();
+            
             if (Session["idUser"] != null)
             {
                 if (Session["perfil"].ToString().Equals("Administrador de contenido"))
@@ -44,14 +48,22 @@ namespace MiriWeb.Controllers
                                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                                 var response = await client.PostAsync("temaController/createTemaUsuario", content);
                                 rms = await GetFolder(objetoForm["nameDirectorio"]); //**********************Consumo de API MIRIServer ***************
-                                if (response.IsSuccessStatusCode && rms.estatus)
+                                if (response.IsSuccessStatusCode)
                                 {
                                     var miriResp = response.Content.ReadAsStringAsync().Result;
                                     respAPIMIRI = JsonConvert.DeserializeObject<respuestaAPIMiri>(miriResp);
                                     switch (respAPIMIRI.codigo)
                                     {
                                         case 111:
-                                            ViewBag.AlertSuccess = respAPIMIRI.Descripcion; break;
+                                            if (rms.estatus)
+                                            {
+                                                ViewBag.AlertSuccess = respAPIMIRI.Descripcion; break;
+                                            }
+                                            else
+                                            {
+                                                ViewBag.AlertDanger = response.StatusCode + "\nDetalles:" + rms.respuesta; break;
+                                            }
+                                            
                                         case 222:
                                             ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
                                         case 333:
@@ -64,14 +76,9 @@ namespace MiriWeb.Controllers
                                 }
                                 else
                                 {
-                                    if (rms.estatus == false)
-                                    {
-                                        ViewBag.AlertDanger = response.StatusCode + "\nDetalles:" + rms.respuesta;
-                                    }
-                                    else
-                                    {
+                                   
                                         ViewBag.AlertDanger = response.StatusCode + "\nDetalles:" + response.RequestMessage;
-                                    }
+                                   
                                 }
                             }
                         }
@@ -262,6 +269,7 @@ namespace MiriWeb.Controllers
                             var json = JsonConvert.SerializeObject(mClasificacionTema);
                             var content = new StringContent(json, Encoding.UTF8, "application/json");
                             var response = await client.PostAsync("clasificacionController/createClasificacionTema", content);
+                            rms = await GetFolder(ViewBag.NameDirectorioSelec+"/"+objetoForm["nameDirectorio"]); //**********************Consumo de API MIRIServer ***************
                             if (response.IsSuccessStatusCode)
                             {
                                 var miriResp = response.Content.ReadAsStringAsync().Result;
@@ -269,7 +277,14 @@ namespace MiriWeb.Controllers
                                 switch (respAPIMIRI.codigo)
                                 {
                                     case 111:
-                                        ViewBag.AlertSuccess = respAPIMIRI.Descripcion; break;
+                                        if (rms.estatus)
+                                        {
+                                            ViewBag.AlertSuccess = respAPIMIRI.Descripcion; break;
+                                        }
+                                        else
+                                        {
+                                            ViewBag.AlertDanger = response.StatusCode + "\nDetalles:" + rms.respuesta; break;
+                                        }
                                     case 222:
                                         ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
                                     case 333:
@@ -476,6 +491,7 @@ namespace MiriWeb.Controllers
                             var json = JsonConvert.SerializeObject(mGrupoCT);
                             var content = new StringContent(json, Encoding.UTF8, "application/json");
                             var response = await client.PostAsync("grupoController/createGrupoClasificacionTema", content);
+                            rms = await GetFolder(ViewBag.NameDirectorioSelec+"/"+ ViewBag.NameDirectorioSelecActual +"/"+ objetoForm["nameDirectorio"]); //**********************Consumo de API MIRIServer ***************
                             if (response.IsSuccessStatusCode)
                             {
                                 var miriResp = response.Content.ReadAsStringAsync().Result;
@@ -483,7 +499,14 @@ namespace MiriWeb.Controllers
                                 switch (respAPIMIRI.codigo)
                                 {
                                     case 111:
-                                        ViewBag.AlertSuccess = respAPIMIRI.Descripcion; break;
+                                        if (rms.estatus)
+                                        {
+                                            ViewBag.AlertSuccess = respAPIMIRI.Descripcion; break;
+                                        }
+                                        else
+                                        {
+                                            ViewBag.AlertDanger = response.StatusCode + "\nDetalles:" + rms.respuesta; break;
+                                        }
                                     case 222:
                                         ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
                                     case 333:
@@ -684,13 +707,86 @@ namespace MiriWeb.Controllers
             }
             return clasificacion;
         }
-        public async Task<ActionResult> Archivos(FormCollection objetoForm, string idG, string grupo)
+        //[HttpPost]
+        //public async Task<string> SubirArchivos(List<HttpPostedFileBase> postedFiles,string pPath)
+        //{
+        //    string TELResp = "";
+        //    respuestaAPIMiriServer rms = new respuestaAPIMiriServer();
+          
+        //    using (var multipartFormContent = new MultipartFormDataContent())
+        //    {
+        //            //Add other fields
+                  
+        //        foreach (var filePath in postedFiles)
+        //        {
+        //            var fileName = Path.GetFileName(filePath.FileName);
+        //            multipartFormContent.Add(new StringContent(pPath), name: "pPath");
+        //            //Load the file and set the file's Content-Type header
+        //            var fileStreamContent = new StreamContent(System.IO.File.OpenRead(fileName));
+        //            fileStreamContent.Headers.ContentType = new MediaTypeHeaderValue("image/png");
+
+        //            //Add the file
+        //            multipartFormContent.Add(fileStreamContent, fileName, fileName);
+        //        }
+        //        using (var client = new HttpClient())
+        //        {
+        //            client.BaseAddress = new Uri(BaseURL);
+        //            client.DefaultRequestHeaders.Clear();
+        //            var response = await client.PostAsync("ws/MIRIServer/api/Archivo/PostArchivos", multipartFormContent);
+        //            if (response.IsSuccessStatusCode)
+        //            {
+        //                TELResp = response.Content.ReadAsStringAsync().Result;
+        //            }
+        //        }
+
+
+        //    }
+        //    return TELResp;
+
+        //}
+        public async Task<ActionResult> Archivos(FormCollection objetoForm, List<HttpPostedFileBase> files,string idG,string grupo)
         {
             if (Session["idUser"] != null)
             {
                 try
                 {
-                    if (idG != null && grupo != null)
+                    if (objetoForm["btnSubir"] != null)
+                    {
+                        string TELResp = "",pPath = ViewBag.NameDirectorioSelecAnterior +"/"+ ViewBag.NameDirectorioSelec+"/"+ ViewBag.NameDirectorioSelecActual;
+
+                        respuestaAPIMiriServer rms = new respuestaAPIMiriServer();
+
+                        using (var multipartFormContent = new MultipartFormDataContent())
+                        {
+                            //Add other fields
+
+                            foreach (var filePath in files)
+                            {
+                                var fileName = Path.GetFileName(filePath.FileName);
+                                multipartFormContent.Add(new StringContent(pPath), pPath);
+                                //Load the file and set the file's Content-Type header
+                                var fileStreamContent = new StreamContent(System.IO.File.OpenRead(fileName));
+                                fileStreamContent.Headers.ContentType = new MediaTypeHeaderValue("image/png");
+
+                                //Add the file
+                                multipartFormContent.Add(fileStreamContent, fileName, fileName);
+                            }
+                            using (var client = new HttpClient())
+                            {
+                                client.BaseAddress = new Uri(BaseURL);
+                                client.DefaultRequestHeaders.Clear();
+                                var response = await client.PostAsync("ws/MIRIServer/api/Archivo/PostArchivos", multipartFormContent);
+                                if (response.IsSuccessStatusCode)
+                                {
+                                    TELResp = response.Content.ReadAsStringAsync().Result;
+                                }
+                            }
+
+
+                        }
+                    }
+
+                        if (idG != null && grupo != null)
                     {
                         data.mclasificaciones = await devuelvaObjClasificacion(Convert.ToInt32(idG));
                         foreach(var itemc in data.mclasificaciones)

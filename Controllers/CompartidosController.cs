@@ -18,7 +18,9 @@ namespace MiriWeb.Controllers
         private modelShared data = new modelShared();
         private respuestaAPIMiri respAPIMIRI = new respuestaAPIMiri();
         private RepositorioController repositorio = new RepositorioController();
-        
+        private respuestaAPIMiriServer rms = new respuestaAPIMiriServer();
+       
+
         // GET: Compartidos
         public async Task<ActionResult> Compartidos()
         {
@@ -58,6 +60,7 @@ namespace MiriWeb.Controllers
                             var json = JsonConvert.SerializeObject(mClasificacionTema);
                             var content = new StringContent(json, Encoding.UTF8, "application/json");
                             var response = await client.PostAsync("clasificacionController/createClasificacionTema", content);
+                            rms = await repositorio.GetFolder(ViewBag.NameDirectorioSelec + "/" + objetoForm["nameDirectorio"]); //**********************Consumo de API MIRIServer ***************
                             if (response.IsSuccessStatusCode)
                             {
                                 var miriResp = response.Content.ReadAsStringAsync().Result;
@@ -65,7 +68,14 @@ namespace MiriWeb.Controllers
                                 switch (respAPIMIRI.codigo)
                                 {
                                     case 111:
-                                        ViewBag.AlertSuccess = respAPIMIRI.Descripcion; break;
+                                        if (rms.estatus)
+                                        {
+                                            ViewBag.AlertSuccess = respAPIMIRI.Descripcion; break;
+                                        }
+                                        else
+                                        {
+                                            ViewBag.AlertDanger = response.StatusCode + "\nDetalles:" + rms.respuesta; break;
+                                        }
                                     case 222:
                                         ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
                                     case 333:
@@ -228,6 +238,7 @@ namespace MiriWeb.Controllers
                             var json = JsonConvert.SerializeObject(mGrupoCT);
                             var content = new StringContent(json, Encoding.UTF8, "application/json");
                             var response = await client.PostAsync("grupoController/createGrupoClasificacionTema", content);
+                            rms = await repositorio.GetFolder(ViewBag.NameDirectorioSelec + "/" + ViewBag.NameDirectorioSelecActual + "/" + objetoForm["nameDirectorio"]); //**********************Consumo de API MIRIServer ***************
                             if (response.IsSuccessStatusCode)
                             {
                                 var miriResp = response.Content.ReadAsStringAsync().Result;
@@ -235,7 +246,14 @@ namespace MiriWeb.Controllers
                                 switch (respAPIMIRI.codigo)
                                 {
                                     case 111:
-                                        ViewBag.AlertSuccess = respAPIMIRI.Descripcion; break;
+                                        if (rms.estatus)
+                                        {
+                                            ViewBag.AlertSuccess = respAPIMIRI.Descripcion; break;
+                                        }
+                                        else
+                                        {
+                                            ViewBag.AlertDanger = response.StatusCode + "\nDetalles:" + rms.respuesta; break;
+                                        }
                                     case 222:
                                         ViewBag.AlertWarning = respAPIMIRI.Descripcion; break;
                                     case 333:
@@ -394,6 +412,7 @@ namespace MiriWeb.Controllers
             {
                 try
                 {
+                    //AQUI VAN EL CODIGÓ ENCARGADO DE SUBIR EL ARCHIVO AL SERVIDOR DE ARCHIVOS
                     if (idG != null && grupo != null)
                     {
                         data.mclasificaciones = await repositorio.devuelvaObjClasificacion(Convert.ToInt32(idG));
